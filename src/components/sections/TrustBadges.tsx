@@ -1,19 +1,17 @@
-import { Truck, RefreshCw, Flag, Star } from 'lucide-react'
-
 const badges = [
-  { icon: Truck, title: 'Free Shipping', desc: 'On orders over $75', color: 'text-red' },
-  { icon: RefreshCw, title: 'Easy Returns', desc: '30-day hassle-free', color: 'text-red' },
-  { icon: Flag, title: 'Nebraska Made', desc: 'Designed in the heartland', color: 'text-red' },
-  { icon: Star, title: '500+ Reviews', desc: '4.9/5 star average', color: 'text-gold' },
+  { emoji: '\u{1F69A}', title: 'Free Shipping', desc: 'On orders over $75' },
+  { emoji: '\u{1F504}', title: 'Easy Returns', desc: '30-day hassle-free' },
+  { emoji: '\u{1F1FA}\u{1F1F8}', title: 'Nebraska Made', desc: 'Designed in the heartland' },
+  { emoji: '\u{2B50}', title: '500+ Reviews', desc: '4.9/5 star average' },
 ]
 
 export function TrustBadges() {
   return (
     <section className="flex justify-center gap-10 py-[50px] px-5 flex-wrap">
-      {badges.map(({ icon: Icon, title, desc, color }) => (
+      {badges.map(({ emoji, title, desc }) => (
         <div key={title} className="text-center max-w-[160px]">
-          <div className="mb-2 flex justify-center">
-            <Icon className={`w-7 h-7 ${color}`} />
+          <div className="mb-2 flex justify-center text-[36px] leading-none">
+            {emoji}
           </div>
           <h4 className="font-nav text-[12px] tracking-[2px] uppercase text-text mb-1">
             {title}
