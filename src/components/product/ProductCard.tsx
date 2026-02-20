@@ -67,7 +67,7 @@ export function ProductCard({ product }: ProductCardProps) {
 
       {/* Product image */}
       {firstImage ? (
-        <div className="relative overflow-hidden bg-offWhite" style={{ aspectRatio: '1 / 1' }}>
+        <div className="relative overflow-hidden bg-white" style={{ aspectRatio: '1 / 1' }}>
           <Image
             src={firstImage.url}
             alt={firstImage.altText || product.title}
