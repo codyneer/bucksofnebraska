@@ -1,3 +1,4 @@
+import type { Metadata } from 'next'
 import { HeroSection } from '@/components/sections/HeroSection'
 import { SocialProofBar } from '@/components/sections/SocialProofBar'
 import { ProductGrid } from '@/components/product/ProductGrid'
@@ -8,8 +9,19 @@ import { RedBanner } from '@/components/sections/RedBanner'
 import { ReferralSection } from '@/components/sections/ReferralSection'
 import { StatePrideCards } from '@/components/sections/StatePrideCards'
 import { SectionHeader } from '@/components/ui/SectionHeader'
+import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
 import { getCollectionProducts, getAllProducts, type ShopifyProduct } from '@/lib/shopify'
 import { getAllApprovedReviews, type Review } from '@/lib/reviews'
+
+export const metadata: Metadata = {
+  title: 'Bucks of Nebraska — Nebraska Hunting Apparel',
+  description: 'Premium hunting apparel for Nebraska hunters. Hats, tees, hoodies, and gear built for the field. Free shipping on orders over $75.',
+  openGraph: {
+    title: 'Bucks of Nebraska — Nebraska Hunting Apparel',
+    description: 'Premium hunting apparel for Nebraska hunters. Built for the field.',
+    type: 'website',
+  },
+}
 
 export default async function Home() {
   let products: ShopifyProduct[] = []
@@ -46,24 +58,42 @@ export default async function Home() {
       <SocialProofBar />
 
       {/* Best Sellers */}
-      <section className="py-20 px-10 max-w-[1300px] mx-auto">
-        <SectionHeader
-          title="Shop"
-          highlight="Best Sellers"
-          subtitle="The gear Nebraska hunters reach for first"
-        />
-        <ProductGrid products={products} />
-      </section>
+      <RevealOnScroll>
+        <section className="py-20 px-10 max-w-[1300px] mx-auto">
+          <SectionHeader
+            title="Shop"
+            highlight="Best Sellers"
+            subtitle="The gear Nebraska hunters reach for first"
+          />
+          <ProductGrid products={products} />
+        </section>
+      </RevealOnScroll>
 
-      <ReviewCarousel reviews={reviews} />
-      <TrustBadges />
+      <RevealOnScroll delay={70}>
+        <ReviewCarousel reviews={reviews} />
+      </RevealOnScroll>
+
+      <RevealOnScroll delay={140}>
+        <TrustBadges />
+      </RevealOnScroll>
 
       <div className="h-px bg-gradient-to-r from-transparent via-border to-transparent max-w-[1200px] mx-auto" />
 
-      <LifestyleGrid />
-      <RedBanner />
-      <ReferralSection />
-      <StatePrideCards />
+      <RevealOnScroll>
+        <LifestyleGrid />
+      </RevealOnScroll>
+
+      <RevealOnScroll delay={70}>
+        <RedBanner />
+      </RevealOnScroll>
+
+      <RevealOnScroll delay={140}>
+        <ReferralSection />
+      </RevealOnScroll>
+
+      <RevealOnScroll>
+        <StatePrideCards />
+      </RevealOnScroll>
     </div>
   )
 }
