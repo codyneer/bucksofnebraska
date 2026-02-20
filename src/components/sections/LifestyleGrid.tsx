@@ -36,7 +36,7 @@ export function LifestyleGrid() {
             src="/images/lifestyle-3.jpg"
             alt="Hunter in blaze orange with a whitetail buck at sunset in Nebraska"
             fill
-            className="object-cover object-[center_40%] brightness-90 hover:brightness-100 transition-all duration-500"
+            className="object-cover object-[center_55%] brightness-90 hover:brightness-100 transition-all duration-500"
             sizes="(max-width: 1024px) 50vw, 25vw"
           />
         </div>
