@@ -8,10 +8,10 @@ export const metadata: Metadata = {
 }
 
 const platforms = [
-  { name: 'Spotify', url: 'https://open.spotify.com/show/bucksofnebraska', color: 'bg-[#1DB954]' },
-  { name: 'Apple Podcasts', url: 'https://podcasts.apple.com/us/podcast/bucks-of-nebraska', color: 'bg-[#9933CC]' },
+  { name: 'Spotify', url: 'https://open.spotify.com/search/bucks%20of%20nebraska%20podcast', color: 'bg-[#1DB954]' },
+  { name: 'Apple Podcasts', url: 'https://podcasts.apple.com/us/search?term=bucks+of+nebraska+podcast', color: 'bg-[#9933CC]' },
   { name: 'YouTube', url: 'https://www.youtube.com/@BucksofNebraska', color: 'bg-[#FF0000]' },
-  { name: 'Amazon Music', url: 'https://music.amazon.com/podcasts/bucks-of-nebraska', color: 'bg-[#00A8E1]' },
+  { name: 'Amazon Music', url: 'https://music.amazon.com/podcasts/00db4019-fe71-4898-b759-aa99a4af5cca/bucks-of-nebraska-podcast', color: 'bg-[#00A8E1]' },
 ]
 
 export default function PodcastPage() {
@@ -58,7 +58,7 @@ export default function PodcastPage() {
 
       {/* Episode 1 */}
       <div className="space-y-4">
-        <article className="bg-white border border-border-light p-6 flex gap-5 items-start cursor-pointer transition-all duration-300 hover:shadow-lg hover:border-red group">
+        <a href="https://www.youtube.com/@BucksofNebraska" target="_blank" rel="noopener noreferrer" className="bg-white border border-border-light p-6 flex gap-5 items-start cursor-pointer transition-all duration-300 hover:shadow-lg hover:border-red group block">
           <div className="flex-shrink-0 w-12 h-12 bg-red/[0.06] border border-red/20 flex items-center justify-center group-hover:bg-red group-hover:border-red transition-all duration-300">
             <Play className="w-4 h-4 text-red group-hover:text-white transition-colors" />
           </div>
@@ -75,7 +75,7 @@ export default function PodcastPage() {
               The very first episode of the Bucks of Nebraska podcast. Who we are, why we started this, and what&apos;s coming next.
             </p>
           </div>
-        </article>
+        </a>
       </div>
     </div>
   )
