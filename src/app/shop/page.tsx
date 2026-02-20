@@ -1,4 +1,4 @@
-import { ProductGrid } from '@/components/product/ProductGrid'
+import { FilterableProductGrid } from '@/components/product/FilterableProductGrid'
 import { SectionHeader } from '@/components/ui/SectionHeader'
 import { getAllProducts } from '@/lib/shopify'
 import type { Metadata } from 'next'
@@ -18,7 +18,7 @@ export default async function ShopPage() {
         highlight="All"
         subtitle="Everything in the Bucks of Nebraska lineup"
       />
-      <ProductGrid products={products} />
+      <FilterableProductGrid products={products} />
     </div>
   )
 }

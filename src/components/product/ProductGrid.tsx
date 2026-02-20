@@ -3,9 +3,10 @@ import type { ShopifyProduct } from '@/lib/shopify'
 
 type ProductGridProps = {
   products: ShopifyProduct[]
+  compact?: boolean
 }
 
-export function ProductGrid({ products }: ProductGridProps) {
+export function ProductGrid({ products, compact }: ProductGridProps) {
   if (products.length === 0) {
     return (
       <p className="text-center text-text-light font-body py-12">
@@ -15,7 +16,13 @@ export function ProductGrid({ products }: ProductGridProps) {
   }
 
   return (
-    <div className="grid grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-3">
+    <div
+      className={`grid gap-5 sm:gap-3 ${
+        compact
+          ? 'grid-cols-2 xl:grid-cols-3'
+          : 'grid-cols-2 lg:grid-cols-3'
+      }`}
+    >
       {products.map((product) => (
         <ProductCard key={product.id} product={product} />
       ))}

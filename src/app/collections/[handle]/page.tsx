@@ -1,5 +1,6 @@
-import { ProductGrid } from '@/components/product/ProductGrid'
+import { FilterableProductGrid } from '@/components/product/FilterableProductGrid'
 import { SectionHeader } from '@/components/ui/SectionHeader'
+import { Breadcrumbs } from '@/components/ui/Breadcrumbs'
 import { getCollectionProducts } from '@/lib/shopify'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
@@ -33,11 +34,18 @@ export default async function CollectionPage({ params }: Props) {
 
   return (
     <div className="py-20 px-10 max-w-[1300px] mx-auto">
+      <Breadcrumbs
+        items={[
+          { label: 'Home', href: '/' },
+          { label: 'Shop', href: '/shop' },
+          { label: collection.title },
+        ]}
+      />
       <SectionHeader
         title={collection.title}
         subtitle={collection.description || undefined}
       />
-      <ProductGrid products={products} />
+      <FilterableProductGrid products={products} collectionHandle={handle} />
     </div>
   )
 }
