@@ -109,7 +109,7 @@ export default function AboutPage() {
             </p>
 
             <p className="italic text-[#6b5e4f]">
-              (Tag this guy if you know him! I owe you some free swag)
+              Thanks to Billy Hulse for sharing this pic!
             </p>
 
             <p>
