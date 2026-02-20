@@ -23,6 +23,7 @@ const config: Config = {
         display: ['var(--font-bebas-neue)', 'sans-serif'],
         nav: ['var(--font-oswald)', 'sans-serif'],
         body: ['var(--font-bitter)', 'Georgia', 'serif'],
+        handwritten: ['var(--font-caveat)', 'cursive'],
       },
       boxShadow: {
         DEFAULT: '0 2px 12px rgba(0,0,0,0.08)',

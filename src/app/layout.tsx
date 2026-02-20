@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Bebas_Neue, Oswald, Bitter } from 'next/font/google'
+import { Bebas_Neue, Oswald, Bitter, Caveat } from 'next/font/google'
 import { CartProvider } from '@/lib/cart-context'
 import { BrandBar } from '@/components/layout/BrandBar'
 import { AnnouncementBar } from '@/components/layout/AnnouncementBar'
@@ -29,6 +29,13 @@ const bitter = Bitter({
   display: 'swap',
 })
 
+const caveat = Caveat({
+  weight: ['400', '500', '600', '700'],
+  subsets: ['latin'],
+  variable: '--font-caveat',
+  display: 'swap',
+})
+
 export const metadata: Metadata = {
   title: 'Bucks of Nebraska — Field-Ready Apparel',
   description:
@@ -41,7 +48,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${bebasNeue.variable} ${oswald.variable} ${bitter.variable}`}>
+    <html lang="en" className={`${bebasNeue.variable} ${oswald.variable} ${bitter.variable} ${caveat.variable}`}>
       <body className="font-body antialiased">
         <CartProvider>
           <BrandBar />
