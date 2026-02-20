@@ -67,19 +67,19 @@ export function ProductCard({ product }: ProductCardProps) {
 
       {/* Product image */}
       {firstImage ? (
-        <div className="relative overflow-hidden" style={{ aspectRatio: '1 / 1.15' }}>
+        <div className="relative overflow-hidden bg-offWhite" style={{ aspectRatio: '1 / 1' }}>
           <Image
             src={firstImage.url}
             alt={firstImage.altText || product.title}
             fill
-            className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+            className="object-contain p-2 transition-transform duration-500 group-hover:scale-[1.03]"
             sizes="(max-width: 768px) 50vw, 33vw"
           />
         </div>
       ) : (
         <div
           className="bg-offWhite flex items-center justify-center"
-          style={{ aspectRatio: '1 / 1.15' }}
+          style={{ aspectRatio: '1 / 1' }}
         >
           <span className="font-display text-[40px] text-red">BN</span>
         </div>
