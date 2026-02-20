@@ -21,8 +21,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Known collections
   const collections = [
-    'best-sellers', 'tees', 'hats', 'hoodies', 'new-arrivals',
-    'decals', 'accessories', 'outerwear',
+    'best-sellers', 'new-arrivals', 'hats', 'shirts', 'hoodies',
+    'decals', 'accessories', 'deer', 'duck', 'pheasant-hats', 'bass-hats',
   ]
   const collectionPages: MetadataRoute.Sitemap = collections.map((handle) => ({
     url: `${siteUrl}/collections/${handle}`,
