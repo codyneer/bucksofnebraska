@@ -5,36 +5,29 @@ const footerColumns = [
     title: 'Shop',
     links: [
       { label: 'All Products', href: '/shop' },
-      { label: 'Tees', href: '/collections/tees' },
-      { label: 'Hoodies', href: '/collections/hoodies' },
+      { label: 'Tees', href: '/collections/shirts' },
       { label: 'Hats', href: '/collections/hats' },
-      { label: 'New Arrivals', href: '/collections/new-arrivals' },
+      { label: 'Hoodies', href: '/collections/hoodies' },
     ],
   },
   {
     title: 'Company',
     links: [
-      { label: 'About Us', href: '/about' },
+      { label: 'Our Story', href: '/about' },
+      { label: 'Podcast', href: '/podcast' },
       { label: 'Contact', href: '/contact' },
       { label: 'Blog', href: '/blog' },
-      { label: 'Podcast', href: '/podcast' },
-    ],
-  },
-  {
-    title: 'Community',
-    links: [
       { label: 'Recipes', href: '/recipes' },
-      { label: 'Referral Program', href: '/referral' },
-      { label: 'Write a Review', href: '/review' },
+      { label: 'Refer a Friend', href: '/referral' },
     ],
   },
   {
-    title: 'Support',
+    title: 'Follow',
     links: [
-      { label: 'Shipping Policy', href: '#' },
-      { label: 'Returns & Exchanges', href: '#' },
-      { label: 'FAQ', href: '#' },
-      { label: 'Privacy Policy', href: '#' },
+      { label: 'Instagram', href: '#' },
+      { label: 'Facebook', href: '#' },
+      { label: 'TikTok', href: '#' },
+      { label: 'YouTube', href: '#' },
     ],
   },
 ]
@@ -43,7 +36,7 @@ export function Footer() {
   return (
     <footer className="bg-brand-black text-white">
       <div className="max-w-[1400px] mx-auto px-10 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr] gap-10">
           {footerColumns.map((col) => (
             <div key={col.title}>
               <h4 className="font-nav text-[12px] tracking-[3px] uppercase text-red mb-4 pb-2 border-b border-white/10">
@@ -67,8 +60,8 @@ export function Footer() {
 
         <div className="mt-14 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="font-display text-[24px] text-white/80">BUCKS OF NEBRASKA</div>
-          <p className="font-body text-[13px] text-white/30">
-            &copy; {new Date().getFullYear()} Bucks of Nebraska. All rights reserved.
+          <p className="font-body text-[11px] text-white/30 tracking-[1px]">
+            &copy; {new Date().getFullYear()} Bucks of Nebraska. All Rights Reserved. Nebraska Proud.
           </p>
           <Link
             href="/admin"

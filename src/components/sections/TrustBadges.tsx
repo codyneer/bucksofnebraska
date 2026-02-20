@@ -9,11 +9,11 @@ const badges = [
 
 export function TrustBadges() {
   return (
-    <section className="flex justify-center gap-10 py-12 px-5 flex-wrap">
+    <section className="flex justify-center gap-10 py-[50px] px-5 flex-wrap">
       {badges.map(({ icon: Icon, title, desc }) => (
         <div key={title} className="text-center max-w-[160px]">
-          <div className="text-[28px] mb-2 flex justify-center">
-            <Icon className="w-7 h-7 text-text-muted" />
+          <div className="mb-2 flex justify-center">
+            <Icon className="w-7 h-7 text-text" />
           </div>
           <h4 className="font-nav text-[12px] tracking-[2px] uppercase text-text mb-1">
             {title}

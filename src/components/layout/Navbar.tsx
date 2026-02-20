@@ -8,45 +8,44 @@ import { useCart } from '@/lib/cart-context'
 
 const shopColumns = [
   {
-    title: 'Categories',
+    title: 'Apparel',
     links: [
-      { label: 'Shop All', href: '/shop' },
-      { label: 'Tees', href: '/collections/tees' },
-      { label: 'Hoodies', href: '/collections/hoodies' },
-      { label: 'Hats', href: '/collections/hats' },
+      { label: 'All Products', href: '/shop' },
+      { label: 'T-Shirts', href: '/collections/shirts' },
+      { label: 'Hoodies & Sweatshirts', href: '/collections/hoodies' },
+    ],
+  },
+  {
+    title: 'Accessories',
+    links: [
+      { label: 'Hats & Caps', href: '/collections/hats' },
+      { label: 'Decals & Stickers', href: '/collections/decals' },
     ],
   },
   {
     title: 'Collections',
     links: [
-      { label: 'Best Sellers', href: '/collections/best-sellers' },
+      { label: 'Bucks of Nebraska', href: '/collections/deer' },
       { label: 'New Arrivals', href: '/collections/new-arrivals' },
-      { label: 'Bundles', href: '/collections/bundles' },
-    ],
-  },
-  {
-    title: 'Featured',
-    links: [
-      { label: 'Gift Guide', href: '/collections/gift-guide' },
-      { label: 'Sale', href: '/collections/sale' },
     ],
   },
 ]
 
 const communityColumns = [
   {
-    title: 'Connect',
+    title: 'Content',
     links: [
       { label: 'Blog', href: '/blog' },
-      { label: 'Recipes', href: '/recipes' },
-      { label: 'About Us', href: '/about' },
+      { label: 'Podcast', href: '/podcast' },
+      { label: 'NE Recipes', href: '/recipes' },
     ],
   },
   {
-    title: 'Programs',
+    title: 'Join',
     links: [
-      { label: 'Referral Program', href: '/referral' },
-      { label: 'Contact Us', href: '/contact' },
+      { label: 'Refer a Friend — $10', href: '/referral' },
+      { label: 'Our Story', href: '/about' },
+      { label: 'Contact', href: '/contact' },
     ],
   },
 ]
@@ -95,6 +94,12 @@ export function Navbar() {
           >
             Podcast
           </Link>
+          <Link
+            href="/about"
+            className="text-text font-nav text-[13px] tracking-[2px] uppercase py-2 transition-colors hover:text-red"
+          >
+            Our Story
+          </Link>
         </div>
 
         {/* Center logo */}
@@ -117,10 +122,10 @@ export function Navbar() {
             Blog
           </Link>
           <Link
-            href="/about"
+            href="#"
             className="text-text font-nav text-[13px] tracking-[2px] uppercase py-2 transition-colors hover:text-red"
           >
-            About
+            Account
           </Link>
           <button
             onClick={openCart}
@@ -162,16 +167,17 @@ export function Navbar() {
         <div className="lg:hidden border-t border-border bg-white py-4 px-10">
           <div className="flex flex-col gap-3">
             <Link href="/shop" className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red" onClick={() => setMobileOpen(false)}>Shop All</Link>
-            <Link href="/collections/tees" className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red" onClick={() => setMobileOpen(false)}>Tees</Link>
+            <Link href="/collections/shirts" className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red" onClick={() => setMobileOpen(false)}>T-Shirts</Link>
             <Link href="/collections/hoodies" className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red" onClick={() => setMobileOpen(false)}>Hoodies</Link>
             <Link href="/collections/hats" className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red" onClick={() => setMobileOpen(false)}>Hats</Link>
+            <Link href="/collections/decals" className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red" onClick={() => setMobileOpen(false)}>Decals</Link>
             <div className="h-px bg-border my-2" />
             <Link href="/blog" className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red" onClick={() => setMobileOpen(false)}>Blog</Link>
-            <Link href="/recipes" className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red" onClick={() => setMobileOpen(false)}>Recipes</Link>
+            <Link href="/recipes" className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red" onClick={() => setMobileOpen(false)}>NE Recipes</Link>
             <Link href="/podcast" className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red" onClick={() => setMobileOpen(false)}>Podcast</Link>
-            <Link href="/about" className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red" onClick={() => setMobileOpen(false)}>About</Link>
+            <Link href="/about" className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red" onClick={() => setMobileOpen(false)}>Our Story</Link>
             <Link href="/contact" className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red" onClick={() => setMobileOpen(false)}>Contact</Link>
-            <Link href="/referral" className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red" onClick={() => setMobileOpen(false)}>Referral Program</Link>
+            <Link href="/referral" className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red" onClick={() => setMobileOpen(false)}>Refer a Friend</Link>
           </div>
         </div>
       )}
