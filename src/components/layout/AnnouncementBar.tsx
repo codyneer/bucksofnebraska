@@ -14,7 +14,7 @@ export function AnnouncementBar() {
             </span>
             <span className="flex items-center gap-2">
               <Flame className="w-3.5 h-3.5 text-red-light" />
-              New Pride Collection Just Dropped
+              NEW PODCAST EPISODE JUST DROPPED
             </span>
             <span className="flex items-center gap-2">
               <Star className="w-3.5 h-3.5 text-gold fill-gold" />
