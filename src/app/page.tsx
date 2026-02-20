@@ -1,65 +1,119 @@
-import Image from "next/image";
-
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <div className="min-h-screen">
+      {/* Hero placeholder — will be built in Prompt 2 */}
+      <section className="relative h-[92vh] min-h-[650px] flex items-center justify-center bg-brand-black overflow-hidden">
+        <div className="relative z-10 text-center max-w-[900px] px-5 text-white">
+          <p className="font-nav text-[14px] tracking-[6px] uppercase text-red-light mb-5">
+            Nebraska&apos;s Hunting Apparel
+          </p>
+          <h1 className="font-display text-[clamp(56px,10vw,110px)] leading-[0.9] tracking-[3px] mb-4">
+            WEAR YOUR STATE.<br />
+            <span className="text-red-light">HUNT YOUR LAND.</span>
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
+          <p className="font-body text-[clamp(15px,2vw,19px)] text-white/85 max-w-[560px] mx-auto mb-9 leading-relaxed">
+            Field-ready apparel designed in Nebraska, built for hunters who live and breathe the outdoors.
+          </p>
+          <div className="flex gap-4 justify-center flex-wrap">
             <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+              href="/shop"
+              className="font-nav text-[14px] tracking-[3px] uppercase py-[15px] px-9 bg-red text-white border-none cursor-pointer transition-all duration-300 hover:bg-red-dark hover:-translate-y-0.5"
             >
-              Templates
-            </a>{" "}
-            or the{" "}
+              Shop the Collection
+            </a>
             <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+              href="/about"
+              className="font-nav text-[14px] tracking-[3px] uppercase py-[15px] px-9 bg-transparent text-white border-2 border-white/70 cursor-pointer transition-all duration-300 hover:bg-white hover:text-brand-black"
             >
-              Learning
-            </a>{" "}
-            center.
+              Our Story
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* Social Proof Bar */}
+      <section className="py-10 px-10 text-center bg-offWhite border-t border-b border-border-light">
+        <div className="flex justify-center gap-12 flex-wrap items-center">
+          <div className="font-nav text-[13px] tracking-[2px] uppercase text-text-light flex items-center gap-2">
+            <span className="text-gold">★★★★★</span>
+            <strong className="text-text text-[15px]">4.9/5</strong> From 500+ Reviews
+          </div>
+          <div className="font-nav text-[13px] tracking-[2px] uppercase text-text-light">
+            <strong className="text-text text-[15px]">2,500+</strong> Happy Hunters
+          </div>
+          <div className="font-nav text-[13px] tracking-[2px] uppercase text-text-light">
+            <strong className="text-text text-[15px]">Nebraska</strong> Born & Built
+          </div>
+        </div>
+      </section>
+
+      {/* Products section placeholder — will be wired to Shopify in Prompt 2 */}
+      <section className="py-20 px-10 max-w-[1300px] mx-auto">
+        <div className="text-center mb-12">
+          <h2 className="font-display text-[clamp(38px,5vw,56px)] text-text leading-none">
+            SHOP <span className="text-red">BEST SELLERS</span>
+          </h2>
+          <p className="font-nav text-[13px] tracking-[3px] uppercase text-text-muted mt-2">
+            What the community is wearing
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+        <p className="text-center text-text-light font-body">
+          Products will load from Shopify once your API credentials are configured in .env.local
+        </p>
+      </section>
+
+      {/* Trust Badges */}
+      <section className="flex justify-center gap-10 py-12 px-5 flex-wrap">
+        {[
+          { title: 'Free Shipping', desc: 'On orders over $75' },
+          { title: 'Easy Returns', desc: '30-day hassle free' },
+          { title: 'Nebraska Made', desc: 'Designed in the heartland' },
+          { title: '500+ Reviews', desc: 'From real hunters' },
+        ].map((item) => (
+          <div key={item.title} className="text-center max-w-[160px]">
+            <h4 className="font-nav text-[12px] tracking-[2px] uppercase text-text mb-1">
+              {item.title}
+            </h4>
+            <p className="text-[12px] text-text-muted leading-relaxed">{item.desc}</p>
+          </div>
+        ))}
+      </section>
+
+      {/* Red Banner */}
+      <section className="py-16 px-10 text-center bg-red text-white">
+        <h2 className="font-display text-[clamp(32px,4vw,52px)]">
+          Wear Your State. Hunt Your Land.
+        </h2>
+        <p className="font-body text-[16px] mt-3 mb-6 max-w-[550px] mx-auto leading-relaxed opacity-90">
+          Join thousands of Nebraska hunters who wear their pride in the field.
+        </p>
+        <a
+          href="/shop"
+          className="font-nav text-[14px] tracking-[3px] uppercase py-[15px] px-9 bg-transparent text-white border-2 border-white/70 cursor-pointer transition-all duration-300 hover:bg-white hover:text-red inline-block"
+        >
+          Shop Now
+        </a>
+      </section>
+
+      {/* State Pride Cards */}
+      <section className="py-20 px-10 max-w-[1100px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+        {[
+          { num: '01', title: 'Nebraska Born', desc: 'Founded in the heart of the Cornhusker state by hunters who know the land.' },
+          { num: '02', title: 'Hunter Built', desc: 'Every piece of gear is designed and tested in real hunting conditions.' },
+          { num: '03', title: 'Community Driven', desc: 'Built by the community, for the community. Your feedback shapes everything.' },
+        ].map((card) => (
+          <div
+            key={card.num}
+            className="text-center py-9 px-6 border border-border bg-white transition-all duration-[400ms] hover:border-red hover:-translate-y-[3px] hover:shadow"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+            <div className="font-display text-[48px] text-red leading-none">{card.num}</div>
+            <h3 className="font-nav text-[15px] tracking-[3px] uppercase text-text mt-2.5 mb-2">
+              {card.title}
+            </h3>
+            <p className="text-text-light text-[13px] leading-relaxed">{card.desc}</p>
+          </div>
+        ))}
+      </section>
     </div>
-  );
+  )
 }
