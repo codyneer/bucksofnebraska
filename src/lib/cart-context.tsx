@@ -7,8 +7,10 @@ import {
   addToCart as shopifyAddToCart,
   removeFromCart as shopifyRemoveFromCart,
   updateCart as shopifyUpdateCart,
+  applyDiscountCode as shopifyApplyDiscount,
   type ShopifyCart,
   type CartLine,
+  type DiscountCode,
 } from './shopify'
 
 type CartContextType = {
@@ -16,11 +18,14 @@ type CartContextType = {
   isOpen: boolean
   isLoading: boolean
   itemCount: number
+  discountCodes: DiscountCode[]
+  discountTotal: number
   openCart: () => void
   closeCart: () => void
   addItem: (merchandiseId: string, quantity?: number) => Promise<void>
   removeItem: (lineId: string) => Promise<void>
   updateItemQuantity: (lineId: string, quantity: number) => Promise<void>
+  applyDiscount: (code: string) => Promise<void>
   lines: CartLine[]
 }
 
@@ -33,6 +38,32 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const lines = cart?.lines.edges.map((e) => e.node) ?? []
   const itemCount = lines.reduce((sum, line) => sum + line.quantity, 0)
+  const discountCodes = cart?.discountCodes ?? []
+  const discountTotal = (cart?.discountAllocations ?? []).reduce(
+    (sum, alloc) => sum + parseFloat(alloc.discountedAmount.amount),
+    0
+  )
+
+  const tryAutoApplyReferral = useCallback(async (targetCart: ShopifyCart): Promise<ShopifyCart> => {
+    if (typeof window === 'undefined') return targetCart
+
+    const referralCode = localStorage.getItem('referral_discount_code')
+    if (!referralCode) return targetCart
+
+    // Don't re-apply if already has discount codes
+    if (targetCart.discountCodes && targetCart.discountCodes.length > 0) return targetCart
+
+    try {
+      const result = await shopifyApplyDiscount(targetCart.id, [referralCode])
+      if (result.cart) {
+        return result.cart
+      }
+    } catch (error) {
+      console.error('Failed to auto-apply referral code:', error)
+    }
+
+    return targetCart
+  }, [])
 
   const ensureCart = useCallback(async () => {
     if (cart) return cart
@@ -43,8 +74,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
       try {
         const existingCart = await getCart(storedCartId)
         if (existingCart) {
-          setCart(existingCart)
-          return existingCart
+          const cartWithDiscount = await tryAutoApplyReferral(existingCart)
+          setCart(cartWithDiscount)
+          return cartWithDiscount
         }
       } catch {
         // Cart expired or invalid, create a new one
@@ -55,9 +87,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
     if (typeof window !== 'undefined') {
       localStorage.setItem('shopify_cart_id', newCart.id)
     }
-    setCart(newCart)
-    return newCart
-  }, [cart])
+    const cartWithDiscount = await tryAutoApplyReferral(newCart)
+    setCart(cartWithDiscount)
+    return cartWithDiscount
+  }, [cart, tryAutoApplyReferral])
 
   const openCart = useCallback(() => setIsOpen(true), [])
   const closeCart = useCallback(() => setIsOpen(false), [])
@@ -116,6 +149,24 @@ export function CartProvider({ children }: { children: ReactNode }) {
     [cart]
   )
 
+  const applyDiscount = useCallback(
+    async (code: string) => {
+      const currentCart = await ensureCart()
+      try {
+        const result = await shopifyApplyDiscount(currentCart.id, [code])
+        if (result.cart) {
+          setCart(result.cart)
+        }
+        if (result.userErrors?.length > 0) {
+          console.error('Discount code error:', result.userErrors)
+        }
+      } catch (error) {
+        console.error('Failed to apply discount:', error)
+      }
+    },
+    [ensureCart]
+  )
+
   // Lock body scroll when cart is open
   useEffect(() => {
     if (isOpen) {
@@ -135,11 +186,14 @@ export function CartProvider({ children }: { children: ReactNode }) {
         isOpen,
         isLoading,
         itemCount,
+        discountCodes,
+        discountTotal,
         openCart,
         closeCart,
         addItem,
         removeItem,
         updateItemQuantity,
+        applyDiscount,
         lines,
       }}
     >

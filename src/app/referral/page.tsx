@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Gift, Share2, DollarSign } from 'lucide-react'
+import { Gift, Share2, DollarSign, Copy, Check } from 'lucide-react'
 import type { FormEvent } from 'react'
 
 const steps = [
@@ -28,6 +28,8 @@ const steps = [
 export default function ReferralPage() {
   const [email, setEmail] = useState('')
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+  const [referralData, setReferralData] = useState<{ code: string; link: string } | null>(null)
+  const [copied, setCopied] = useState(false)
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
@@ -36,16 +38,15 @@ export default function ReferralPage() {
     setStatus('loading')
 
     try {
-      const res = await fetch('/api/omnisend/subscribe', {
+      const res = await fetch('/api/referral/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email,
-          tags: ['referral-signup', 'website-signup'],
-        }),
+        body: JSON.stringify({ email }),
       })
 
       if (res.ok) {
+        const data = await res.json()
+        setReferralData({ code: data.code, link: data.link })
         setStatus('success')
       } else {
         setStatus('error')
@@ -55,6 +56,13 @@ export default function ReferralPage() {
       setStatus('error')
       setTimeout(() => setStatus('idle'), 3000)
     }
+  }
+
+  const handleCopy = () => {
+    if (!referralData) return
+    navigator.clipboard.writeText(referralData.link)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
   }
 
   return (
@@ -91,22 +99,50 @@ export default function ReferralPage() {
         ))}
       </div>
 
-      {/* Email capture */}
-      {status === 'success' ? (
-        <div className="text-center py-12 bg-white border border-border-light p-5 sm:p-8">
+      {/* Email capture / Success state */}
+      {status === 'success' && referralData ? (
+        <div className="text-center bg-white border border-border-light p-5 sm:p-8">
           <p className="font-nav text-[18px] tracking-[2px] uppercase text-green mb-2">
             You&apos;re In
           </p>
-          <p className="text-text-muted text-[14px] font-body mb-4">
-            Check your email for your unique referral link.
+          <p className="text-text-muted text-[14px] font-body mb-6">
+            Share your link with friends. They get $10 off their first order of $40+, and you earn $10 credit.
           </p>
-          <div className="bg-offWhite border border-border p-4 inline-block max-w-full break-all">
-            <span className="font-nav text-[12px] tracking-[1px] text-text-muted">
-              Your referral link:
+
+          <div className="bg-offWhite border border-border p-5 max-w-[460px] mx-auto">
+            <span className="font-nav text-[11px] tracking-[1.5px] text-text-muted block mb-1 uppercase">
+              Your referral code
             </span>
-            <p className="font-nav text-[14px] text-red mt-1">
-              bucksofnebraska.com/ref/your-code
+            <p className="font-display text-[28px] text-red mb-4">
+              {referralData.code}
             </p>
+
+            <span className="font-nav text-[11px] tracking-[1.5px] text-text-muted block mb-2 uppercase">
+              Your shareable link
+            </span>
+            <div className="flex items-center gap-2">
+              <input
+                readOnly
+                value={referralData.link}
+                className="flex-1 py-2.5 px-3 border border-border font-body text-[13px] text-text bg-white min-w-0"
+              />
+              <button
+                onClick={handleCopy}
+                className="py-2.5 px-4 bg-brand-black text-white font-nav text-[11px] tracking-[2px] uppercase flex items-center gap-1.5 transition-all duration-300 hover:bg-red whitespace-nowrap"
+              >
+                {copied ? (
+                  <>
+                    <Check className="w-3.5 h-3.5" />
+                    Copied
+                  </>
+                ) : (
+                  <>
+                    <Copy className="w-3.5 h-3.5" />
+                    Copy
+                  </>
+                )}
+              </button>
+            </div>
           </div>
         </div>
       ) : (
@@ -132,7 +168,7 @@ export default function ReferralPage() {
               disabled={status === 'loading'}
               className="py-3 px-6 bg-red text-white font-nav text-[13px] tracking-[2px] uppercase border-none cursor-pointer transition-all duration-300 hover:bg-red-dark whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {status === 'loading' ? 'Joining...' : 'Join Now'}
+              {status === 'loading' ? 'Creating...' : 'Join Now'}
             </button>
           </div>
           {status === 'error' && (
@@ -145,7 +181,7 @@ export default function ReferralPage() {
 
       {/* Bottom note */}
       <p className="text-center text-text-muted text-[13px] font-body mt-8">
-        Referral credits are applied automatically at checkout. No limit on how many friends you can refer.
+        Referral credits are applied automatically at checkout. $40 minimum purchase required. No limit on how many friends you can refer.
       </p>
     </div>
   )

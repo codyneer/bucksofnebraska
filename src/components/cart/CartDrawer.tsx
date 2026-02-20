@@ -11,12 +11,13 @@ import { CartUpsells } from './CartUpsells'
 import type { ShopifyProduct } from '@/lib/shopify'
 
 export function CartDrawer() {
-  const { cart, isOpen, closeCart, lines, itemCount } = useCart()
+  const { cart, isOpen, closeCart, lines, itemCount, discountCodes, discountTotal } = useCart()
   const [upsellProducts, setUpsellProducts] = useState<ShopifyProduct[]>([])
 
   const subtotal = cart ? parseFloat(cart.cost.subtotalAmount.amount) : 0
-  const shipping = calculateShipping(subtotal)
-  const total = subtotal + shipping
+  const totalAfterDiscount = cart ? parseFloat(cart.cost.totalAmount.amount) : subtotal
+  const shipping = calculateShipping(totalAfterDiscount)
+  const total = totalAfterDiscount + shipping
 
   // Fetch upsell products from cart-upsells collection (or fallback)
   useEffect(() => {
@@ -135,6 +136,32 @@ export function CartDrawer() {
                 {formatPrice(subtotal)}
               </span>
             </div>
+
+            {/* Discount */}
+            {discountTotal > 0 && (
+              <div className="flex justify-between mb-1.5">
+                <span className="font-nav text-[13px] tracking-[2px] uppercase text-green">
+                  Discount
+                  {discountCodes.length > 0 && discountCodes[0].applicable && (
+                    <span className="text-text-muted ml-1 normal-case tracking-normal text-[11px]">
+                      ({discountCodes[0].code})
+                    </span>
+                  )}
+                </span>
+                <span className="font-display text-[18px] text-green">
+                  -{formatPrice(discountTotal)}
+                </span>
+              </div>
+            )}
+
+            {/* Discount not yet applicable */}
+            {discountCodes.length > 0 && !discountCodes[0].applicable && discountTotal === 0 && (
+              <div className="mb-1.5 py-1.5 px-2 bg-gold/10 border border-gold/20">
+                <p className="font-nav text-[11px] tracking-[1px] uppercase text-gold">
+                  {discountCodes[0].code} — Add $40+ to unlock $10 off
+                </p>
+              </div>
+            )}
 
             {/* Shipping */}
             <div className="flex justify-between mb-1.5">

@@ -82,6 +82,15 @@ export type CartLine = {
   }
 }
 
+export type DiscountCode = {
+  code: string
+  applicable: boolean
+}
+
+export type DiscountAllocation = {
+  discountedAmount: Money
+}
+
 export type ShopifyCart = {
   id: string
   checkoutUrl: string
@@ -89,6 +98,8 @@ export type ShopifyCart = {
     totalAmount: Money
     subtotalAmount: Money
   }
+  discountCodes: DiscountCode[]
+  discountAllocations: DiscountAllocation[]
   lines: { edges: { node: CartLine }[] }
 }
 
@@ -101,6 +112,13 @@ const CART_FIELDS = `
     cost {
       totalAmount { amount currencyCode }
       subtotalAmount { amount currencyCode }
+    }
+    discountCodes {
+      code
+      applicable
+    }
+    discountAllocations {
+      discountedAmount { amount currencyCode }
     }
     lines(first: 20) {
       edges {
@@ -254,6 +272,19 @@ export const UPDATE_CART = `
   }
 `
 
+export const APPLY_DISCOUNT_CODE = `
+  ${CART_FIELDS}
+  mutation CartDiscountCodesUpdate($cartId: ID!, $discountCodes: [String!]) {
+    cartDiscountCodesUpdate(cartId: $cartId, discountCodes: $discountCodes) {
+      cart { ...CartFields }
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`
+
 // --------------- Fetch Helpers ---------------
 
 export async function getCollectionProducts(handle: string, first = 20) {
@@ -343,4 +374,18 @@ export async function updateCart(cartId: string, lines: { id: string; quantity: 
   })
 
   return data.cartLinesUpdate.cart
+}
+
+export async function applyDiscountCode(cartId: string, discountCodes: string[]) {
+  const data = await shopifyFetch<{
+    cartDiscountCodesUpdate: {
+      cart: ShopifyCart
+      userErrors: { field: string; message: string }[]
+    }
+  }>({
+    query: APPLY_DISCOUNT_CODE,
+    variables: { cartId, discountCodes },
+  })
+
+  return data.cartDiscountCodesUpdate
 }

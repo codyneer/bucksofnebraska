@@ -62,6 +62,51 @@ export const UPDATE_PRODUCT_METAFIELD = `
   }
 `
 
+// Get shop ID (for metafield operations)
+export const GET_SHOP_ID = `
+  query GetShopId {
+    shop { id }
+  }
+`
+
+// Get shop-level metafield
+export const GET_SHOP_METAFIELD = `
+  query GetShopMetafield($namespace: String!, $key: String!) {
+    shop {
+      id
+      metafield(namespace: $namespace, key: $key) {
+        id
+        value
+      }
+    }
+  }
+`
+
+// Create a basic discount code
+export const CREATE_DISCOUNT_CODE = `
+  mutation discountCodeBasicCreate($basicCodeDiscount: DiscountCodeBasicInput!) {
+    discountCodeBasicCreate(basicCodeDiscount: $basicCodeDiscount) {
+      codeDiscountNode {
+        id
+        codeDiscount {
+          ... on DiscountCodeBasic {
+            title
+            codes(first: 1) {
+              edges {
+                node { code }
+              }
+            }
+          }
+        }
+      }
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`
+
 // Get all products with reviews metafield (for admin panel)
 export const GET_ALL_PRODUCTS_WITH_REVIEWS = `
   query AllProductsReviews($first: Int = 50) {
