@@ -120,7 +120,7 @@ export default function ReferralPage() {
             <span className="font-nav text-[11px] tracking-[1.5px] text-text-muted block mb-2 uppercase">
               Your shareable link
             </span>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
               <input
                 readOnly
                 value={referralData.link}
@@ -128,7 +128,7 @@ export default function ReferralPage() {
               />
               <button
                 onClick={handleCopy}
-                className="py-2.5 px-4 bg-brand-black text-white font-nav text-[11px] tracking-[2px] uppercase flex items-center gap-1.5 transition-all duration-300 hover:bg-red whitespace-nowrap"
+                className="py-2.5 px-4 bg-brand-black text-white font-nav text-[11px] tracking-[2px] uppercase flex items-center justify-center gap-1.5 transition-all duration-300 hover:bg-red whitespace-nowrap"
               >
                 {copied ? (
                   <>

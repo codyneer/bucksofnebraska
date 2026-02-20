@@ -117,7 +117,7 @@ export function ProductCard({ product }: ProductCardProps) {
       <div className="px-[18px] pb-[18px]">
         <button
           onClick={handleQuickAdd}
-          className="w-full py-[11px] bg-brand-black text-white border-none font-nav text-[12px] tracking-[2px] uppercase cursor-pointer transition-all duration-300 hover:bg-red"
+          className="w-full py-3 bg-brand-black text-white border-none font-nav text-[12px] tracking-[2px] uppercase cursor-pointer transition-all duration-300 hover:bg-red"
         >
           {hasOptions ? 'Choose Options' : 'Quick Add'}
         </button>

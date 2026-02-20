@@ -64,7 +64,7 @@ export function ReviewModal({ isOpen, onClose, prefilledProduct, products }: Rev
 
   return (
     <div className="fixed inset-0 bg-black/50 z-[300] flex items-center justify-center p-4">
-      <div className="bg-white max-w-[500px] w-full max-h-[90vh] overflow-y-auto p-8 relative">
+      <div className="bg-white max-w-[500px] w-full max-h-[90vh] overflow-y-auto p-5 sm:p-8 relative">
         <button
           onClick={onClose}
           className="absolute top-4 right-5 bg-transparent border-none text-text-muted text-[24px] cursor-pointer hover:text-red transition-colors"

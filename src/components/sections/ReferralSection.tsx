@@ -68,15 +68,15 @@ export function ReferralSection() {
               {referralData.code}
             </p>
 
-            <div className="flex items-center gap-2 max-w-[400px] mx-auto">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 max-w-[400px] mx-auto">
               <input
                 readOnly
                 value={referralData.link}
-                className="flex-1 py-2 px-3 border border-border font-body text-[13px] text-text bg-offWhite min-w-0"
+                className="flex-1 py-2.5 px-3 border border-border font-body text-[13px] text-text bg-offWhite min-w-0"
               />
               <button
                 onClick={handleCopy}
-                className="py-2 px-4 bg-brand-black text-white font-nav text-[11px] tracking-[2px] uppercase flex items-center gap-1.5 transition-all duration-300 hover:bg-red whitespace-nowrap"
+                className="py-2.5 px-4 bg-brand-black text-white font-nav text-[11px] tracking-[2px] uppercase flex items-center justify-center gap-1.5 transition-all duration-300 hover:bg-red whitespace-nowrap"
               >
                 {copied ? (
                   <>

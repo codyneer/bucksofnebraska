@@ -91,7 +91,7 @@ export function CartUpsells({ products }: CartUpsellsProps) {
 
             <button
               onClick={() => addItem(firstVariant.id)}
-              className="py-2 px-3.5 bg-brand-black text-white border-none font-nav text-[11px] tracking-[1.5px] uppercase cursor-pointer transition-colors duration-300 hover:bg-red whitespace-nowrap"
+              className="py-2.5 px-4 min-h-[44px] bg-brand-black text-white border-none font-nav text-[11px] tracking-[1.5px] uppercase cursor-pointer transition-colors duration-300 hover:bg-red whitespace-nowrap flex items-center"
             >
               Add
             </button>

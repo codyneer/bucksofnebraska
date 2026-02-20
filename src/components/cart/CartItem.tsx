@@ -45,16 +45,16 @@ export function CartItem({ line }: CartItemProps) {
           <div className="flex items-center border border-border">
             <button
               onClick={() => updateItemQuantity(line.id, quantity - 1)}
-              className="w-7 h-7 bg-offWhite border-none text-text text-[14px] cursor-pointer transition-colors hover:bg-red/[0.08] flex items-center justify-center"
+              className="w-9 h-9 bg-offWhite border-none text-text text-[14px] cursor-pointer transition-colors hover:bg-red/[0.08] flex items-center justify-center"
             >
               −
             </button>
-            <span className="w-8 text-center font-nav text-[13px] h-7 leading-7 bg-white">
+            <span className="w-8 text-center font-nav text-[13px] h-9 leading-9 bg-white">
               {quantity}
             </span>
             <button
               onClick={() => updateItemQuantity(line.id, quantity + 1)}
-              className="w-7 h-7 bg-offWhite border-none text-text text-[14px] cursor-pointer transition-colors hover:bg-red/[0.08] flex items-center justify-center"
+              className="w-9 h-9 bg-offWhite border-none text-text text-[14px] cursor-pointer transition-colors hover:bg-red/[0.08] flex items-center justify-center"
             >
               +
             </button>

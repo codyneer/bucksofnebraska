@@ -33,7 +33,7 @@ export default function RecipesPage() {
           <button
             key={cat}
             onClick={() => setActiveCategory(cat)}
-            className={`font-nav text-[12px] tracking-[2px] uppercase py-2 px-5 border cursor-pointer transition-all duration-200 ${
+            className={`font-nav text-[12px] tracking-[2px] uppercase py-2.5 px-5 min-h-[44px] border cursor-pointer transition-all duration-200 ${
               activeCategory === cat
                 ? 'bg-red text-white border-red'
                 : 'bg-white text-text border-border hover:border-red hover:text-red'

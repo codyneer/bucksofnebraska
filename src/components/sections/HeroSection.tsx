@@ -19,7 +19,7 @@ export function HeroSection() {
         <p className="font-nav text-[14px] tracking-[6px] uppercase text-red-light mb-5 opacity-0 animate-fade-up [animation-delay:300ms]">
           Est. 2013
         </p>
-        <h1 className="font-display text-[clamp(56px,10vw,110px)] leading-[0.9] tracking-[3px] mb-4 opacity-0 animate-fade-up [animation-delay:500ms]">
+        <h1 className="font-display text-[clamp(42px,10vw,110px)] leading-[0.9] tracking-[3px] mb-4 opacity-0 animate-fade-up [animation-delay:500ms]">
           BUCKS OF <span className="text-red-light">NEBRASKA</span>
         </h1>
         <p className="font-body text-[clamp(15px,2vw,19px)] text-white/85 max-w-[560px] mx-auto mb-9 leading-relaxed opacity-0 animate-fade-up [animation-delay:700ms]">

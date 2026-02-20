@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <div className="py-20 px-6 sm:px-10 max-w-[720px] mx-auto">
+    <div className="py-12 sm:py-20 px-5 sm:px-10 max-w-[720px] mx-auto">
       <h1 className="font-display text-[clamp(44px,7vw,64px)] text-center text-text mb-2">
         About <span className="text-red">Bucks of Nebraska</span>
       </h1>

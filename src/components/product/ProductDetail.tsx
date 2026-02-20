@@ -66,7 +66,7 @@ export function ProductDetail({ product, reviews = [], allProducts = [] }: Produ
   }
 
   return (
-    <div className="pt-[40px] pb-20 px-10 max-w-[1060px] mx-auto">
+    <div className="pt-[40px] pb-20 px-4 sm:px-8 lg:px-10 max-w-[1060px] mx-auto">
       {/* Breadcrumb */}
       <p className="font-nav text-[11px] tracking-[2px] uppercase text-text-muted mb-3">
         <Link href="/" className="text-text-muted hover:text-red transition-colors">
@@ -131,7 +131,7 @@ export function ProductDetail({ product, reviews = [], allProducts = [] }: Produ
 
         {/* Right: Product Info */}
         <div>
-          <h1 className="font-display text-[38px] text-text mb-1">{product.title}</h1>
+          <h1 className="font-display text-[clamp(28px,6vw,38px)] text-text mb-1">{product.title}</h1>
 
           {/* Star rating */}
           {reviews.length > 0 && (
