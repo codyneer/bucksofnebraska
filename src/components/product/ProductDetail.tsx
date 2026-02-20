@@ -8,13 +8,17 @@ import { useCart } from '@/lib/cart-context'
 import { formatPrice } from '@/lib/utils'
 import { BundleTiers } from './BundleTiers'
 import { SizeSelector } from './SizeSelector'
+import { ProductReviews } from '@/components/reviews/ProductReviews'
 import type { ShopifyProduct, ProductVariant } from '@/lib/shopify'
+import type { Review } from '@/lib/reviews'
 
 type ProductDetailProps = {
   product: ShopifyProduct
+  reviews?: Review[]
+  allProducts?: { handle: string; title: string }[]
 }
 
-export function ProductDetail({ product }: ProductDetailProps) {
+export function ProductDetail({ product, reviews = [], allProducts = [] }: ProductDetailProps) {
   const { addItem } = useCart()
   const images = product.images.edges.map((e) => e.node)
   const variants = product.variants.edges.map((e) => e.node)
@@ -129,11 +133,20 @@ export function ProductDetail({ product }: ProductDetailProps) {
         <div>
           <h1 className="font-display text-[38px] text-text mb-1">{product.title}</h1>
 
-          {/* Star rating placeholder */}
-          <div className="flex items-center gap-2 mb-3">
-            <span className="text-gold text-[14px]">★★★★★</span>
-            <span className="text-[13px] text-text-muted">4.9 (reviews)</span>
-          </div>
+          {/* Star rating */}
+          {reviews.length > 0 && (
+            <div className="flex items-center gap-2 mb-3">
+              <span className="text-gold text-[14px]">
+                {Array.from({ length: 5 }, (_, i) => {
+                  const avg = reviews.reduce((sum, r) => sum + r.stars, 0) / reviews.length
+                  return i < Math.round(avg) ? '★' : '☆'
+                }).join('')}
+              </span>
+              <span className="text-[13px] text-text-muted">
+                {(reviews.reduce((sum, r) => sum + r.stars, 0) / reviews.length).toFixed(1)} ({reviews.length} {reviews.length === 1 ? 'review' : 'reviews'})
+              </span>
+            </div>
+          )}
 
           {/* Price */}
           <div className="mb-5">
@@ -215,25 +228,13 @@ export function ProductDetail({ product }: ProductDetailProps) {
             </span>
           </div>
 
-          {/* Product Reviews placeholder */}
-          <div className="mt-12 pt-8 border-t border-border">
-            <h3 className="font-display text-[28px] text-text mb-1">
-              Customer <span className="text-red">Reviews</span>
-            </h3>
-            <div className="flex items-center gap-3 mb-4">
-              <span className="text-gold text-[18px]">★★★★★</span>
-              <span className="font-display text-[24px] text-text">4.9</span>
-              <span className="font-nav text-[12px] tracking-[1px] text-text-muted">
-                Based on reviews
-              </span>
-            </div>
-            <p className="text-text-muted text-[14px] font-body">
-              Product-specific reviews will appear here once the review system is built.
-            </p>
-            <button className="mt-4 font-nav text-[12px] tracking-[2px] uppercase py-[11px] px-6 bg-transparent text-text border-2 border-border cursor-pointer transition-all duration-300 hover:border-red hover:text-red">
-              Write a Review
-            </button>
-          </div>
+          {/* Product Reviews */}
+          <ProductReviews
+            reviews={reviews}
+            productHandle={product.handle}
+            productTitle={product.title}
+            allProducts={allProducts}
+          />
         </div>
       </div>
     </div>

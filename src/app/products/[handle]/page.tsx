@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation'
-import { getProduct } from '@/lib/shopify'
+import { getProduct, getAllProducts } from '@/lib/shopify'
 import { ProductDetail } from '@/components/product/ProductDetail'
+import { getProductReviews } from '@/lib/reviews'
 import type { Metadata } from 'next'
 
 type Props = {
@@ -23,11 +24,24 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ProductPage({ params }: Props) {
   const { handle } = await params
-  const product = await getProduct(handle)
+
+  const [product, reviews, allProducts] = await Promise.all([
+    getProduct(handle),
+    getProductReviews(handle),
+    getAllProducts(50),
+  ])
 
   if (!product) {
     notFound()
   }
 
-  return <ProductDetail product={product} />
+  const productsList = allProducts.map((p) => ({ handle: p.handle, title: p.title }))
+
+  return (
+    <ProductDetail
+      product={product}
+      reviews={reviews}
+      allProducts={productsList}
+    />
+  )
 }

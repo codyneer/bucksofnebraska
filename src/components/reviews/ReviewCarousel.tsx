@@ -3,6 +3,7 @@
 import { useRef } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { ReviewCard } from './ReviewCard'
+import type { Review } from '@/lib/reviews'
 
 const placeholderReviews = [
   {
@@ -55,8 +56,32 @@ const placeholderReviews = [
   },
 ]
 
-export function ReviewCarousel() {
+type ReviewCarouselProps = {
+  reviews?: Review[]
+}
+
+export function ReviewCarousel({ reviews }: ReviewCarouselProps) {
   const scrollRef = useRef<HTMLDivElement>(null)
+
+  // Use real reviews if available, otherwise fall back to placeholders
+  const hasRealReviews = reviews && reviews.length > 0
+  const displayReviews = hasRealReviews
+    ? reviews.map((r) => ({
+        stars: r.stars,
+        text: r.text,
+        author: r.author,
+        location: r.location,
+        productName: r.product_title || r.product_handle,
+        productHandle: r.product_handle,
+        verifiedPurchase: r.verified_purchase,
+      }))
+    : placeholderReviews
+
+  const avgRating = hasRealReviews
+    ? (reviews.reduce((sum, r) => sum + r.stars, 0) / reviews.length).toFixed(1)
+    : '4.9'
+
+  const totalCount = hasRealReviews ? reviews.length : 527
 
   const scroll = (direction: 'left' | 'right') => {
     if (!scrollRef.current) return
@@ -80,10 +105,14 @@ export function ReviewCarousel() {
 
       {/* Summary row */}
       <div className="flex items-center gap-5 justify-center mb-8">
-        <span className="text-[24px] text-gold">★★★★★</span>
-        <span className="font-display text-[36px] text-text">4.9</span>
+        <span className="text-[24px] text-gold">
+          {Array.from({ length: 5 }, (_, i) =>
+            i < Math.round(parseFloat(avgRating)) ? '★' : '☆'
+          ).join('')}
+        </span>
+        <span className="font-display text-[36px] text-text">{avgRating}</span>
         <span className="font-nav text-[13px] tracking-[1px] text-text-muted">
-          Based on <strong className="text-text">527</strong> reviews
+          Based on <strong className="text-text">{totalCount}</strong> reviews
         </span>
       </div>
 
@@ -92,7 +121,7 @@ export function ReviewCarousel() {
         ref={scrollRef}
         className="flex gap-4 overflow-x-auto py-2.5 pb-5 scroll-snap-x-mandatory hide-scrollbar"
       >
-        {placeholderReviews.map((review, i) => (
+        {displayReviews.map((review, i) => (
           <ReviewCard key={i} {...review} />
         ))}
       </div>

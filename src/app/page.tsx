@@ -9,9 +9,11 @@ import { ReferralSection } from '@/components/sections/ReferralSection'
 import { StatePrideCards } from '@/components/sections/StatePrideCards'
 import { SectionHeader } from '@/components/ui/SectionHeader'
 import { getCollectionProducts, getAllProducts, type ShopifyProduct } from '@/lib/shopify'
+import { getAllApprovedReviews, type Review } from '@/lib/reviews'
 
 export default async function Home() {
   let products: ShopifyProduct[] = []
+  let reviews: Review[] = []
 
   try {
     // Try best-sellers collection first, fall back to all products
@@ -24,13 +26,18 @@ export default async function Home() {
     }
   } catch (error) {
     console.error('Failed to fetch products:', error)
-    // Try all products as fallback
     try {
       const allProducts = await getAllProducts(6)
       products = allProducts
     } catch {
       // Products will be empty, grid shows "No products found"
     }
+  }
+
+  try {
+    reviews = await getAllApprovedReviews()
+  } catch {
+    // Reviews will be empty, carousel shows placeholder data
   }
 
   return (
@@ -48,7 +55,7 @@ export default async function Home() {
         <ProductGrid products={products} />
       </section>
 
-      <ReviewCarousel />
+      <ReviewCarousel reviews={reviews} />
       <TrustBadges />
 
       <div className="h-px bg-gradient-to-r from-transparent via-border to-transparent max-w-[1200px] mx-auto" />
