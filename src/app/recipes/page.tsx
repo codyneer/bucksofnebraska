@@ -1,69 +1,21 @@
+'use client'
+
+import { useState } from 'react'
+import Link from 'next/link'
 import { Clock, Users, BarChart3 } from 'lucide-react'
-import type { Metadata } from 'next'
+import { recipes, categoryColors } from '@/lib/recipe-data'
 
-export const metadata: Metadata = {
-  title: 'Wild Game Recipes — Bucks of Nebraska',
-  description: 'Field-to-table recipes for venison, waterfowl, upland birds, and more.',
-}
-
-const recipes = [
-  {
-    title: 'Smoked Venison Backstrap',
-    description: 'Low and slow smoked backstrap with a coffee-chili rub. The best cut, treated right.',
-    category: 'Venison',
-    cookTime: '2 hrs',
-    servings: 4,
-    difficulty: 'Medium',
-  },
-  {
-    title: 'Venison Chili',
-    description: 'Hearty ground venison chili with beans, peppers, and a touch of dark beer.',
-    category: 'Venison',
-    cookTime: '1.5 hrs',
-    servings: 6,
-    difficulty: 'Easy',
-  },
-  {
-    title: 'Pan-Seared Duck Breast',
-    description: 'Crispy skin, medium-rare center. Served with a cherry reduction and roasted root vegetables.',
-    category: 'Waterfowl',
-    cookTime: '30 min',
-    servings: 2,
-    difficulty: 'Medium',
-  },
-  {
-    title: 'Pheasant Pot Pie',
-    description: 'Classic comfort food with wild pheasant, seasonal vegetables, and a flaky butter crust.',
-    category: 'Upland',
-    cookTime: '1 hr',
-    servings: 4,
-    difficulty: 'Medium',
-  },
-  {
-    title: 'Venison Jerky',
-    description: 'Soy, Worcestershire, and black pepper marinade. Dehydrated to perfection for the blind.',
-    category: 'Venison',
-    cookTime: '8 hrs',
-    servings: 8,
-    difficulty: 'Easy',
-  },
-  {
-    title: 'Goose Tacos',
-    description: 'Slow-cooked goose with chipotle, pickled onions, and fresh cilantro on corn tortillas.',
-    category: 'Waterfowl',
-    cookTime: '3 hrs',
-    servings: 4,
-    difficulty: 'Easy',
-  },
-]
-
-const categoryColors: Record<string, string> = {
-  Venison: 'bg-red',
-  Waterfowl: 'bg-charcoal',
-  Upland: 'bg-green',
-}
+const categories = ['All', 'Venison', 'Waterfowl', 'Upland', 'Rabbit', 'Squirrel'] as const
+type Category = (typeof categories)[number]
 
 export default function RecipesPage() {
+  const [activeCategory, setActiveCategory] = useState<Category>('All')
+
+  const filtered =
+    activeCategory === 'All'
+      ? recipes
+      : recipes.filter((r) => r.category === activeCategory)
+
   return (
     <div className="py-12 sm:py-20 px-4 sm:px-10 max-w-[1300px] mx-auto">
       <div className="text-center mb-12">
@@ -75,11 +27,30 @@ export default function RecipesPage() {
         </p>
       </div>
 
+      {/* Filter buttons */}
+      <div className="flex justify-center gap-2 mb-10 flex-wrap">
+        {categories.map((cat) => (
+          <button
+            key={cat}
+            onClick={() => setActiveCategory(cat)}
+            className={`font-nav text-[12px] tracking-[2px] uppercase py-2 px-5 border cursor-pointer transition-all duration-200 ${
+              activeCategory === cat
+                ? 'bg-red text-white border-red'
+                : 'bg-white text-text border-border hover:border-red hover:text-red'
+            }`}
+          >
+            {cat}
+          </button>
+        ))}
+      </div>
+
+      {/* Recipe grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {recipes.map((recipe) => (
-          <article
-            key={recipe.title}
-            className="bg-white border border-border-light overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-lg hover:-translate-y-[3px] group"
+        {filtered.map((recipe) => (
+          <Link
+            key={recipe.slug}
+            href={`/recipes/${recipe.slug}`}
+            className="block bg-white border border-border-light overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-lg hover:-translate-y-[3px] group"
           >
             <div className="relative h-[180px] bg-gradient-to-br from-charcoal to-brand-black flex items-center justify-center overflow-hidden">
               <span className="font-display text-[48px] text-white/10 group-hover:scale-110 transition-transform duration-500">
@@ -90,7 +61,7 @@ export default function RecipesPage() {
               </span>
             </div>
             <div className="p-5">
-              <h3 className="font-nav text-[15px] tracking-[1px] uppercase text-text mb-2">
+              <h3 className="font-nav text-[15px] tracking-[1px] uppercase text-text mb-2 leading-snug">
                 {recipe.title}
               </h3>
               <p className="text-text-light text-[14px] leading-relaxed font-body mb-4 line-clamp-2">
@@ -108,7 +79,7 @@ export default function RecipesPage() {
                 </span>
               </div>
             </div>
-          </article>
+          </Link>
         ))}
       </div>
     </div>
