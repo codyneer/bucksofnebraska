@@ -19,7 +19,7 @@ export default function AboutPage() {
       <div className="space-y-8 text-text-light text-[16px] leading-relaxed font-body">
         <p>
           Bucks of Nebraska started the way most good things do in this state &mdash; from good people.
-          Read the story of how we started in the letter below. Since 2013, we&apos;ve grown this brand
+          <a href="#founders-letter" className="text-red hover:text-red-dark underline underline-offset-2">Read the story of how we started in the letter below.</a> Since 2013, we&apos;ve grown this brand
           from a grassroots effort all the way to a 7 figure company. Tying the two things people
           are most passionate about in this state &mdash; the Huskers and Deer Hunting. We were tired of
           wearing gear that didn&apos;t represent us. Every brand was coastal, every logo was generic,
@@ -71,7 +71,7 @@ export default function AboutPage() {
       </div>
 
       {/* ─── Handwritten Note from Cody ─── */}
-      <div className="mt-20 relative">
+      <div id="founders-letter" className="mt-20 relative scroll-mt-32">
         {/* Paper background */}
         <div
           className="relative bg-[#faf6ef] rounded-sm px-8 sm:px-12 py-10 sm:py-14"
