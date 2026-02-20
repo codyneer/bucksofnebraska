@@ -16,6 +16,24 @@ export default function AboutPage() {
         Born in the heartland. Built for the hunt.
       </p>
 
+      {/* Founder photo */}
+      <div className="mb-12 flex justify-center">
+        <div className="relative w-full max-w-[560px] overflow-hidden rounded-sm" style={{ boxShadow: '0 4px 20px rgba(0,0,0,0.12)' }}>
+          <Image
+            src="/images/cody-neer.jpg"
+            alt="Cody Neer, founder of Bucks of Nebraska, with a whitetail buck"
+            width={1280}
+            height={856}
+            className="w-full h-auto"
+          />
+          <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/50 to-transparent px-4 py-3">
+            <p className="font-handwritten text-white/90 text-[16px]">
+              Cody Neer &mdash; Founder, Bucks of Nebraska
+            </p>
+          </div>
+        </div>
+      </div>
+
       <div className="space-y-8 text-text-light text-[16px] leading-relaxed font-body">
         <p>
           Bucks of Nebraska started the way most good things do in this state &mdash; from good people.
