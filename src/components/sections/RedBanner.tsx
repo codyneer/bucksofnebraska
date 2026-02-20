@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 export function RedBanner() {
   return (
-    <section className="py-16 px-10 text-center bg-red text-white relative">
+    <section className="py-[60px] px-10 text-center bg-red text-white relative">
       <h2 className="font-display text-[clamp(32px,4vw,52px)]">
         Wear Your State. Hunt Your Land.
       </h2>

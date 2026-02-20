@@ -19,7 +19,7 @@ export function BrandBar() {
         </span>
         {brands.map((brand, i) => (
           <div key={brand.name} className="flex items-center gap-5">
-            {i > 0 && <div className="w-px h-3 bg-white/10" />}
+            {i > 0 && <div className="w-px h-3.5 bg-white/10" />}
             <a
               href={brand.href}
               target={brand.active ? undefined : '_blank'}

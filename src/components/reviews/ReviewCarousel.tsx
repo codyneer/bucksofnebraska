@@ -1,7 +1,6 @@
 'use client'
 
 import { useRef, useState } from 'react'
-import Link from 'next/link'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { ReviewCard } from './ReviewCard'
 import { ReviewModal } from './ReviewModal'
