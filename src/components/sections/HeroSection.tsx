@@ -1,11 +1,19 @@
+import Image from 'next/image'
 import Link from 'next/link'
 
 export function HeroSection() {
   return (
     <section className="relative h-[92vh] min-h-[650px] flex items-center justify-center overflow-hidden">
-      {/* Background — dark placeholder until a real hero image is added */}
-      <div className="absolute inset-0 bg-brand-black" />
-      <div className="absolute inset-0 bg-gradient-to-b from-brand-black/20 via-brand-black/5 via-40% via-brand-black/60 to-cream" />
+      {/* Background image */}
+      <Image
+        src="/images/hero-bg.jpg"
+        alt="Bowhunter with a trophy whitetail buck in the Nebraska river bottoms"
+        fill
+        priority
+        className="object-cover object-[center_40%] brightness-[0.35] contrast-[1.1]"
+        sizes="100vw"
+      />
+      <div className="absolute inset-0 bg-gradient-to-b from-brand-black/20 via-transparent via-40% via-brand-black/60 to-cream" />
 
       <div className="relative z-[2] text-center max-w-[900px] px-5 text-white">
         <p className="font-nav text-[14px] tracking-[6px] uppercase text-red-light mb-5 opacity-0 animate-fade-up [animation-delay:300ms]">
