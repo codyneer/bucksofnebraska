@@ -9,7 +9,7 @@ export function HeroSection() {
 
       <div className="relative z-[2] text-center max-w-[900px] px-5 text-white">
         <p className="font-nav text-[14px] tracking-[6px] uppercase text-red-light mb-5 opacity-0 animate-fade-up [animation-delay:300ms]">
-          Est. 2015
+          Est. 2013
         </p>
         <h1 className="font-display text-[clamp(56px,10vw,110px)] leading-[0.9] tracking-[3px] mb-4 opacity-0 animate-fade-up [animation-delay:500ms]">
           BUCKS OF <span className="text-red-light">NEBRASKA</span>
