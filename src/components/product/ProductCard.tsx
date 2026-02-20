@@ -40,7 +40,10 @@ export function ProductCard({ product }: ProductCardProps) {
       ? 'bg-brand-black'
       : 'bg-green'
 
+  const hasOptions = product.variants.edges.length > 1
+
   const handleQuickAdd = (e: React.MouseEvent) => {
+    if (hasOptions) return // let the Link navigate to PDP
     e.preventDefault()
     e.stopPropagation()
     if (firstVariant) {
@@ -51,7 +54,7 @@ export function ProductCard({ product }: ProductCardProps) {
   return (
     <Link
       href={`/products/${product.handle}`}
-      className="group block bg-white border border-border-light overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-lg hover:border-border hover:-translate-y-[3px] relative"
+      className="group flex flex-col bg-white border border-border-light overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-lg hover:border-border hover:-translate-y-[3px] relative h-full"
     >
       {/* Tag badge */}
       {tag && (
@@ -83,8 +86,8 @@ export function ProductCard({ product }: ProductCardProps) {
       )}
 
       {/* Card body */}
-      <div className="px-[18px] pt-4 pb-5">
-        <h3 className="font-nav text-[15px] tracking-[1px] uppercase text-text mb-1">
+      <div className="px-[18px] pt-4 pb-5 flex-1">
+        <h3 className="font-nav text-[15px] tracking-[1px] uppercase text-text mb-1 line-clamp-2">
           {product.title}
         </h3>
         <div className="flex items-center gap-2.5">
@@ -116,7 +119,7 @@ export function ProductCard({ product }: ProductCardProps) {
           onClick={handleQuickAdd}
           className="w-full py-[11px] bg-brand-black text-white border-none font-nav text-[12px] tracking-[2px] uppercase cursor-pointer transition-all duration-300 hover:bg-red"
         >
-          Quick Add
+          {hasOptions ? 'Choose Options' : 'Quick Add'}
         </button>
       </div>
     </Link>

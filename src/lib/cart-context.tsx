@@ -3,6 +3,7 @@
 import { createContext, useContext, useState, useCallback, useEffect, type ReactNode } from 'react'
 import {
   createCart,
+  getCart,
   addToCart as shopifyAddToCart,
   removeFromCart as shopifyRemoveFromCart,
   updateCart as shopifyUpdateCart,
@@ -39,7 +40,15 @@ export function CartProvider({ children }: { children: ReactNode }) {
     const storedCartId = typeof window !== 'undefined' ? localStorage.getItem('shopify_cart_id') : null
 
     if (storedCartId) {
-      // For now, create a new cart — in production you'd fetch the existing one
+      try {
+        const existingCart = await getCart(storedCartId)
+        if (existingCart) {
+          setCart(existingCart)
+          return existingCart
+        }
+      } catch {
+        // Cart expired or invalid, create a new one
+      }
     }
 
     const newCart = await createCart()

@@ -203,6 +203,17 @@ export const GET_ALL_PRODUCTS = `
   }
 `
 
+// --------------- Cart Queries ---------------
+
+export const GET_CART = `
+  ${CART_FIELDS}
+  query GetCart($cartId: ID!) {
+    cart(id: $cartId) {
+      ...CartFields
+    }
+  }
+`
+
 // --------------- Cart Mutations ---------------
 
 export const CREATE_CART = `
@@ -278,6 +289,17 @@ export async function getAllProducts(first = 50) {
   })
 
   return data.products.edges.map((e) => e.node)
+}
+
+export async function getCart(cartId: string) {
+  const data = await shopifyFetch<{
+    cart: ShopifyCart | null
+  }>({
+    query: GET_CART,
+    variables: { cartId },
+  })
+
+  return data.cart
 }
 
 export async function createCart() {

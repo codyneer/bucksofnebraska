@@ -7,18 +7,21 @@ import { Check } from 'lucide-react'
 type OrderBumpProps = {
   productTitle: string
   variantId: string
+  quantity: number
   price: number
   compareAtPrice: number
 }
 
-export function OrderBump({ productTitle, variantId, price, compareAtPrice }: OrderBumpProps) {
+export function OrderBump({ productTitle, variantId, quantity, price, compareAtPrice }: OrderBumpProps) {
   const [checked, setChecked] = useState(false)
   const { addItem } = useCart()
+
+  const savings = compareAtPrice - price
 
   const handleToggle = async () => {
     if (!checked) {
       setChecked(true)
-      await addItem(variantId, 1)
+      await addItem(variantId, quantity)
     }
   }
 
@@ -37,10 +40,10 @@ export function OrderBump({ productTitle, variantId, price, compareAtPrice }: Or
         </div>
         <div>
           <h5 className="font-nav text-[13px] tracking-[1px] uppercase text-red mb-0.5">
-            Add {productTitle}?
+            Add {productTitle} &amp; Save ${savings.toFixed(0)}?
           </h5>
           <p className="text-[12px] text-text-light leading-relaxed">
-            Exclusive cart-only price! Add a premium decal to your order.
+            Exclusive cart-only bundle! Add {quantity} premium decals to your order.
           </p>
           <div className="mt-1">
             <span className="text-text-muted line-through text-[14px] mr-1.5">

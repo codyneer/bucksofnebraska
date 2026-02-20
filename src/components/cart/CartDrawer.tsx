@@ -37,10 +37,11 @@ export function CartDrawer() {
     fetchUpsells()
   }, [isOpen, upsellProducts.length])
 
-  // Find the decal product for order bump (cheapest item in store)
+  // Order bump: 3x decals bundle deal
   const bumpVariantId = 'gid://shopify/ProductVariant/32297181708353' // Red Decal 4"
-  const bumpPrice = 4.99
-  const bumpComparePrice = 8.0
+  const bumpQuantity = 3
+  const bumpPrice = 18
+  const bumpComparePrice = 24
 
   return (
     <>
@@ -69,11 +70,12 @@ export function CartDrawer() {
           </button>
         </div>
 
-        {/* Free Shipping Bar */}
-        <FreeShippingBar subtotal={subtotal} />
-
-        {/* Cart Items */}
+        {/* Scrollable content area */}
         <div className="flex-1 overflow-y-auto">
+          {/* Free Shipping Bar */}
+          <FreeShippingBar subtotal={subtotal} />
+
+          {/* Cart Items */}
           {lines.length === 0 ? (
             <div className="text-center py-16 px-5">
               <p className="font-nav text-[15px] tracking-[2px] uppercase text-text-muted mb-5">
@@ -91,24 +93,25 @@ export function CartDrawer() {
               {lines.map((line) => (
                 <CartItem key={line.id} line={line} />
               ))}
+
+              {/* Order Bump */}
+              <div className="mt-4">
+                <OrderBump
+                  productTitle="3 BN Decals (4&quot;)"
+                  variantId={bumpVariantId}
+                  quantity={bumpQuantity}
+                  price={bumpPrice}
+                  compareAtPrice={bumpComparePrice}
+                />
+              </div>
+
+              {/* Upsells */}
+              {upsellProducts.length > 0 && (
+                <CartUpsells products={upsellProducts} />
+              )}
             </>
           )}
         </div>
-
-        {/* Order Bump — show when cart has items */}
-        {lines.length > 0 && (
-          <OrderBump
-            productTitle="BN Decal (4&quot;)"
-            variantId={bumpVariantId}
-            price={bumpPrice}
-            compareAtPrice={bumpComparePrice}
-          />
-        )}
-
-        {/* Upsells */}
-        {lines.length > 0 && upsellProducts.length > 0 && (
-          <CartUpsells products={upsellProducts} />
-        )}
 
         {/* Footer */}
         {lines.length > 0 && (

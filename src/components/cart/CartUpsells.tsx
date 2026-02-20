@@ -1,5 +1,6 @@
 'use client'
 
+import { useMemo } from 'react'
 import Image from 'next/image'
 import { useCart } from '@/lib/cart-context'
 import { formatPrice } from '@/lib/utils'
@@ -10,17 +11,42 @@ type CartUpsellsProps = {
 }
 
 export function CartUpsells({ products }: CartUpsellsProps) {
-  const { addItem } = useCart()
+  const { addItem, lines } = useCart()
 
-  if (products.length === 0) return null
+  // Only show products with a single variant (quick-add eligible)
+  const quickAddProducts = useMemo(
+    () => products.filter((p) => p.variants.edges.length === 1),
+    [products]
+  )
+
+  // Filter out products already in the cart
+  const cartProductHandles = useMemo(
+    () => new Set(lines.map((l) => l.merchandise.product.handle)),
+    [lines]
+  )
+
+  const available = useMemo(
+    () => quickAddProducts.filter((p) => !cartProductHandles.has(p.handle)),
+    [quickAddProducts, cartProductHandles]
+  )
+
+  // Rotate which 2 products show based on cart item count (changes as cart changes)
+  const displayed = useMemo(() => {
+    if (available.length <= 2) return available
+    const offset = lines.length % available.length
+    const rotated = [...available.slice(offset), ...available.slice(0, offset)]
+    return rotated.slice(0, 2)
+  }, [available, lines.length])
+
+  if (displayed.length === 0) return null
 
   return (
     <div className="px-6 pb-5 border-t border-border-light">
       <div className="font-nav text-[12px] tracking-[2px] uppercase text-text-muted py-4 pb-3 flex items-center gap-2">
-        Complete Your Kit
+        Add &amp; Save
         <span className="flex-1 h-px bg-border-light" />
       </div>
-      {products.slice(0, 2).map((product) => {
+      {displayed.map((product) => {
         const firstVariant = product.variants.edges[0]?.node
         const firstImage = product.images.edges[0]?.node
         const price = product.priceRange.minVariantPrice.amount
