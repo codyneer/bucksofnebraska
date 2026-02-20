@@ -27,7 +27,7 @@ export function LifestyleGrid() {
             src="/images/lifestyle-2.jpg"
             alt="Hunter in blaze orange with a whitetail buck in Nebraska grasslands"
             fill
-            className="object-cover object-[60%_25%] brightness-90 hover:brightness-100 transition-all duration-500"
+            className="object-cover object-[60%_15%] brightness-90 hover:brightness-100 transition-all duration-500"
             sizes="(max-width: 1024px) 50vw, 25vw"
           />
         </div>
@@ -54,7 +54,7 @@ export function LifestyleGrid() {
             src="/images/lifestyle-5.jpg"
             alt="Hunter with a trophy whitetail buck mount in the lodge"
             fill
-            className="object-cover object-[40%_25%] brightness-90 hover:brightness-100 transition-all duration-500"
+            className="object-cover object-[40%_15%] brightness-90 hover:brightness-100 transition-all duration-500"
             sizes="(max-width: 1024px) 50vw, 25vw"
           />
         </div>
