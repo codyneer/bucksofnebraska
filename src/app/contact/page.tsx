@@ -4,11 +4,34 @@ import { useState } from 'react'
 import type { FormEvent } from 'react'
 
 export default function ContactPage() {
-  const [submitted, setSubmitted] = useState(false)
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
+  const [email, setEmail] = useState('')
+  const [subject, setSubject] = useState('')
+  const [message, setMessage] = useState('')
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
-    setSubmitted(true)
+    setStatus('loading')
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ firstName, lastName, email, subject, message }),
+      })
+
+      if (res.ok) {
+        setStatus('success')
+      } else {
+        setStatus('error')
+        setTimeout(() => setStatus('idle'), 3000)
+      }
+    } catch {
+      setStatus('error')
+      setTimeout(() => setStatus('idle'), 3000)
+    }
   }
 
   return (
@@ -20,7 +43,7 @@ export default function ContactPage() {
         Questions, feedback, or just want to talk hunting
       </p>
 
-      {submitted ? (
+      {status === 'success' ? (
         <div className="text-center py-16 bg-white border border-border-light p-5 sm:p-8">
           <p className="font-nav text-[18px] tracking-[2px] uppercase text-green mb-2">
             Message Sent
@@ -39,7 +62,10 @@ export default function ContactPage() {
               <input
                 type="text"
                 required
-                className="w-full py-3 px-3.5 bg-white border border-border text-text font-body text-[15px] outline-none focus:border-red transition-colors"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                disabled={status === 'loading'}
+                className="w-full py-3 px-3.5 bg-white border border-border text-text font-body text-[15px] outline-none focus:border-red transition-colors disabled:opacity-50"
               />
             </div>
             <div>
@@ -48,8 +74,10 @@ export default function ContactPage() {
               </label>
               <input
                 type="text"
-                required
-                className="w-full py-3 px-3.5 bg-white border border-border text-text font-body text-[15px] outline-none focus:border-red transition-colors"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+                disabled={status === 'loading'}
+                className="w-full py-3 px-3.5 bg-white border border-border text-text font-body text-[15px] outline-none focus:border-red transition-colors disabled:opacity-50"
               />
             </div>
           </div>
@@ -61,7 +89,10 @@ export default function ContactPage() {
             <input
               type="email"
               required
-              className="w-full py-3 px-3.5 bg-white border border-border text-text font-body text-[15px] outline-none focus:border-red transition-colors"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              disabled={status === 'loading'}
+              className="w-full py-3 px-3.5 bg-white border border-border text-text font-body text-[15px] outline-none focus:border-red transition-colors disabled:opacity-50"
             />
           </div>
 
@@ -71,7 +102,10 @@ export default function ContactPage() {
             </label>
             <select
               required
-              className="w-full py-3 px-3.5 bg-white border border-border text-text font-body text-[15px] outline-none focus:border-red transition-colors"
+              value={subject}
+              onChange={(e) => setSubject(e.target.value)}
+              disabled={status === 'loading'}
+              className="w-full py-3 px-3.5 bg-white border border-border text-text font-body text-[15px] outline-none focus:border-red transition-colors disabled:opacity-50"
             >
               <option value="">Select a topic</option>
               <option value="order">Order Question</option>
@@ -89,16 +123,26 @@ export default function ContactPage() {
             <textarea
               required
               rows={5}
-              className="w-full py-3 px-3.5 bg-white border border-border text-text font-body text-[15px] outline-none focus:border-red transition-colors resize-vertical"
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              disabled={status === 'loading'}
+              className="w-full py-3 px-3.5 bg-white border border-border text-text font-body text-[15px] outline-none focus:border-red transition-colors resize-vertical disabled:opacity-50"
             />
           </div>
 
           <button
             type="submit"
-            className="w-full py-4 bg-red text-white border-none font-nav text-[14px] tracking-[3px] uppercase cursor-pointer transition-all duration-300 hover:bg-red-dark"
+            disabled={status === 'loading'}
+            className="w-full py-4 bg-red text-white border-none font-nav text-[14px] tracking-[3px] uppercase cursor-pointer transition-all duration-300 hover:bg-red-dark disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Send Message
+            {status === 'loading' ? 'Sending...' : 'Send Message'}
           </button>
+
+          {status === 'error' && (
+            <p className="text-center font-nav text-[12px] tracking-[1px] uppercase text-red">
+              Something went wrong. Please try again.
+            </p>
+          )}
         </form>
       )}
     </div>
