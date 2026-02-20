@@ -30,11 +30,13 @@ export default function AboutPage() {
           More Than a <span className="text-red">Logo</span>
         </h2>
         <p>
-          We&apos;re not just slapping a deer on a hat and calling it a brand. Every piece of Bucks
-          of Nebraska gear is designed with intention &mdash; the fit, the fabric, the details. We test
-          everything in the field because that&apos;s where it matters. From early-season dove hunts
-          in the Platte River Valley to late-November sits in the Cedar River bottoms, our gear
-          holds up because we built it to.
+          We&apos;re not just slapping a deer on a hat and calling it a brand. Everything we make
+          represents Nebraska and The Good Life. From early season pronghorn hunts out west, to
+          dove hunts in the Platte River Valley to prime rut November sits in the Cedar River
+          bottoms, all the way to Memorial Stadium on a Saturday, what we create represents who
+          we are any place at any time. When you come to Nebraska, look for that Red N with
+          Antlers on the back of pickups &mdash; we&apos;ve made and shipped over 750,000 of them since
+          we started.
         </p>
 
         <h2 className="font-display text-[32px] text-text mt-12">
