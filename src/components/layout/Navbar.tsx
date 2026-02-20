@@ -179,6 +179,27 @@ export function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [mobileOpen])
+
+  // Close mobile menu on route change (resize to desktop)
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1024) setMobileOpen(false)
+    }
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
   const openShopMenu = useCallback(() => {
     if (shopTimerRef.current) clearTimeout(shopTimerRef.current)
     setCommunityOpen(false)
@@ -477,170 +498,189 @@ export function Navbar() {
         </div>
       </div>
 
+      {/* Mobile menu overlay */}
+      <div
+        className={`lg:hidden fixed inset-0 bg-black/40 z-[-1] transition-opacity duration-300 ${
+          mobileOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
+        }`}
+        onClick={() => setMobileOpen(false)}
+      />
+
       {/* Mobile menu */}
-      {mobileOpen && (
-        <div className="lg:hidden border-t border-border bg-white py-4 px-5 sm:px-10 max-h-[80vh] overflow-y-auto">
-          <div className="flex flex-col gap-0.5">
-            {/* Apparel */}
-            <p className="font-nav text-[10px] tracking-[2px] uppercase text-red mt-1 mb-1">
-              Apparel
-            </p>
-            <Link
-              href="/shop"
-              className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5"
-              onClick={() => setMobileOpen(false)}
-            >
-              Shop All
-            </Link>
-            <Link
-              href="/collections/shirts"
-              className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5"
-              onClick={() => setMobileOpen(false)}
-            >
-              T-Shirts
-            </Link>
-            <Link
-              href="/collections/hoodies"
-              className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5"
-              onClick={() => setMobileOpen(false)}
-            >
-              Hoodies
-            </Link>
+      <div
+        className={`lg:hidden border-t border-border bg-white overflow-y-auto transition-all duration-300 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] ${
+          mobileOpen ? 'max-h-[calc(100vh-120px)] opacity-100' : 'max-h-0 opacity-0 overflow-hidden'
+        }`}
+      >
+        <div className="flex flex-col gap-0.5 py-4 px-5 sm:px-10">
+          {/* Shop All CTA */}
+          <Link
+            href="/shop"
+            className="block text-center py-3 mb-3 bg-red text-white font-nav text-[13px] tracking-[2px] uppercase transition-colors hover:bg-red-dark"
+            onClick={() => setMobileOpen(false)}
+          >
+            Shop All Products
+          </Link>
 
-            {/* Accessories */}
-            <p className="font-nav text-[10px] tracking-[2px] uppercase text-red mt-3 mb-1">
-              Accessories
-            </p>
-            <Link
-              href="/collections/hats"
-              className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5"
-              onClick={() => setMobileOpen(false)}
-            >
-              Hats & Caps
-            </Link>
-            <Link
-              href="/collections/decals"
-              className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5"
-              onClick={() => setMobileOpen(false)}
-            >
-              Decals & Stickers
-            </Link>
+          {/* Apparel */}
+          <p className="font-nav text-[10px] tracking-[2px] uppercase text-red mt-1 mb-1">
+            Apparel
+          </p>
+          <Link
+            href="/collections/shirts"
+            className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5 border-b border-border-light"
+            onClick={() => setMobileOpen(false)}
+          >
+            T-Shirts
+          </Link>
+          <Link
+            href="/collections/hoodies"
+            className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5 border-b border-border-light"
+            onClick={() => setMobileOpen(false)}
+          >
+            Hoodies
+          </Link>
 
-            {/* Collections */}
-            <p className="font-nav text-[10px] tracking-[2px] uppercase text-red mt-3 mb-1">
-              Collections
-            </p>
+          {/* Accessories */}
+          <p className="font-nav text-[10px] tracking-[2px] uppercase text-red mt-3 mb-1">
+            Accessories
+          </p>
+          <Link
+            href="/collections/hats"
+            className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5 border-b border-border-light"
+            onClick={() => setMobileOpen(false)}
+          >
+            Hats & Caps
+          </Link>
+          <Link
+            href="/collections/decals"
+            className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5 border-b border-border-light"
+            onClick={() => setMobileOpen(false)}
+          >
+            Decals & Stickers
+          </Link>
+
+          {/* Collections */}
+          <p className="font-nav text-[10px] tracking-[2px] uppercase text-red mt-3 mb-1">
+            Collections
+          </p>
+          <div className="grid grid-cols-2 gap-x-4">
             <Link
               href="/collections/deer"
-              className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5"
+              className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5 border-b border-border-light"
               onClick={() => setMobileOpen(false)}
             >
               Deer
             </Link>
             <Link
               href="/collections/duck"
-              className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5"
+              className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5 border-b border-border-light"
               onClick={() => setMobileOpen(false)}
             >
               Ducks
             </Link>
             <Link
               href="/collections/pheasant-hats"
-              className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5"
+              className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5 border-b border-border-light"
               onClick={() => setMobileOpen(false)}
             >
               Pheasants
             </Link>
             <Link
               href="/collections/bass-hats"
-              className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5"
+              className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5 border-b border-border-light"
               onClick={() => setMobileOpen(false)}
             >
               Fish
             </Link>
+            <Link
+              href="/collections/new-arrivals"
+              className="font-nav text-[13px] tracking-[2px] uppercase text-red hover:text-red-dark py-2.5 border-b border-border-light"
+              onClick={() => setMobileOpen(false)}
+            >
+              New Arrivals
+            </Link>
+          </div>
 
-            <div className="h-px bg-border my-3" />
+          <div className="h-px bg-border my-3" />
 
-            {/* Community */}
-            <p className="font-nav text-[10px] tracking-[2px] uppercase text-red mb-1">
-              Community
-            </p>
-            <Link
-              href="/blog"
-              className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5"
-              onClick={() => setMobileOpen(false)}
-            >
-              Blog
-            </Link>
-            <Link
-              href="/recipes"
-              className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5"
-              onClick={() => setMobileOpen(false)}
-            >
-              NE Recipes
-            </Link>
-            <Link
-              href="/podcast"
-              className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5"
-              onClick={() => setMobileOpen(false)}
-            >
-              Podcast
-            </Link>
-            <Link
-              href="/about"
-              className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5"
-              onClick={() => setMobileOpen(false)}
-            >
-              Our Story
-            </Link>
-            <Link
-              href="/contact"
-              className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5"
-              onClick={() => setMobileOpen(false)}
-            >
-              Contact
-            </Link>
-            <Link
-              href="/referral"
-              className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5"
-              onClick={() => setMobileOpen(false)}
-            >
-              Refer a Friend
-            </Link>
-            <Link
-              href={isAuthenticated ? '/account' : '/account/login'}
-              className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5 flex items-center gap-2"
-              onClick={() => setMobileOpen(false)}
-            >
-              <User className="w-4 h-4" />
-              {isAuthenticated ? 'Account' : 'Sign In'}
-            </Link>
+          {/* Community */}
+          <p className="font-nav text-[10px] tracking-[2px] uppercase text-red mb-1">
+            Community
+          </p>
+          <Link
+            href="/blog"
+            className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5 border-b border-border-light"
+            onClick={() => setMobileOpen(false)}
+          >
+            Blog
+          </Link>
+          <Link
+            href="/recipes"
+            className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5 border-b border-border-light"
+            onClick={() => setMobileOpen(false)}
+          >
+            NE Recipes
+          </Link>
+          <Link
+            href="/podcast"
+            className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5 border-b border-border-light"
+            onClick={() => setMobileOpen(false)}
+          >
+            Podcast
+          </Link>
+          <Link
+            href="/about"
+            className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5 border-b border-border-light"
+            onClick={() => setMobileOpen(false)}
+          >
+            Our Story
+          </Link>
+          <Link
+            href="/contact"
+            className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5 border-b border-border-light"
+            onClick={() => setMobileOpen(false)}
+          >
+            Contact
+          </Link>
+          <Link
+            href="/referral"
+            className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5 border-b border-border-light"
+            onClick={() => setMobileOpen(false)}
+          >
+            Refer a Friend — $10
+          </Link>
 
-            <div className="h-px bg-border my-3" />
+          <div className="h-px bg-border my-3" />
 
-            {/* Social */}
-            <p className="font-nav text-[10px] tracking-[2px] uppercase text-red mb-1">
-              Social
-            </p>
-            <div className="flex gap-2 py-1">
-              {socialLinks.map((social) => {
-                const Icon = social.icon
-                return (
-                  <a
-                    key={social.label}
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-2.5 transition-opacity hover:opacity-70"
-                  >
-                    <Icon className="w-5 h-5" style={{ color: social.color }} />
-                  </a>
-                )
-              })}
-            </div>
+          {/* Account + Social */}
+          <Link
+            href={isAuthenticated ? '/account' : '/account/login'}
+            className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5 flex items-center gap-2"
+            onClick={() => setMobileOpen(false)}
+          >
+            <User className="w-4 h-4" />
+            {isAuthenticated ? 'My Account' : 'Sign In'}
+          </Link>
+
+          <div className="flex gap-3 py-3 mt-1">
+            {socialLinks.map((social) => {
+              const Icon = social.icon
+              return (
+                <a
+                  key={social.label}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-2 rounded bg-offWhite transition-opacity hover:opacity-70"
+                >
+                  <Icon className="w-5 h-5" style={{ color: social.color }} />
+                </a>
+              )
+            })}
           </div>
         </div>
-      )}
+      </div>
     </nav>
   )
 }
