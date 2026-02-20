@@ -3,9 +3,10 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { ShoppingBag, ChevronDown, Menu, X } from 'lucide-react'
+import { ShoppingBag, ChevronDown, Menu, X, User } from 'lucide-react'
 import type { MegaMenuFeatured } from './MegaMenu'
 import { useCart } from '@/lib/cart-context'
+import { useAuth } from '@/lib/auth-context'
 
 // ——— Social icons (inline SVGs for brand-specific icons) ———
 
@@ -167,6 +168,7 @@ export function Navbar() {
   const [shopOpen, setShopOpen] = useState(false)
   const [communityOpen, setCommunityOpen] = useState(false)
   const { openCart, itemCount } = useCart()
+  const { isAuthenticated } = useAuth()
   const navRef = useRef<HTMLElement>(null)
   const shopTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const communityTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -285,10 +287,11 @@ export function Navbar() {
             Contact
           </Link>
           <Link
-            href="#"
-            className="text-text font-nav text-[13px] tracking-[2px] uppercase py-2 transition-colors hover:text-red"
+            href={isAuthenticated ? '/account' : '/account/login'}
+            className="text-text font-nav text-[13px] tracking-[2px] uppercase py-2 transition-colors hover:text-red flex items-center gap-1.5"
           >
-            Account
+            <User className="w-4 h-4" />
+            {isAuthenticated ? 'Account' : 'Sign In'}
           </Link>
           <button
             onClick={openCart}
@@ -603,6 +606,14 @@ export function Navbar() {
               onClick={() => setMobileOpen(false)}
             >
               Refer a Friend
+            </Link>
+            <Link
+              href={isAuthenticated ? '/account' : '/account/login'}
+              className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5 flex items-center gap-2"
+              onClick={() => setMobileOpen(false)}
+            >
+              <User className="w-4 h-4" />
+              {isAuthenticated ? 'Account' : 'Sign In'}
             </Link>
 
             <div className="h-px bg-border my-3" />
