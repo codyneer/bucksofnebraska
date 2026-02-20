@@ -16,11 +16,6 @@ import { getAllApprovedReviews, type Review } from '@/lib/reviews'
 export const metadata: Metadata = {
   title: 'Bucks of Nebraska — Nebraska Hunting Apparel',
   description: 'Premium hunting apparel for Nebraska hunters. Hats, tees, hoodies, and gear built for the field. Free shipping on orders over $75.',
-  openGraph: {
-    title: 'Bucks of Nebraska — Nebraska Hunting Apparel',
-    description: 'Premium hunting apparel for Nebraska hunters. Built for the field.',
-    type: 'website',
-  },
 }
 
 export default async function Home() {

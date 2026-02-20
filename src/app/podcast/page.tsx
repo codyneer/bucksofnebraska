@@ -3,8 +3,13 @@ import { Play, Headphones, ExternalLink } from 'lucide-react'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Podcast — Bucks of Nebraska',
+  title: 'Podcast',
   description: 'The Bucks of Nebraska podcast. Hunting stories, gear talk, and Nebraska pride.',
+  openGraph: {
+    title: 'Podcast — Bucks of Nebraska',
+    description: 'The Bucks of Nebraska podcast. Hunting stories, gear talk, and Nebraska pride.',
+    images: [{ url: '/api/og?title=The%20Podcast&subtitle=Hunting%20Stories%2C%20Gear%20Talk%2C%20Nebraska%20Pride', width: 1200, height: 630 }],
+  },
 }
 
 const platforms = [

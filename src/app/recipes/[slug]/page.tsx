@@ -17,12 +17,26 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const recipe = getRecipeBySlug(slug)
 
   if (!recipe) {
-    return { title: 'Recipe Not Found — Bucks of Nebraska' }
+    return { title: 'Recipe Not Found' }
   }
 
+  const ogImage = `/api/og?title=${encodeURIComponent(recipe.title)}&subtitle=${encodeURIComponent(recipe.category + ' Recipe — ' + recipe.cookTime)}`
+
   return {
-    title: `${recipe.title} — Bucks of Nebraska`,
+    title: recipe.title,
     description: recipe.description,
+    openGraph: {
+      title: `${recipe.title} — Bucks of Nebraska`,
+      description: recipe.description,
+      type: 'article',
+      images: [{ url: ogImage, width: 1200, height: 630, alt: recipe.title }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${recipe.title} — Bucks of Nebraska`,
+      description: recipe.description,
+      images: [ogImage],
+    },
   }
 }
 

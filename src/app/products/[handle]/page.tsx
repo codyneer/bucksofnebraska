@@ -13,12 +13,34 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const product = await getProduct(handle)
 
   if (!product) {
-    return { title: 'Product Not Found — Bucks of Nebraska' }
+    return { title: 'Product Not Found' }
   }
 
+  const price = `$${parseFloat(product.priceRange.minVariantPrice.amount).toFixed(0)}`
+  const description = product.description || `Shop ${product.title} from Bucks of Nebraska.`
+  const productImage = product.images.edges[0]?.node.url
+  const ogImage = `/api/og?title=${encodeURIComponent(product.title)}&subtitle=${encodeURIComponent(price + ' — Free shipping over $75')}`
+
   return {
-    title: `${product.title} — Bucks of Nebraska`,
-    description: product.description || `Shop ${product.title} from Bucks of Nebraska.`,
+    title: product.title,
+    description,
+    openGraph: {
+      title: `${product.title} — Bucks of Nebraska`,
+      description,
+      type: 'website',
+      images: productImage
+        ? [
+            { url: productImage, width: 800, height: 800, alt: product.title },
+            { url: ogImage, width: 1200, height: 630, alt: product.title },
+          ]
+        : [{ url: ogImage, width: 1200, height: 630, alt: product.title }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${product.title} — Bucks of Nebraska`,
+      description,
+      images: productImage ? [productImage] : [ogImage],
+    },
   }
 }
 

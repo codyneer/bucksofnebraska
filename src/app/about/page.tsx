@@ -2,8 +2,13 @@ import type { Metadata } from 'next'
 import Image from 'next/image'
 
 export const metadata: Metadata = {
-  title: 'About — Bucks of Nebraska',
+  title: 'About',
   description: 'The story behind Bucks of Nebraska. Born in the heartland, built for the hunt.',
+  openGraph: {
+    title: 'About — Bucks of Nebraska',
+    description: 'The story behind Bucks of Nebraska. Born in the heartland, built for the hunt.',
+    images: [{ url: '/api/og?title=Our%20Story&subtitle=Born%20in%20the%20Heartland.%20Built%20for%20the%20Hunt.', width: 1200, height: 630 }],
+  },
 }
 
 export default function AboutPage() {

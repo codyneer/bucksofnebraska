@@ -37,10 +37,37 @@ const caveat = Caveat({
   display: 'swap',
 })
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://bucksofnebraska.vercel.app'
+
 export const metadata: Metadata = {
-  title: 'Bucks of Nebraska — Field-Ready Apparel',
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: 'Bucks of Nebraska — Nebraska Hunting Apparel',
+    template: '%s — Bucks of Nebraska',
+  },
   description:
     'Nebraska hunting apparel built for the field. Premium tees, hoodies, and hats designed by hunters, for hunters. Free shipping over $75.',
+  openGraph: {
+    type: 'website',
+    siteName: 'Bucks of Nebraska',
+    locale: 'en_US',
+    title: 'Bucks of Nebraska — Nebraska Hunting Apparel',
+    description: 'Premium hunting apparel for Nebraska hunters. Built for the field. Free shipping over $75.',
+    images: [
+      {
+        url: '/api/og',
+        width: 1200,
+        height: 630,
+        alt: 'Bucks of Nebraska — Nebraska Hunting Apparel',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Bucks of Nebraska — Nebraska Hunting Apparel',
+    description: 'Premium hunting apparel for Nebraska hunters. Built for the field.',
+    images: ['/api/og'],
+  },
 }
 
 export default function RootLayout({

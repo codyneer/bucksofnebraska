@@ -16,9 +16,23 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
     .join(' ')
 
+  const description = `Shop the ${title} collection from Bucks of Nebraska.`
+  const ogImage = `/api/og?title=${encodeURIComponent(title)}&subtitle=${encodeURIComponent('Shop the Collection')}`
+
   return {
-    title: `${title} — Bucks of Nebraska`,
-    description: `Shop the ${title} collection from Bucks of Nebraska.`,
+    title,
+    description,
+    openGraph: {
+      title: `${title} — Bucks of Nebraska`,
+      description,
+      images: [{ url: ogImage, width: 1200, height: 630, alt: `${title} Collection` }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${title} — Bucks of Nebraska`,
+      description,
+      images: [ogImage],
+    },
   }
 }
 
