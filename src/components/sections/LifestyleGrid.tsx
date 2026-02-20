@@ -49,10 +49,14 @@ export function LifestyleGrid() {
             sizes="(max-width: 1024px) 50vw, 25vw"
           />
         </div>
-        <div className="bg-charcoal/10 min-h-[200px] flex items-center justify-center">
-          <span className="font-nav text-[12px] tracking-[2px] uppercase text-text-muted">
-            Lifestyle Photo 5
-          </span>
+        <div className="relative min-h-[200px] overflow-hidden">
+          <Image
+            src="/images/lifestyle-5.jpg"
+            alt="Hunter with a trophy whitetail buck mount in the lodge"
+            fill
+            className="object-cover brightness-90 hover:brightness-100 transition-all duration-500"
+            sizes="(max-width: 1024px) 50vw, 25vw"
+          />
         </div>
       </div>
     </section>
