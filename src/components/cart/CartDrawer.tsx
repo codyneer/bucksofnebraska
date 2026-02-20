@@ -37,11 +37,12 @@ export function CartDrawer() {
     fetchUpsells()
   }, [isOpen, upsellProducts.length])
 
-  // Order bump: 3x decals bundle deal
-  const bumpVariantId = 'gid://shopify/ProductVariant/32297181708353' // Red Decal 4"
-  const bumpQuantity = 3
-  const bumpPrice = 18
-  const bumpComparePrice = 24
+  // Order bump: Nebraska Outdoorsman Sticker Bundle — 20% off in cart only
+  const bumpVariantId = 'gid://shopify/ProductVariant/40760868896833'
+  const bumpQuantity = 1
+  const bumpPrice = 23.98
+  const bumpComparePrice = 29.97
+  const bumpImageUrl = 'https://cdn.shopify.com/s/files/1/0398/3185/files/il_fullxfull.5523672868_s110.jpg?v=1706644705'
 
   return (
     <>
@@ -97,11 +98,13 @@ export function CartDrawer() {
               {/* Order Bump */}
               <div className="mt-4">
                 <OrderBump
-                  productTitle="3 BN Decals (4&quot;)"
+                  productTitle="Sticker Bundle"
                   variantId={bumpVariantId}
                   quantity={bumpQuantity}
                   price={bumpPrice}
                   compareAtPrice={bumpComparePrice}
+                  description="Nebraska Outdoorsman Sticker Bundle — cart-only exclusive, 20% off!"
+                  imageUrl={bumpImageUrl}
                 />
               </div>
 
