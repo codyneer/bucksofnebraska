@@ -43,7 +43,7 @@ export function LifestyleGrid() {
         <div className="relative min-h-[200px] overflow-hidden">
           <Image
             src="/images/lifestyle-4.jpg"
-            alt="Hunter with a Nebraska turkey in spring green field"
+            alt="Hunter with a massive Nebraska whitetail buck"
             fill
             className="object-cover brightness-90 hover:brightness-100 transition-all duration-500"
             sizes="(max-width: 1024px) 50vw, 25vw"
