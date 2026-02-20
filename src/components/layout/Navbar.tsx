@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { ShoppingBag, ChevronDown, Menu, X } from 'lucide-react'
 import { MegaMenu } from './MegaMenu'
 import { useCart } from '@/lib/cart-context'
@@ -104,13 +105,16 @@ export function Navbar() {
 
         {/* Center logo */}
         <Link href="/" className="flex justify-center">
-          <div
-            className={`transition-all duration-300 font-display text-brand-black ${
-              scrolled ? 'text-[28px]' : 'text-[36px]'
+          <Image
+            src="/logos/bn-deer-logo.png"
+            alt="Bucks of Nebraska"
+            width={200}
+            height={126}
+            className={`transition-all duration-300 ${
+              scrolled ? 'h-11 w-auto' : 'h-[58px] w-auto'
             }`}
-          >
-            BUCKS OF NEBRASKA
-          </div>
+            priority
+          />
         </Link>
 
         {/* Right nav */}

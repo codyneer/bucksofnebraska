@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 
 const footerColumns = [
   {
@@ -59,7 +60,7 @@ export function Footer() {
         </div>
 
         <div className="mt-14 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
-          <div className="font-display text-[24px] text-white/80">BUCKS OF NEBRASKA</div>
+          <Image src="/logos/bn-footer-logo.png" alt="Bucks of Nebraska" width={180} height={48} className="h-12 w-auto" />
           <p className="font-body text-[11px] text-white/30 tracking-[1px]">
             &copy; {new Date().getFullYear()} Bucks of Nebraska. All Rights Reserved. Nebraska Proud.
           </p>

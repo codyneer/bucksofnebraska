@@ -1,5 +1,7 @@
 'use client'
 
+import Image from 'next/image'
+
 const brands = [
   { name: 'Outdoor Brand Co.', href: 'https://outdoorbrandcompany.com', active: false },
   { name: 'Bucks of Nebraska', href: '/', active: true },
@@ -28,6 +30,9 @@ export function BrandBar() {
                   : 'text-white/50 hover:text-white'
               }`}
             >
+              {brand.active && (
+                <Image src="/logos/bn-antler-n.png" alt="" width={12} height={12} className="opacity-80" />
+              )}
               {brand.name}
             </a>
           </div>
