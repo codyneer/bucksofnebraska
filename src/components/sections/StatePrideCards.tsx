@@ -25,10 +25,10 @@ export function StatePrideCards() {
           className="text-center py-9 px-6 border border-border bg-white transition-all duration-[400ms] hover:border-red hover:-translate-y-[3px] hover:shadow"
         >
           <div className="font-display text-[48px] text-red leading-none">{card.num}</div>
-          <h3 className="font-nav text-[15px] tracking-[3px] uppercase text-text mt-2.5 mb-2">
+          <h3 className="font-nav text-[15px] font-medium tracking-[3px] uppercase text-text mt-2.5 mb-2">
             {card.title}
           </h3>
-          <p className="text-text-light text-[13px] leading-relaxed font-body">{card.desc}</p>
+          <p className="text-text-light text-[13px] leading-[1.6] font-body">{card.desc}</p>
         </div>
       ))}
     </section>
