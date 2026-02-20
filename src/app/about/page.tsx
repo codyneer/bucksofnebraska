@@ -127,15 +127,15 @@ export default function AboutPage() {
           {/* Letter content */}
           <div className="font-body text-[16px] sm:text-[17px] leading-[1.85] text-[#3a3226] space-y-5">
             <p>
-              Story time: Throwback to December 1st, 2013&mdash;to the first deer picture we ever shared on our Facebook page.
+              Story time: Throwback to December 1, 2013&mdash;to the first deer picture we ever shared on our Facebook page.
             </p>
 
             <p className="italic text-[#6b5e4f]">
-              Thanks to Billy Hulse for sharing this pic!
+              Thanks to Billy Hulse for sharing this pic.
             </p>
 
             <p>
-              It was cold as all hell on November 30th, 2013, and I&apos;ll never forget it was a Saturday night full of &quot;what in the F am I going to do with my life&quot; thoughts, sitting in a ladder stand till dark.
+              It was cold as all hell on November 30, 2013. I&apos;ll never forget that Saturday night, sitting in a metal ladder stand until dark, full of &quot;What in the F am I going to do with my life?&quot; thoughts.
             </p>
 
             <p>
@@ -143,15 +143,23 @@ export default function AboutPage() {
             </p>
 
             <p>
-              I had no real money, no job, and that weekend I was sleeping upstairs in my (now wife) girlfriend&apos;s childhood bedroom at her parents&apos; house.
+              I had no real money and no job. That weekend, I was sleeping upstairs in my (now wife&apos;s) childhood bedroom at her parents&apos; house.
             </p>
 
             <p>
-              That long, cold sit in the metal ladder stand that night was where I had the epiphany: I was going to do something that involved what I loved most&mdash;deer hunting. If you&apos;re reading this and thinking, &quot;Yeah, don&apos;t we all wish we could do something in the hunting industry?&quot; Sure, but I&apos;m telling you, on this night I did what I&apos;d only done two other times in my life (once when I said I was going to play professional baseball and once when I said I was going to make money online): I obsessively studied, practiced, trained, and dedicated 20+ hours a day for years until I did it. And I did. Both. Successfully.
+              That long, cold sit in that metal ladder stand was where I had the epiphany: I was going to do something involving what I loved most&mdash;deer hunting.
             </p>
 
             <p>
-              I&apos;m so thankful I did too, because when my idea met execution with the skills I had 13 years ago, I was committed to mastering it.
+              If you&apos;re reading this and thinking, &quot;Yeah, don&apos;t we all wish we could do something in the hunting industry?&quot; sure. But I&apos;m telling you, on that night I did what I&apos;d only done two other times in my life: once when I said I was going to play professional baseball, and once when I said I was going to make money online. I obsessively studied, practiced, trained, and dedicated 20+ hours a day for years until I did it.
+            </p>
+
+            <p>
+              And I did. Both. Successfully.
+            </p>
+
+            <p>
+              I&apos;m so thankful I did, because when my idea met execution with the skills I had 13 years ago, I was committed to mastering it.
             </p>
 
             {/* Divider */}
@@ -162,15 +170,31 @@ export default function AboutPage() {
             </div>
 
             <p>
-              So just so you all understand&mdash;I grew up in Florida, youngest of five kids, with a dad who poured concrete for a living and deer hunted religiously. I&apos;d travel all over, state to state, with my two brothers and him, killing deer everywhere with every weapon. Shot my first deer at age 8 with a single-shot 20-gauge and 00 buckshot. First archery deer by 10, first deer with my Knight &amp; Hale .50 cal muzzleloader by 12. By age 18 I&apos;d killed so many deer across 15 states (back then some states let you kill a buck and a doe a day&mdash;and I did, many days) that I had piles of racks from the Wabash River in Indiana to the clay dirt roads in South Georgia. On weekends growing up in Florida, most kids were at the beach and I was shooting hogs, turkeys, deer, and alligators with my brothers. If I wasn&apos;t playing baseball, I was in the woods.
+              So you all understand&mdash;I grew up in Florida, the youngest of five kids, with a dad who poured concrete for a living and deer hunted religiously. I traveled all over, state to state, with my two brothers and him, killing deer everywhere with every weapon.
             </p>
 
             <p>
-              I eventually played baseball for the Florida Gators in the prime era&mdash;College World Series finals, two football national championships (Tim Tebow), back-to-back basketball national championships. Transferred to Nebraska to play for the Cornhuskers after our head coach at Florida got fired&mdash;just two years after going to the CWS! He was gone, and I was one of the only players in that NCAA era who could transfer and play right away (they let you if your coach was fired and you went out of conference), so no SEC programs were an option. It was ACC or Big 12, the best conferences outside the SEC back then. Landed me a spot on the Huskers. I remember coming to Nebraska on a visit and only thinking, &quot;I bet there are some absolute hammers for deer out here.&quot; I even asked the coaches and a guy behind the counter at the coffee shop if there were big deer to hunt here. They all said yes, so that made my decision real easy. I&apos;d already hunted all over, but Nebraska was never one of them.
+              I shot my first deer at age 8 with a single-shot 20-gauge and 00 buckshot. My first archery deer by 10. My first deer with my Knight &amp; Hale .50 cal muzzleloader by 12. By age 18, I&apos;d killed so many deer across 15 states&mdash;back when some states let you kill a buck and a doe a day, and I did, many days&mdash;that I had piles of racks from the Wabash River in Indiana to the clay dirt roads in South Georgia.
             </p>
 
             <p>
-              Anyway, I played a couple years at Nebraska&mdash;GBR&mdash;then went on to play professionally a few years until one day it was just over. Released, and no teams called again.
+              On weekends growing up in Florida, most kids were at the beach. I was shooting hogs, turkeys, deer, and alligators with my brothers. If I wasn&apos;t playing baseball, I was in the woods.
+            </p>
+
+            <p>
+              I eventually played baseball for the Florida Gators during their prime era&mdash;College World Series finals, two football national championships (Tim Tebow), and back-to-back basketball national championships. After our head coach at Florida got fired&mdash;just two years after going to the CWS&mdash;I transferred to Nebraska to play for the Cornhuskers.
+            </p>
+
+            <p>
+              Back then, if your coach got fired and you transferred out of conference, you could play right away. No SEC programs were an option. It was ACC or Big 12&mdash;the best conferences outside the SEC at the time. That landed me a spot with the Huskers.
+            </p>
+
+            <p>
+              I remember coming to Nebraska on a visit and thinking only one thing: &quot;I bet there are some absolute hammers for deer out here.&quot; I asked the coaches and even a guy behind the counter at a coffee shop if there were big deer to hunt here. They all said yes. That made my decision easy. I&apos;d hunted all over, but Nebraska had never been one of them.
+            </p>
+
+            <p>
+              Anyway, I played a couple years at Nebraska&mdash;GBR&mdash;then went on to play professionally for a few years until, one day, it was just over. Released. And no teams ever called again.
             </p>
 
             {/* Baseball photo */}
@@ -187,7 +211,11 @@ export default function AboutPage() {
             </div>
 
             <p>
-              So I got a job skinning deer at the processor and spent nights chasing coyotes and coons. That&apos;s when I had that other moment&mdash;I Googled &quot;how to make money online&quot;&mdash;and a few years later&hellip;
+              So I got a job skinning deer at a processor and spent nights chasing coyotes and coons. That&apos;s when I had that other moment&mdash;I Googled, &quot;how to make money online.&quot;
+            </p>
+
+            <p>
+              A few years later&hellip;
             </p>
 
             {/* Divider */}
@@ -198,15 +226,31 @@ export default function AboutPage() {
             </div>
 
             <p>
-              I was leaving a dream job as the Paid Social Ads Manager for Target Corporation. I built an entire team that ran all Facebook, Twitter, and even Pinterest ads selling products on Target.com. I even launched their Cartwheel app&mdash;got millions of users to download it within the first three months. Millions and millions in sales running ads.
+              I was leaving a dream job as the Paid Social Ads Manager for Target Corporation.
             </p>
 
             <p>
-              I led an entire campaign launch with Justin Timberlake and his wife Jessica Biel for her company. Sat in the same boardroom as Ellen DeGeneres while she pitched ideas to Target leadership and our social team. At the time I just thought I was doing what I was supposed to be doing in life. Moved to Minneapolis, took the marketing skills I&apos;d built&mdash;it seemed like in the blink of an eye a few years later I was unfulfilled and miserable because as September came and the leaves started changing in October, the rut kicked in full steam in November, and I was sitting on the 23rd floor of the Target building in downtown Minneapolis, overlooking the Twins stadium, working in penny loafers. Whatever I was doing, it was so far from where my mind was&mdash;which was on hunting. My only passion was deer hunting. I had zero hobbies besides hunting. Baseball was gone.
+              I built an entire team that ran all Facebook, Twitter, and even Pinterest ads selling products on Target.com. I launched their Cartwheel app and got millions of users to download it within the first three months. Millions and millions in sales running ads.
             </p>
 
             <p>
-              And for those few years in my mid-twenties, I chose work and NOT what I was passionate about.
+              I led a full campaign launch with Justin Timberlake and his wife, Jessica Biel, for her company. I sat in the same boardroom as Ellen DeGeneres while she pitched ideas to Target leadership and our social team.
+            </p>
+
+            <p>
+              At the time, I thought I was doing what I was supposed to be doing in life. I moved to Minneapolis and used the marketing skills I&apos;d built. But in what felt like the blink of an eye, a few years later, I was unfulfilled and miserable.
+            </p>
+
+            <p>
+              September came. The leaves started changing in October. The rut kicked in full steam in November. And I was sitting on the 23rd floor of the Target building in downtown Minneapolis, overlooking the Twins stadium, working in penny loafers.
+            </p>
+
+            <p>
+              Whatever I was doing was so far from where my mind was&mdash;which was hunting. My only passion was deer hunting. I had zero hobbies besides hunting. Baseball was gone.
+            </p>
+
+            <p>
+              For those few years in my mid-twenties, I chose work over what I was passionate about.
             </p>
 
             <p>
@@ -221,7 +265,11 @@ export default function AboutPage() {
             </div>
 
             <p>
-              So that night in the ladder stand, I asked myself, &quot;WTF do I enjoy and what could make money?&quot; Well, the only things I knew were baseball, hunting, and marketing.
+              So that night in the ladder stand, I asked myself, &quot;WTF do I enjoy, and what could make money?&quot;
+            </p>
+
+            <p>
+              The only things I knew were baseball, hunting, and marketing.
             </p>
 
             <p>
@@ -229,11 +277,11 @@ export default function AboutPage() {
             </p>
 
             <p>
-              That&apos;s how Bucks of Nebraska was created. Right there in the stand I pulled out my phone and made the page. One of my favorite hunting TV personalities was David Morris from Bucks of Tecomate, and I&apos;d watched every hour of his shows during those 45 days of doing nothing after moving back to Nebraska from Minnesota&mdash;that&apos;s why I named it what it is.
+              That&apos;s how Bucks of Nebraska was created. Right there in the stand, I pulled out my phone and made the page. One of my favorite hunting TV personalities was David Morris from Bucks of Tecomate, and I&apos;d watched every hour of his shows during those 45 days of doing nothing after moving back to Nebraska from Minnesota. That&apos;s why I named it what it is.
             </p>
 
             <p>
-              13+ years and tens of millions in sales later&mdash;it all started with this first picture attached. Had no products yet, I just knew I needed to start somewhere.
+              Thirteen-plus years and tens of millions in sales later, it all started with this first picture attached. I had no products yet. I just knew I needed to start somewhere.
             </p>
 
             {/* Divider */}
@@ -244,15 +292,15 @@ export default function AboutPage() {
             </div>
 
             <p>
-              Bucks of Nebraska was the beginning of a brand I turned into Bucks of America. At one point we had 30 states rocking the same way you see Nebraska doing now! Many of those other pages still exist and some are even bigger than Nebraska&apos;s now&mdash;you can go look. I started all of them or turned the name over if they were called something else before.
+              Bucks of Nebraska was the beginning of a brand I later turned into Bucks of America. At one point, we had 30 states rocking the same way you see Nebraska doing now. Many of those other pages still exist, and some are even bigger than Nebraska&apos;s. You can go look. I started all of them or turned the name over if they were called something else before.
             </p>
 
             <p>
-              Within a couple years we were a full online retailer under bucksof.com (doesn&apos;t exist anymore), and I was selling everything from Leupold scopes to Under Armour apparel. Looked like what Sportsman&apos;s Warehouse looks like online now.
+              Within a couple of years, we were a full online retailer under bucksof.com (which doesn&apos;t exist anymore), selling everything from Leupold scopes to Under Armour apparel. It looked like what Sportsman&apos;s Warehouse looks like online now.
             </p>
 
             <p>
-              By 2019 we were doing eight figures a year, and along came a private equity e-commerce group that acquired the bucksof.com brand and online business.
+              By 2019, we were doing eight figures a year. Then along came a private equity e-commerce group that acquired the bucksof.com brand and online business.
             </p>
 
             <p>
@@ -260,7 +308,15 @@ export default function AboutPage() {
             </p>
 
             <p>
-              They eventually took so much money from investors to buy up businesses like mine but didn&apos;t have the chops to run it or pay back those investors&mdash;they went bankrupt! Hell, I even got sued during that process because they tried to claw back money they&apos;d paid me. They lost, of course, but not before a couple years of legal BS. During that lawsuit I got bucksof.com back from them&hellip; and Bucks of Nebraska. Haha&mdash;they sued me, lost, and I took back what they&apos;d bought from me in the process.
+              They took so much money from investors to buy up businesses like mine but didn&apos;t have the chops to run them or pay those investors back. They went bankrupt.
+            </p>
+
+            <p>
+              Hell, I even got sued during that process because they tried to claw back money they&apos;d paid me. They lost, of course&mdash;but not before a couple years of legal BS. During that lawsuit, I got bucksof.com back from them&hellip; and Bucks of Nebraska.
+            </p>
+
+            <p>
+              They sued me, lost, and I took back what they&apos;d bought from me in the process.
             </p>
 
             {/* Divider */}
@@ -271,19 +327,19 @@ export default function AboutPage() {
             </div>
 
             <p>
-              So that puts us into 2023 when I got a call from my mom saying my dad wasn&apos;t doing well and to come home. He&apos;d gotten one of those government-mandated arm pricks and it took him within months&mdash;heart attack, liver failure, kidney failure, all the things we now know happen.
+              That brings us to 2023, when I got a call from my mom saying my dad wasn&apos;t doing well and that I needed to come home. He&apos;d gotten one of those government-mandated arm pricks, and within months he was gone&mdash;heart attack, liver failure, kidney failure. All the things we now know happen.
             </p>
 
             <p>
-              He passed March 10th, 2023.
+              He passed on March 10, 2023.
             </p>
 
             <p>
-              2025 is my 10-year wedding anniversary to that same woman I was sleeping in her childhood bed with back in 2013, no clue what I was going to do with my life.
+              In 2025, we&apos;ll celebrate our 10-year wedding anniversary with the same woman whose childhood bedroom I was sleeping in back in 2013, with no clue what I was going to do with my life.
             </p>
 
             <p>
-              We&apos;re about to have our third child in January, and we built a home directly across from her parents&apos; house to stay close with the kids.
+              We&apos;re about to have our third child in January, and we built a home directly across from her parents&apos; house to stay close and raise our kids near family.
             </p>
 
             <p>
@@ -291,11 +347,11 @@ export default function AboutPage() {
             </p>
 
             <p>
-              I hired a few people to help run this page and brand again. They&apos;re not expert deer hunters like many of you folks on here think you are, but they do a great job keeping it flowing in between the time I&apos;m on here figuring out this social media algorithm and working on what&apos;s next for &quot;Bucks of Nebraska&quot; as a brand.
+              I hired a few people to help run this page and brand again. They&apos;re not expert deer hunters like many of you folks on here think you are, but they do a great job keeping it flowing while I&apos;m figuring out this social media algorithm and working on what&apos;s next for Bucks of Nebraska as a brand.
             </p>
 
             <p>
-              What I can say is&mdash;I&apos;m definitely not rich and certainly not poor, but what I&apos;m working on right now and have been building over the last year with the new products coming in 2026 might very well make me one or the other, and I&apos;m praying on my third child it&apos;s not the latter.
+              What I can say is this: I&apos;m definitely not rich and certainly not poor. But what I&apos;ve been building over the last year&mdash;with new products coming in 2026&mdash;might very well make me one or the other. And as I pray over my third child, I&apos;m hoping it&apos;s not the latter.
             </p>
 
             {/* Divider */}
@@ -310,11 +366,11 @@ export default function AboutPage() {
             </p>
 
             <p>
-              I promise I&apos;ll keep sharing everything Nebraska&mdash;from deer, ducks, and dogs. Maybe you&apos;ll see some weird AI or non-Nebraska stuff from time to time, but just know it&apos;s the team trying to figure out how to grow this following and brand.
+              I promise I&apos;ll keep sharing everything Nebraska&mdash;from deer to ducks to dogs. You might see some weird AI or non-Nebraska stuff from time to time, but just know it&apos;s the team trying to figure out how to grow this following and brand.
             </p>
 
             <p>
-              Oh, and I promise I&apos;ll never sell this thing out to the hippies from the cities ever again.
+              And I promise I&apos;ll never sell this thing out to the hippies from the cities ever again.
             </p>
 
             {/* Signature */}
