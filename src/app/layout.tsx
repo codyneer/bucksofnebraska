@@ -8,6 +8,7 @@ import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
 import { CartDrawer } from '@/components/cart/CartDrawer'
 import { OrganizationSchema, WebSiteSchema } from '@/lib/structured-data'
+import { OmnisendScript } from '@/components/OmnisendScript'
 import './globals.css'
 
 const bebasNeue = Bebas_Neue({
@@ -96,6 +97,7 @@ export default function RootLayout({
             <CartDrawer />
           </CartProvider>
         </AuthProvider>
+        <OmnisendScript />
       </body>
     </html>
   )

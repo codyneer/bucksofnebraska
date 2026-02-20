@@ -4,14 +4,35 @@ import { useState } from 'react'
 
 export function ReferralSection() {
   const [email, setEmail] = useState('')
-  const [submitted, setSubmitted] = useState(false)
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (email) {
-      setSubmitted(true)
-      setEmail('')
-      setTimeout(() => setSubmitted(false), 3000)
+    if (!email) return
+
+    setStatus('loading')
+
+    try {
+      const res = await fetch('/api/omnisend/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email,
+          tags: ['referral-signup', 'website-signup'],
+        }),
+      })
+
+      if (res.ok) {
+        setStatus('success')
+        setEmail('')
+        setTimeout(() => setStatus('idle'), 4000)
+      } else {
+        setStatus('error')
+        setTimeout(() => setStatus('idle'), 3000)
+      }
+    } catch {
+      setStatus('error')
+      setTimeout(() => setStatus('idle'), 3000)
     }
   }
 
@@ -41,19 +62,26 @@ export function ReferralSection() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="flex-1 py-[11px] px-[13px] border border-border font-body text-[14px] outline-none focus:border-red transition-colors"
+            disabled={status === 'loading'}
+            className="flex-1 py-[11px] px-[13px] border border-border font-body text-[14px] outline-none focus:border-red transition-colors disabled:opacity-50"
           />
           <button
             type="submit"
-            className="py-[11px] px-[22px] bg-red text-white border-none font-nav text-[12px] tracking-[2px] uppercase cursor-pointer transition-all duration-300 hover:bg-red-dark"
+            disabled={status === 'loading'}
+            className="py-[11px] px-[22px] bg-red text-white border-none font-nav text-[12px] tracking-[2px] uppercase cursor-pointer transition-all duration-300 hover:bg-red-dark disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Get My Link
+            {status === 'loading' ? 'Sending...' : 'Get My Link'}
           </button>
         </form>
 
-        {submitted && (
+        {status === 'success' && (
           <p className="mt-3 font-nav text-[12px] tracking-[1px] uppercase text-green">
-            Referral link sent! Check your email.
+            You&apos;re in! Check your email for your referral link.
+          </p>
+        )}
+        {status === 'error' && (
+          <p className="mt-3 font-nav text-[12px] tracking-[1px] uppercase text-red">
+            Something went wrong. Please try again.
           </p>
         )}
       </div>

@@ -27,12 +27,33 @@ const steps = [
 
 export default function ReferralPage() {
   const [email, setEmail] = useState('')
-  const [submitted, setSubmitted] = useState(false)
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
-    if (email) {
-      setSubmitted(true)
+    if (!email) return
+
+    setStatus('loading')
+
+    try {
+      const res = await fetch('/api/omnisend/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email,
+          tags: ['referral-signup', 'website-signup'],
+        }),
+      })
+
+      if (res.ok) {
+        setStatus('success')
+      } else {
+        setStatus('error')
+        setTimeout(() => setStatus('idle'), 3000)
+      }
+    } catch {
+      setStatus('error')
+      setTimeout(() => setStatus('idle'), 3000)
     }
   }
 
@@ -71,7 +92,7 @@ export default function ReferralPage() {
       </div>
 
       {/* Email capture */}
-      {submitted ? (
+      {status === 'success' ? (
         <div className="text-center py-12 bg-white border border-border-light p-5 sm:p-8">
           <p className="font-nav text-[18px] tracking-[2px] uppercase text-green mb-2">
             You&apos;re In
@@ -102,16 +123,23 @@ export default function ReferralPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              disabled={status === 'loading'}
               placeholder="your@email.com"
-              className="flex-1 py-3 px-4 bg-white border border-border text-text font-body text-[15px] outline-none focus:border-red transition-colors"
+              className="flex-1 py-3 px-4 bg-white border border-border text-text font-body text-[15px] outline-none focus:border-red transition-colors disabled:opacity-50"
             />
             <button
               type="submit"
-              className="py-3 px-6 bg-red text-white font-nav text-[13px] tracking-[2px] uppercase border-none cursor-pointer transition-all duration-300 hover:bg-red-dark whitespace-nowrap"
+              disabled={status === 'loading'}
+              className="py-3 px-6 bg-red text-white font-nav text-[13px] tracking-[2px] uppercase border-none cursor-pointer transition-all duration-300 hover:bg-red-dark whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Join Now
+              {status === 'loading' ? 'Joining...' : 'Join Now'}
             </button>
           </div>
+          {status === 'error' && (
+            <p className="mt-3 font-nav text-[12px] tracking-[1px] uppercase text-red">
+              Something went wrong. Please try again.
+            </p>
+          )}
         </form>
       )}
 
