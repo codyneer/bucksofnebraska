@@ -158,7 +158,9 @@ export const GET_COLLECTION_PRODUCTS = `
 export const GET_PRODUCT = `
   query Product($handle: String!) {
     productByHandle(handle: $handle) {
-      id handle title descriptionHtml
+      id handle title description descriptionHtml
+      priceRange { minVariantPrice { amount currencyCode } }
+      compareAtPriceRange { minVariantPrice { amount currencyCode } }
       images(first: 10) { edges { node { url altText width height } } }
       variants(first: 20) {
         edges {
