@@ -13,7 +13,7 @@ export default function AboutPage() {
         About <span className="text-red">Bucks of Nebraska</span>
       </h1>
       <p className="text-center font-nav text-[13px] tracking-[3px] uppercase text-text-muted mb-12">
-        Born in the heartland. Built for the hunt.
+        The Best of The Heartland. Rep Nebraska.
       </p>
 
       {/* Founder photo */}
