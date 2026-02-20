@@ -103,7 +103,7 @@ export default function AboutPage() {
           </div>
 
           {/* Letter content */}
-          <div className="font-handwritten text-[20px] sm:text-[22px] leading-[1.7] text-[#3a3226] space-y-5">
+          <div className="font-body text-[16px] sm:text-[17px] leading-[1.85] text-[#3a3226] space-y-5">
             <p>
               Story time: Throwback to December 1st, 2013&mdash;to the first deer picture we ever shared on our Facebook page.
             </p>
@@ -284,7 +284,7 @@ export default function AboutPage() {
 
             {/* Signature */}
             <div className="pt-6 flex flex-col items-end">
-              <span className="text-[36px] sm:text-[42px] font-bold text-[#2a2420] leading-none">
+              <span className="font-handwritten text-[36px] sm:text-[42px] font-bold text-[#2a2420] leading-none">
                 -Cody
               </span>
               <span className="text-[14px] text-[#9a8d7d] mt-1 font-body tracking-wide">
