@@ -22,39 +22,39 @@ export function LifestyleGrid() {
             sizes="(max-width: 1024px) 100vw, 50vw"
           />
         </div>
-        <div className="relative aspect-[4/3] overflow-hidden">
+        <div className="relative aspect-square overflow-hidden">
           <Image
             src="/images/lifestyle-2.jpg"
             alt="Hunter in blaze orange with a whitetail buck in Nebraska grasslands"
             fill
-            className="object-cover object-center brightness-90 hover:brightness-100 transition-all duration-500"
+            className="object-cover object-[50%_20%] brightness-90 hover:brightness-100 transition-all duration-500"
             sizes="(max-width: 1024px) 50vw, 25vw"
           />
         </div>
-        <div className="relative aspect-[4/3] overflow-hidden">
+        <div className="relative aspect-square overflow-hidden">
           <Image
             src="/images/lifestyle-3.jpg"
             alt="Hunter in blaze orange with a whitetail buck at sunset in Nebraska"
             fill
-            className="object-cover object-[30%_center] brightness-90 hover:brightness-100 transition-all duration-500"
+            className="object-cover object-[20%_30%] brightness-90 hover:brightness-100 transition-all duration-500"
             sizes="(max-width: 1024px) 50vw, 25vw"
           />
         </div>
-        <div className="relative aspect-[4/3] overflow-hidden">
+        <div className="relative aspect-square overflow-hidden">
           <Image
             src="/images/lifestyle-4.jpg"
             alt="Hunter with a massive Nebraska whitetail buck"
             fill
-            className="object-cover object-center brightness-90 hover:brightness-100 transition-all duration-500"
+            className="object-cover object-[center_25%] brightness-90 hover:brightness-100 transition-all duration-500"
             sizes="(max-width: 1024px) 50vw, 25vw"
           />
         </div>
-        <div className="relative aspect-[4/3] overflow-hidden">
+        <div className="relative aspect-square overflow-hidden">
           <Image
             src="/images/lifestyle-5.jpg"
             alt="Hunter with a Nebraska turkey in spring green field"
             fill
-            className="object-cover object-center brightness-90 hover:brightness-100 transition-all duration-500"
+            className="object-cover object-[center_20%] brightness-90 hover:brightness-100 transition-all duration-500"
             sizes="(max-width: 1024px) 50vw, 25vw"
           />
         </div>
