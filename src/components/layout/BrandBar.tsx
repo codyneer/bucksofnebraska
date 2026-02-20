@@ -2,12 +2,14 @@
 
 import Image from 'next/image'
 
+const UTM = '?utm_source=bucksofnebraska&utm_medium=brand_bar&utm_campaign=family_nav'
+
 const brands = [
-  { name: 'Outdoor Brand Co.', href: 'https://outdoorbrandcompany.com', active: false },
+  { name: 'Outdoor Brand Co.', href: `https://outdoorbrandcompany.com${UTM}`, active: false },
   { name: 'Bucks of Nebraska', href: '/', active: true },
-  { name: 'GB2 Outdoors', href: 'https://gb2outdoors.com', active: false },
-  { name: 'On Point Land Mgmt', href: 'https://onpointlandmgmt.com', active: false },
-  { name: 'BN Properties', href: 'https://bnproperties.com', active: false },
+  { name: 'GB2 Outdoors', href: `https://outdoorbrandcompany.com/nutrition/gb2-outdoors${UTM}`, active: false },
+  { name: 'On Point Land Mgmt', href: `https://outdoorbrandcompany.com/land/management${UTM}`, active: false },
+  { name: 'BN Properties', href: `https://bucksofnebraskaproperties.com${UTM}`, active: false },
 ]
 
 export function BrandBar() {
@@ -31,7 +33,7 @@ export function BrandBar() {
               }`}
             >
               {brand.active && (
-                <Image src="/logos/bn-antler-n.png" alt="" width={12} height={12} className="opacity-80" />
+                <Image src="/logos/bn-antler-n.png" alt="" width={20} height={20} className="opacity-90" />
               )}
               {brand.name}
             </a>
