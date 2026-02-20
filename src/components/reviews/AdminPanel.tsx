@@ -1,18 +1,40 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { ReviewStarsDisplay } from './ReviewStars'
 import type { Review } from '@/lib/reviews'
 
 type PendingReview = Review & { product_id: string }
 
 type AdminPanelProps = {
-  initialReviews: PendingReview[]
+  initialReviews?: PendingReview[]
 }
 
-export function AdminPanel({ initialReviews }: AdminPanelProps) {
+export function AdminPanel({ initialReviews = [] }: AdminPanelProps) {
   const [reviews, setReviews] = useState<PendingReview[]>(initialReviews)
   const [processing, setProcessing] = useState<string | null>(null)
+  const [loadingReviews, setLoadingReviews] = useState(initialReviews.length === 0)
+
+  // Fetch pending reviews client-side if none provided
+  useEffect(() => {
+    if (initialReviews.length > 0) return
+
+    const fetchReviews = async () => {
+      try {
+        const res = await fetch('/api/reviews?status=pending')
+        if (res.ok) {
+          const data = await res.json()
+          setReviews(data.reviews || [])
+        }
+      } catch {
+        // Fail silently
+      } finally {
+        setLoadingReviews(false)
+      }
+    }
+
+    fetchReviews()
+  }, [initialReviews.length])
 
   const handleAction = async (review: PendingReview, status: 'approved' | 'denied') => {
     setProcessing(review.id)
@@ -44,7 +66,14 @@ export function AdminPanel({ initialReviews }: AdminPanelProps) {
         Review <span className="text-red">Moderation</span>
       </h1>
 
-      {reviews.length === 0 ? (
+      {loadingReviews ? (
+        <div className="text-center py-16">
+          <div className="w-6 h-6 border-2 border-red border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+          <p className="font-nav text-[13px] tracking-[2px] uppercase text-text-muted">
+            Loading reviews...
+          </p>
+        </div>
+      ) : reviews.length === 0 ? (
         <div className="text-center py-16">
           <p className="font-nav text-[18px] tracking-[2px] uppercase text-text-muted">
             All caught up!
