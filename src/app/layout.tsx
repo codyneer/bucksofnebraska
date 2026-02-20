@@ -5,6 +5,7 @@ import { BrandBar } from '@/components/layout/BrandBar'
 import { AnnouncementBar } from '@/components/layout/AnnouncementBar'
 import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
+import { CartDrawer } from '@/components/cart/CartDrawer'
 import './globals.css'
 
 const bebasNeue = Bebas_Neue({
@@ -48,6 +49,7 @@ export default function RootLayout({
           <Navbar />
           <main>{children}</main>
           <Footer />
+          <CartDrawer />
         </CartProvider>
       </body>
     </html>
