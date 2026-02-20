@@ -26,10 +26,10 @@ const footerColumns = [
   {
     title: 'Follow',
     links: [
-      { label: 'Instagram', href: '#' },
-      { label: 'Facebook', href: '#' },
-      { label: 'TikTok', href: '#' },
-      { label: 'YouTube', href: '#' },
+      { label: 'Instagram', href: 'https://instagram.com/bucksofnebraska' },
+      { label: 'Facebook', href: 'https://facebook.com/bucksofnebraska' },
+      { label: 'TikTok', href: 'https://tiktok.com/@bucksofnebraska' },
+      { label: 'X (Twitter)', href: 'https://x.com/bucksofnebraska' },
     ],
   },
 ]
