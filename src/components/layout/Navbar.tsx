@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { ShoppingBag, ChevronDown, Menu, X } from 'lucide-react'
@@ -87,7 +87,10 @@ const communityColumns: MegaMenuColumn[] = [
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [shopOpen, setShopOpen] = useState(false)
   const { openCart, itemCount } = useCart()
+  const navRef = useRef<HTMLElement>(null)
+  const shopTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50)
@@ -95,8 +98,40 @@ export function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  // Update CSS variable for navbar bottom position
+  useEffect(() => {
+    if (navRef.current) {
+      const updatePosition = () => {
+        const rect = navRef.current?.getBoundingClientRect()
+        if (rect) {
+          document.documentElement.style.setProperty(
+            '--navbar-bottom',
+            `${rect.bottom}px`
+          )
+        }
+      }
+      updatePosition()
+      window.addEventListener('scroll', updatePosition, { passive: true })
+      window.addEventListener('resize', updatePosition, { passive: true })
+      return () => {
+        window.removeEventListener('scroll', updatePosition)
+        window.removeEventListener('resize', updatePosition)
+      }
+    }
+  }, [scrolled])
+
+  const openShopMenu = useCallback(() => {
+    if (shopTimerRef.current) clearTimeout(shopTimerRef.current)
+    setShopOpen(true)
+  }, [])
+
+  const closeShopMenu = useCallback(() => {
+    shopTimerRef.current = setTimeout(() => setShopOpen(false), 150)
+  }, [])
+
   return (
     <nav
+      ref={navRef}
       className={`sticky top-0 z-100 bg-white border-b border-border transition-shadow duration-300 ${
         scrolled ? 'shadow' : ''
       }`}
@@ -104,20 +139,26 @@ export function Navbar() {
       <div className="max-w-[1400px] mx-auto grid grid-cols-[1fr_auto_1fr] items-center py-2.5 px-10 gap-5">
         {/* Left nav */}
         <div className="hidden lg:flex gap-6 items-center">
-          {/* Shop dropdown */}
-          <div className="relative group">
-            <button className="flex items-center gap-1.5 text-text font-nav text-[13px] tracking-[2px] uppercase py-2 bg-transparent border-none cursor-pointer transition-colors hover:text-red">
+          {/* Shop dropdown — uses state for full-width mega menu */}
+          <div
+            onMouseEnter={openShopMenu}
+            onMouseLeave={closeShopMenu}
+          >
+            <button
+              className={`flex items-center gap-1.5 font-nav text-[13px] tracking-[2px] uppercase py-2 bg-transparent border-none cursor-pointer transition-colors ${
+                shopOpen ? 'text-red' : 'text-text hover:text-red'
+              }`}
+            >
               Shop
-              <ChevronDown className="w-2.5 h-2.5 transition-transform duration-300 group-hover:rotate-180" />
+              <ChevronDown
+                className={`w-2.5 h-2.5 transition-transform duration-300 ${
+                  shopOpen ? 'rotate-180' : ''
+                }`}
+              />
             </button>
-            <MegaMenu
-              columns={shopColumns}
-              variant="shop"
-              featured={shopFeatured}
-            />
           </div>
 
-          {/* Community dropdown */}
+          {/* Community dropdown — uses CSS group-hover */}
           <div className="relative group">
             <button className="flex items-center gap-1.5 text-text font-nav text-[13px] tracking-[2px] uppercase py-2 bg-transparent border-none cursor-pointer transition-colors hover:text-red">
               Community
@@ -210,6 +251,85 @@ export function Navbar() {
               <Menu className="w-6 h-6" />
             )}
           </button>
+        </div>
+      </div>
+
+      {/* Shop Mega Menu — full width, rendered inside nav for proper stacking */}
+      <div
+        onMouseEnter={openShopMenu}
+        onMouseLeave={closeShopMenu}
+        className={`absolute left-0 right-0 top-full bg-white border-b border-border shadow-lg transition-all duration-[250ms] ${
+          shopOpen
+            ? 'opacity-100 visible pointer-events-auto'
+            : 'opacity-0 invisible pointer-events-none'
+        }`}
+      >
+        <div className="max-w-[1400px] mx-auto px-10">
+          <div
+            className="grid gap-0 py-2"
+            style={{
+              gridTemplateColumns: `repeat(${shopColumns.length}, 1fr) 1.4fr`,
+            }}
+          >
+            {shopColumns.map((col) => (
+              <div key={col.title} className="py-5 px-4 first:pl-0">
+                <h4 className="font-nav text-[11px] tracking-[3px] uppercase text-red mb-4 pb-2 border-b border-border">
+                  {col.title}
+                </h4>
+                <div className="flex flex-col">
+                  {col.links.map((link) => (
+                    <Link
+                      key={link.href}
+                      href={link.href}
+                      className="flex items-center gap-3 py-[7px] transition-all duration-200 hover:pl-1 group/link"
+                    >
+                      {link.image && (
+                        <div className="w-9 h-9 rounded overflow-hidden shrink-0 border border-border-light">
+                          <Image
+                            src={link.image}
+                            alt=""
+                            width={36}
+                            height={36}
+                            className="object-cover w-full h-full"
+                          />
+                        </div>
+                      )}
+                      <span className="text-text-light font-body text-[14px] transition-colors duration-200 group-hover/link:text-red">
+                        {link.label}
+                      </span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            ))}
+
+            {/* Featured promo card */}
+            <div className="py-5 pl-4">
+              <Link
+                href={shopFeatured.href}
+                className="block relative overflow-hidden rounded h-full min-h-[220px] group/featured"
+              >
+                <Image
+                  src={shopFeatured.image}
+                  alt={shopFeatured.title}
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover/featured:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-brand-black/80 via-brand-black/30 to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 p-5">
+                  <p className="font-nav text-[10px] tracking-[2px] uppercase text-red-light mb-1">
+                    {shopFeatured.subtitle}
+                  </p>
+                  <h4 className="font-display text-[26px] text-white leading-none mb-3">
+                    {shopFeatured.title}
+                  </h4>
+                  <span className="inline-block bg-red text-white font-nav text-[10px] tracking-[2px] uppercase py-2 px-4 transition-colors hover:bg-red-dark">
+                    {shopFeatured.ctaLabel}
+                  </span>
+                </div>
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
 
