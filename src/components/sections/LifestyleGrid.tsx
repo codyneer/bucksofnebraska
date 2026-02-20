@@ -45,7 +45,7 @@ export function LifestyleGrid() {
             src="/images/lifestyle-4.jpg"
             alt="Hunter with a massive Nebraska whitetail buck"
             fill
-            className="object-cover object-[center_20%] brightness-90 hover:brightness-100 transition-all duration-500"
+            className="object-cover object-[center_20%] scale-[0.85] brightness-90 hover:brightness-100 transition-all duration-500"
             sizes="(max-width: 1024px) 50vw, 25vw"
           />
         </div>
