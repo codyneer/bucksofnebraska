@@ -18,10 +18,12 @@ export default function AboutPage() {
 
       <div className="space-y-8 text-text-light text-[16px] leading-relaxed font-body">
         <p>
-          Bucks of Nebraska started the way most good things do in this state &mdash; around a campfire,
-          after a long day in the timber. We were tired of wearing gear that didn&apos;t represent us.
-          Every brand was coastal, every logo was generic, and nothing said &quot;Nebraska&quot; the way
-          we live it.
+          Bucks of Nebraska started the way most good things do in this state &mdash; from good people.
+          Read the story of how we started in the letter below. Since 2013, we&apos;ve grown this brand
+          from a grassroots effort all the way to a 7 figure company. Tying the two things people
+          are most passionate about in this state &mdash; the Huskers and Deer Hunting. We were tired of
+          wearing gear that didn&apos;t represent us. Every brand was coastal, every logo was generic,
+          and nothing said &quot;Nebraska&quot; the way we live it.
         </p>
 
         <h2 className="font-display text-[32px] text-text mt-12">
