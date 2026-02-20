@@ -52,7 +52,7 @@ export function LifestyleGrid() {
         <div className="relative aspect-[4/3] overflow-hidden">
           <Image
             src="/images/lifestyle-5.jpg"
-            alt="Hunter with a trophy whitetail buck mount in the lodge"
+            alt="Hunter with a Nebraska turkey in spring green field"
             fill
             className="object-cover object-center brightness-90 hover:brightness-100 transition-all duration-500"
             sizes="(max-width: 1024px) 50vw, 25vw"
