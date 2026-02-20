@@ -33,7 +33,7 @@ export function BrandBar() {
               }`}
             >
               {brand.active && (
-                <Image src="/logos/bn-antler-n.png" alt="" width={20} height={20} className="opacity-90" />
+                <Image src="/logos/bn-antler-n.png" alt="" width={28} height={28} className="opacity-90" />
               )}
               {brand.name}
             </a>
