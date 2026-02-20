@@ -61,9 +61,9 @@ export default function RecipesPage() {
               </span>
             </div>
             <div className="p-5">
-              <h3 className="font-nav text-[15px] tracking-[1px] uppercase text-text mb-2 leading-snug">
+              <h2 className="font-nav text-[15px] tracking-[1px] uppercase text-text mb-2 leading-snug">
                 {recipe.title}
-              </h3>
+              </h2>
               <p className="text-text-light text-[14px] leading-relaxed font-body mb-4 line-clamp-2">
                 {recipe.description}
               </p>

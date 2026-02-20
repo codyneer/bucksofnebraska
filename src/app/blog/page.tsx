@@ -60,9 +60,9 @@ export default function BlogPage() {
               </span>
             </div>
             <div className="p-5">
-              <h3 className="font-nav text-[15px] tracking-[1px] uppercase text-text mb-2 leading-snug">
+              <h2 className="font-nav text-[15px] tracking-[1px] uppercase text-text mb-2 leading-snug">
                 {post.title}
-              </h3>
+              </h2>
               <p className="text-text-light text-[14px] leading-relaxed font-body mb-3 line-clamp-2">
                 {post.description}
               </p>

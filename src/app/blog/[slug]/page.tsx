@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import { blogPosts, getPostBySlug } from '@/lib/blog-data'
+import { BlogPostSchema, BreadcrumbSchema } from '@/lib/structured-data'
 import type { Metadata } from 'next'
 
 type Props = {
@@ -49,8 +50,19 @@ export default async function BlogPostPage({ params }: Props) {
     notFound()
   }
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://bucksofnebraska.vercel.app'
+
   return (
     <article className="py-20 px-10 max-w-[760px] mx-auto">
+      <BlogPostSchema post={post} />
+      <BreadcrumbSchema
+        items={[
+          { name: 'Home', url: siteUrl },
+          { name: 'Blog', url: `${siteUrl}/blog` },
+          { name: post.title },
+        ]}
+      />
+
       {/* Back link */}
       <Link
         href="/blog"
@@ -60,8 +72,8 @@ export default async function BlogPostPage({ params }: Props) {
         Back to Blog
       </Link>
 
-      {/* Category + date */}
-      <div className="flex items-center gap-3 mb-4">
+      {/* Category + date + author */}
+      <div className="flex items-center gap-3 mb-4 flex-wrap">
         <span className="font-nav text-[10px] tracking-[1.5px] uppercase bg-red text-white py-0.5 px-2.5">
           {post.category}
         </span>
@@ -75,6 +87,10 @@ export default async function BlogPostPage({ params }: Props) {
         <span className="w-1 h-1 rounded-full bg-border" />
         <span className="font-nav text-[11px] tracking-[1px] text-text-muted">
           {post.readTime}
+        </span>
+        <span className="w-1 h-1 rounded-full bg-border" />
+        <span className="font-nav text-[11px] tracking-[1px] text-text-muted">
+          By Bucks of Nebraska
         </span>
       </div>
 

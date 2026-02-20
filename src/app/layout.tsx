@@ -7,6 +7,7 @@ import { AnnouncementBar } from '@/components/layout/AnnouncementBar'
 import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
 import { CartDrawer } from '@/components/cart/CartDrawer'
+import { OrganizationSchema, WebSiteSchema } from '@/lib/structured-data'
 import './globals.css'
 
 const bebasNeue = Bebas_Neue({
@@ -68,6 +69,9 @@ export const metadata: Metadata = {
     description: 'Premium hunting apparel for Nebraska hunters. Built for the field.',
     images: ['/api/og'],
   },
+  alternates: {
+    canonical: '/',
+  },
 }
 
 export default function RootLayout({
@@ -77,6 +81,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${bebasNeue.variable} ${oswald.variable} ${bitter.variable} ${caveat.variable}`}>
+      <head>
+        <OrganizationSchema />
+        <WebSiteSchema />
+      </head>
       <body className="font-body antialiased">
         <AuthProvider>
           <CartProvider>

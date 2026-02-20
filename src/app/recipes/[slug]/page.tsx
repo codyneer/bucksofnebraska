@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowLeft, Clock, Users, BarChart3 } from 'lucide-react'
 import { recipes, getRecipeBySlug, categoryColors } from '@/lib/recipe-data'
+import { RecipeSchema, BreadcrumbSchema } from '@/lib/structured-data'
 import type { Metadata } from 'next'
 
 type Props = {
@@ -48,8 +49,19 @@ export default async function RecipeDetailPage({ params }: Props) {
     notFound()
   }
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://bucksofnebraska.vercel.app'
+
   return (
     <article className="py-12 sm:py-20 px-4 sm:px-10 max-w-[760px] mx-auto">
+      <RecipeSchema recipe={recipe} />
+      <BreadcrumbSchema
+        items={[
+          { name: 'Home', url: siteUrl },
+          { name: 'Recipes', url: `${siteUrl}/recipes` },
+          { name: recipe.title },
+        ]}
+      />
+
       {/* Back link */}
       <Link
         href="/recipes"

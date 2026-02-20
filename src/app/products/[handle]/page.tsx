@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 import { getProduct, getAllProducts } from '@/lib/shopify'
 import { ProductDetail } from '@/components/product/ProductDetail'
 import { getProductReviews } from '@/lib/reviews'
+import { ProductSchema, BreadcrumbSchema } from '@/lib/structured-data'
 import type { Metadata } from 'next'
 
 type Props = {
@@ -59,11 +60,23 @@ export default async function ProductPage({ params }: Props) {
 
   const productsList = allProducts.map((p) => ({ handle: p.handle, title: p.title }))
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://bucksofnebraska.vercel.app'
+
   return (
-    <ProductDetail
-      product={product}
-      reviews={reviews}
-      allProducts={productsList}
-    />
+    <>
+      <ProductSchema product={product} reviews={reviews} />
+      <BreadcrumbSchema
+        items={[
+          { name: 'Home', url: siteUrl },
+          { name: 'Shop', url: `${siteUrl}/shop` },
+          { name: product.title },
+        ]}
+      />
+      <ProductDetail
+        product={product}
+        reviews={reviews}
+        allProducts={productsList}
+      />
+    </>
   )
 }
