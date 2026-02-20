@@ -59,7 +59,7 @@ export default async function Home() {
 
       {/* Best Sellers */}
       <RevealOnScroll>
-        <section className="py-20 px-10 max-w-[1300px] mx-auto">
+        <section className="py-12 sm:py-20 px-4 sm:px-10 max-w-[1300px] mx-auto">
           <SectionHeader
             title="Shop"
             highlight="Best Sellers"

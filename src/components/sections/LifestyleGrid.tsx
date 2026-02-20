@@ -1,6 +1,6 @@
 export function LifestyleGrid() {
   return (
-    <section className="py-20 px-10 max-w-[1400px] mx-auto">
+    <section className="py-12 sm:py-20 px-4 sm:px-10 max-w-[1400px] mx-auto">
       <div className="text-center mb-12">
         <h2 className="font-display text-[clamp(38px,5vw,56px)] text-text leading-none">
           In the <span className="text-red">Field</span>
@@ -10,9 +10,9 @@ export function LifestyleGrid() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr_1fr] lg:grid-rows-2 gap-1.5">
+      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr] lg:grid-rows-2 gap-1.5">
         {/* Placeholder lifestyle images — will be replaced with real photos */}
-        <div className="lg:row-span-2 bg-charcoal/10 min-h-[300px] lg:min-h-0 flex items-center justify-center">
+        <div className="col-span-2 sm:col-span-1 lg:row-span-2 bg-charcoal/10 min-h-[200px] sm:min-h-[300px] lg:min-h-0 flex items-center justify-center">
           <span className="font-nav text-[12px] tracking-[2px] uppercase text-text-muted">
             Lifestyle Photo 1
           </span>

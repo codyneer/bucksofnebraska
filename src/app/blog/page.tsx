@@ -16,7 +16,7 @@ export default function BlogPage() {
       : blogPosts.filter((p) => p.category === activeCategory)
 
   return (
-    <div className="py-20 px-10 max-w-[1300px] mx-auto">
+    <div className="py-12 sm:py-20 px-4 sm:px-10 max-w-[1300px] mx-auto">
       <div className="text-center mb-12">
         <h1 className="font-display text-[clamp(44px,7vw,64px)] text-text leading-none">
           The <span className="text-red">Blog</span>

@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 export function RedBanner() {
   return (
-    <section className="py-[60px] px-10 text-center bg-red text-white relative">
+    <section className="py-10 sm:py-[60px] px-5 sm:px-10 text-center bg-red text-white relative">
       <h2 className="font-display text-[clamp(32px,4vw,52px)]">
         Wear Your State. Hunt Your Land.
       </h2>
@@ -12,7 +12,7 @@ export function RedBanner() {
       </p>
       <Link
         href="/shop"
-        className="font-nav text-[14px] tracking-[3px] uppercase py-[15px] px-9 bg-transparent text-white border-2 border-white/70 transition-all duration-300 hover:bg-white hover:text-red inline-block"
+        className="font-nav text-[13px] sm:text-[14px] tracking-[2px] sm:tracking-[3px] uppercase py-3 sm:py-[15px] px-6 sm:px-9 bg-transparent text-white border-2 border-white/70 transition-all duration-300 hover:bg-white hover:text-red inline-block"
       >
         View Full Collection
       </Link>

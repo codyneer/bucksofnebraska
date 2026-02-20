@@ -12,7 +12,7 @@ export default function ContactPage() {
   }
 
   return (
-    <div className="py-20 px-10 max-w-[600px] mx-auto">
+    <div className="py-12 sm:py-20 px-5 sm:px-10 max-w-[600px] mx-auto">
       <h1 className="font-display text-[clamp(44px,7vw,64px)] text-center text-text mb-2">
         Get in <span className="text-red">Touch</span>
       </h1>
@@ -21,7 +21,7 @@ export default function ContactPage() {
       </p>
 
       {submitted ? (
-        <div className="text-center py-16 bg-white border border-border-light p-8">
+        <div className="text-center py-16 bg-white border border-border-light p-5 sm:p-8">
           <p className="font-nav text-[18px] tracking-[2px] uppercase text-green mb-2">
             Message Sent
           </p>
@@ -30,7 +30,7 @@ export default function ContactPage() {
           </p>
         </div>
       ) : (
-        <form onSubmit={handleSubmit} className="bg-white border border-border-light p-8 space-y-4">
+        <form onSubmit={handleSubmit} className="bg-white border border-border-light p-5 sm:p-8 space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block font-nav text-[11px] tracking-[2.5px] uppercase text-text-muted mb-1.5">

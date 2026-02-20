@@ -16,7 +16,7 @@ export function ReferralSection() {
   }
 
   return (
-    <section className="py-[70px] px-10 max-w-[800px] mx-auto text-center">
+    <section className="py-10 sm:py-[70px] px-5 sm:px-10 max-w-[800px] mx-auto text-center">
       <div className="text-center mb-12">
         <h2 className="font-display text-[clamp(38px,5vw,56px)] text-text leading-none">
           Give $10, <span className="text-red">Get $10</span>
@@ -26,7 +26,7 @@ export function ReferralSection() {
         </p>
       </div>
 
-      <div className="bg-white border-2 border-red py-9 px-9">
+      <div className="bg-white border-2 border-red py-6 px-5 sm:py-9 sm:px-9">
         <h3 className="font-display text-[32px] mb-1">
           Refer a <span className="text-red">Friend</span>
         </h3>
@@ -34,7 +34,7 @@ export function ReferralSection() {
           They get $10 off. You get $10 off. Everybody wins.
         </p>
 
-        <form onSubmit={handleSubmit} className="flex gap-2.5 max-w-[380px] mx-auto">
+        <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2.5 max-w-[380px] mx-auto">
           <input
             type="email"
             placeholder="Enter your email"

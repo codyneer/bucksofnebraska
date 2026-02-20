@@ -65,7 +65,7 @@ const categoryColors: Record<string, string> = {
 
 export default function RecipesPage() {
   return (
-    <div className="py-20 px-10 max-w-[1300px] mx-auto">
+    <div className="py-12 sm:py-20 px-4 sm:px-10 max-w-[1300px] mx-auto">
       <div className="text-center mb-12">
         <h1 className="font-display text-[clamp(44px,7vw,64px)] text-text leading-none">
           Wild Game <span className="text-red">Recipes</span>
@@ -96,7 +96,7 @@ export default function RecipesPage() {
               <p className="text-text-light text-[14px] leading-relaxed font-body mb-4 line-clamp-2">
                 {recipe.description}
               </p>
-              <div className="flex items-center gap-4 pt-3 border-t border-border-light">
+              <div className="flex items-center gap-3 sm:gap-4 pt-3 border-t border-border-light flex-wrap">
                 <span className="flex items-center gap-1.5 font-nav text-[11px] tracking-[1px] text-text-muted">
                   <Clock className="w-3.5 h-3.5" /> {recipe.cookTime}
                 </span>

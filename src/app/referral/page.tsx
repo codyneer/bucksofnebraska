@@ -37,7 +37,7 @@ export default function ReferralPage() {
   }
 
   return (
-    <div className="py-20 px-10 max-w-[800px] mx-auto">
+    <div className="py-12 sm:py-20 px-5 sm:px-10 max-w-[800px] mx-auto">
       <div className="text-center mb-14">
         <h1 className="font-display text-[clamp(44px,7vw,64px)] text-text leading-none">
           Give $10, <span className="text-red">Get $10</span>
@@ -72,14 +72,14 @@ export default function ReferralPage() {
 
       {/* Email capture */}
       {submitted ? (
-        <div className="text-center py-12 bg-white border border-border-light p-8">
+        <div className="text-center py-12 bg-white border border-border-light p-5 sm:p-8">
           <p className="font-nav text-[18px] tracking-[2px] uppercase text-green mb-2">
             You&apos;re In
           </p>
           <p className="text-text-muted text-[14px] font-body mb-4">
             Check your email for your unique referral link.
           </p>
-          <div className="bg-offWhite border border-border p-4 inline-block">
+          <div className="bg-offWhite border border-border p-4 inline-block max-w-full break-all">
             <span className="font-nav text-[12px] tracking-[1px] text-text-muted">
               Your referral link:
             </span>
@@ -89,14 +89,14 @@ export default function ReferralPage() {
           </div>
         </div>
       ) : (
-        <form onSubmit={handleSubmit} className="bg-white border border-border-light p-8 text-center">
+        <form onSubmit={handleSubmit} className="bg-white border border-border-light p-5 sm:p-8 text-center">
           <h2 className="font-display text-[28px] text-text mb-2">
             Ready to <span className="text-red">Start Earning?</span>
           </h2>
           <p className="text-text-light text-[14px] font-body mb-6">
             Enter your email to get your unique referral link.
           </p>
-          <div className="flex gap-3 max-w-[420px] mx-auto">
+          <div className="flex flex-col sm:flex-row gap-3 max-w-[420px] mx-auto">
             <input
               type="email"
               value={email}

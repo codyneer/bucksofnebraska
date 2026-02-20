@@ -104,7 +104,7 @@ export function ReviewCarousel({ reviews, allProducts }: ReviewCarouselProps) {
   }
 
   return (
-    <section className="py-[70px] px-10 max-w-[1300px] mx-auto">
+    <section className="py-10 sm:py-[70px] px-4 sm:px-10 max-w-[1300px] mx-auto">
       <div className="text-center mb-12">
         <h2 className="font-display text-[clamp(38px,5vw,56px)] text-text leading-none">
           What Hunters <span className="text-red">Are Saying</span>
@@ -115,7 +115,7 @@ export function ReviewCarousel({ reviews, allProducts }: ReviewCarouselProps) {
       </div>
 
       {/* Summary row */}
-      <div className="flex items-center gap-5 justify-center mb-8">
+      <div className="flex items-center gap-3 sm:gap-5 justify-center mb-8 flex-wrap">
         <span className="text-[24px] text-gold">
           {Array.from({ length: 5 }, (_, i) =>
             i < Math.round(parseFloat(avgRating)) ? '★' : '☆'
@@ -141,13 +141,13 @@ export function ReviewCarousel({ reviews, allProducts }: ReviewCarouselProps) {
       <div className="flex justify-center gap-2.5 mt-4">
         <button
           onClick={() => scroll('left')}
-          className="w-9 h-9 border border-border bg-white text-text cursor-pointer transition-all duration-200 hover:border-red hover:text-red flex items-center justify-center"
+          className="w-11 h-11 border border-border bg-white text-text cursor-pointer transition-all duration-200 hover:border-red hover:text-red flex items-center justify-center"
         >
           <ChevronLeft className="w-4 h-4" />
         </button>
         <button
           onClick={() => scroll('right')}
-          className="w-9 h-9 border border-border bg-white text-text cursor-pointer transition-all duration-200 hover:border-red hover:text-red flex items-center justify-center"
+          className="w-11 h-11 border border-border bg-white text-text cursor-pointer transition-all duration-200 hover:border-red hover:text-red flex items-center justify-center"
         >
           <ChevronRight className="w-4 h-4" />
         </button>

@@ -33,7 +33,7 @@ export default async function CollectionPage({ params }: Props) {
   const products = collection.products.edges.map((e) => e.node)
 
   return (
-    <div className="py-20 px-10 max-w-[1300px] mx-auto">
+    <div className="py-12 sm:py-20 px-4 sm:px-10 max-w-[1300px] mx-auto">
       <Breadcrumbs
         items={[
           { label: 'Home', href: '/' },

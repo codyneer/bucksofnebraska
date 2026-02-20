@@ -204,7 +204,7 @@ export function Navbar() {
         scrolled ? 'shadow' : ''
       }`}
     >
-      <div className="max-w-[1400px] mx-auto grid grid-cols-[1fr_auto_1fr] items-center py-2.5 px-10 gap-5">
+      <div className="max-w-[1400px] mx-auto grid grid-cols-[1fr_auto_1fr] items-center py-2.5 px-4 sm:px-10 gap-3 sm:gap-5">
         {/* Left nav */}
         <div className="hidden lg:flex gap-6 items-center">
           {/* Shop dropdown */}
@@ -476,29 +476,29 @@ export function Navbar() {
 
       {/* Mobile menu */}
       {mobileOpen && (
-        <div className="lg:hidden border-t border-border bg-white py-4 px-10">
-          <div className="flex flex-col gap-1">
+        <div className="lg:hidden border-t border-border bg-white py-4 px-5 sm:px-10 max-h-[80vh] overflow-y-auto">
+          <div className="flex flex-col gap-0.5">
             {/* Apparel */}
             <p className="font-nav text-[10px] tracking-[2px] uppercase text-red mt-1 mb-1">
               Apparel
             </p>
             <Link
               href="/shop"
-              className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-1"
+              className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5"
               onClick={() => setMobileOpen(false)}
             >
               Shop All
             </Link>
             <Link
               href="/collections/shirts"
-              className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-1"
+              className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5"
               onClick={() => setMobileOpen(false)}
             >
               T-Shirts
             </Link>
             <Link
               href="/collections/hoodies"
-              className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-1"
+              className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5"
               onClick={() => setMobileOpen(false)}
             >
               Hoodies
@@ -510,14 +510,14 @@ export function Navbar() {
             </p>
             <Link
               href="/collections/hats"
-              className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-1"
+              className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5"
               onClick={() => setMobileOpen(false)}
             >
               Hats & Caps
             </Link>
             <Link
               href="/collections/decals"
-              className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-1"
+              className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5"
               onClick={() => setMobileOpen(false)}
             >
               Decals & Stickers
@@ -529,28 +529,28 @@ export function Navbar() {
             </p>
             <Link
               href="/collections/deer"
-              className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-1"
+              className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5"
               onClick={() => setMobileOpen(false)}
             >
               Deer
             </Link>
             <Link
               href="/collections/duck"
-              className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-1"
+              className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5"
               onClick={() => setMobileOpen(false)}
             >
               Ducks
             </Link>
             <Link
               href="/collections/pheasant-hats"
-              className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-1"
+              className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5"
               onClick={() => setMobileOpen(false)}
             >
               Pheasants
             </Link>
             <Link
               href="/collections/bass-hats"
-              className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-1"
+              className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5"
               onClick={() => setMobileOpen(false)}
             >
               Fish
@@ -564,42 +564,42 @@ export function Navbar() {
             </p>
             <Link
               href="/blog"
-              className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-1"
+              className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5"
               onClick={() => setMobileOpen(false)}
             >
               Blog
             </Link>
             <Link
               href="/recipes"
-              className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-1"
+              className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5"
               onClick={() => setMobileOpen(false)}
             >
               NE Recipes
             </Link>
             <Link
               href="/podcast"
-              className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-1"
+              className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5"
               onClick={() => setMobileOpen(false)}
             >
               Podcast
             </Link>
             <Link
               href="/about"
-              className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-1"
+              className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5"
               onClick={() => setMobileOpen(false)}
             >
               Our Story
             </Link>
             <Link
               href="/contact"
-              className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-1"
+              className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5"
               onClick={() => setMobileOpen(false)}
             >
               Contact
             </Link>
             <Link
               href="/referral"
-              className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-1"
+              className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5"
               onClick={() => setMobileOpen(false)}
             >
               Refer a Friend
@@ -611,7 +611,7 @@ export function Navbar() {
             <p className="font-nav text-[10px] tracking-[2px] uppercase text-red mb-1">
               Social
             </p>
-            <div className="flex gap-4 py-1">
+            <div className="flex gap-2 py-1">
               {socialLinks.map((social) => {
                 const Icon = social.icon
                 return (
@@ -620,7 +620,7 @@ export function Navbar() {
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="transition-opacity hover:opacity-70"
+                    className="p-2.5 transition-opacity hover:opacity-70"
                   >
                     <Icon className="w-5 h-5" style={{ color: social.color }} />
                   </a>

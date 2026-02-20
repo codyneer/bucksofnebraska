@@ -18,7 +18,7 @@ const cards = [
 
 export function StatePrideCards() {
   return (
-    <section className="py-20 px-10 max-w-[1100px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-[30px]">
+    <section className="py-12 sm:py-20 px-5 sm:px-10 max-w-[1100px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-[30px]">
       {cards.map((card) => (
         <div
           key={card.num}

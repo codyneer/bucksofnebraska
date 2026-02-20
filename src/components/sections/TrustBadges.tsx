@@ -7,7 +7,7 @@ const badges = [
 
 export function TrustBadges() {
   return (
-    <section className="flex justify-center gap-10 py-[50px] px-5 flex-wrap">
+    <section className="grid grid-cols-2 sm:flex sm:justify-center gap-6 sm:gap-10 py-10 sm:py-[50px] px-5">
       {badges.map(({ emoji, title, desc }) => (
         <div key={title} className="text-center max-w-[160px]">
           <div className="mb-2 flex justify-center text-[36px] leading-none">

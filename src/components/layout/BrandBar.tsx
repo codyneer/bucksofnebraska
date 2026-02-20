@@ -14,8 +14,8 @@ const brands = [
 
 export function BrandBar() {
   return (
-    <div className="w-full bg-brand-black py-[5px] px-5">
-      <div className="flex items-center justify-center gap-5 flex-wrap">
+    <div className="w-full bg-brand-black py-[5px] px-3 sm:px-5 hidden sm:block">
+      <div className="flex items-center justify-center gap-3 sm:gap-5 flex-wrap">
         <span className="font-nav text-[9px] tracking-[2px] uppercase text-white/[0.35]">
           An Outdoor Brand Co. Family
         </span>

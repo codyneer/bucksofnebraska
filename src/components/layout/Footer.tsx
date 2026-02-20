@@ -36,7 +36,7 @@ const footerColumns = [
 
 export function Footer() {
   return (
-    <footer className="bg-brand-black text-white pt-16 pb-8 px-10">
+    <footer className="bg-brand-black text-white pt-16 pb-8 px-5 sm:px-10">
       {/* Top: 4-column grid */}
       <div className="max-w-[1200px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1fr] gap-10 pb-10 border-b border-white/10">
         {/* Brand column */}
