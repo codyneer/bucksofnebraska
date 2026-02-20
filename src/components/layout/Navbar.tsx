@@ -14,12 +14,14 @@ const shopColumns = [
       { label: 'All Products', href: '/shop' },
       { label: 'T-Shirts', href: '/collections/shirts' },
       { label: 'Hoodies & Sweatshirts', href: '/collections/hoodies' },
+      { label: 'Long Sleeves', href: '/collections/long-sleeves' },
     ],
   },
   {
     title: 'Accessories',
     links: [
       { label: 'Hats & Caps', href: '/collections/hats' },
+      { label: 'Beanies', href: '/collections/beanies' },
       { label: 'Decals & Stickers', href: '/collections/decals' },
     ],
   },
@@ -27,6 +29,8 @@ const shopColumns = [
     title: 'Collections',
     links: [
       { label: 'Bucks of Nebraska', href: '/collections/deer' },
+      { label: 'Bucks of America', href: '/collections/bucks-of-america' },
+      { label: 'Pride Collection', href: '/collections/pride' },
       { label: 'New Arrivals', href: '/collections/new-arrivals' },
     ],
   },
@@ -124,6 +128,12 @@ export function Navbar() {
             className="text-text font-nav text-[13px] tracking-[2px] uppercase py-2 transition-colors hover:text-red"
           >
             Blog
+          </Link>
+          <Link
+            href="/contact"
+            className="text-text font-nav text-[13px] tracking-[2px] uppercase py-2 transition-colors hover:text-red"
+          >
+            Contact
           </Link>
           <Link
             href="#"

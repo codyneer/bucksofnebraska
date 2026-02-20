@@ -30,7 +30,7 @@ export function ReviewCard({
   verifiedPurchase = true,
 }: ReviewCardProps) {
   const content = (
-    <div className="min-w-[300px] max-w-[300px] bg-white border border-border-light p-5 scroll-snap-align-start cursor-pointer transition-all duration-300 hover:shadow-lg hover:-translate-y-[3px] hover:border-red flex-shrink-0">
+    <div className="min-w-[300px] max-w-[300px] bg-white border border-border-light p-5 snap-start cursor-pointer transition-all duration-300 hover:shadow-lg hover:-translate-y-[3px] hover:border-red flex-shrink-0">
       <StarDisplay count={stars} />
       <p className="text-[14px] text-text leading-relaxed mb-3 italic font-body">
         &ldquo;{text}&rdquo;

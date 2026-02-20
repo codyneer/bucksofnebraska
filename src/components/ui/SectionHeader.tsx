@@ -6,7 +6,7 @@ type SectionHeaderProps = {
 
 export function SectionHeader({ title, highlight, subtitle }: SectionHeaderProps) {
   return (
-    <div className="text-center mb-12">
+    <div className="text-center mb-[50px]">
       <h2 className="font-display text-[clamp(38px,5vw,56px)] text-text leading-none">
         {title} {highlight && <span className="text-red">{highlight}</span>}
       </h2>

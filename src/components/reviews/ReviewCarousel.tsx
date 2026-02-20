@@ -1,8 +1,10 @@
 'use client'
 
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
+import Link from 'next/link'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { ReviewCard } from './ReviewCard'
+import { ReviewModal } from './ReviewModal'
 import type { Review } from '@/lib/reviews'
 
 const placeholderReviews = [
@@ -32,36 +34,46 @@ const placeholderReviews = [
   },
   {
     stars: 4,
-    text: 'Solid quality for the price. The fit is great and it washes well.',
+    text: 'Great quality hat. Wish they had more color options but love the fit.',
     author: 'Marcus D.',
     location: 'Kearney, NE',
+    productName: 'Navy & Orange Trucker',
+    productHandle: 'navy-orange-trucker',
+  },
+  {
+    stars: 5,
+    text: "The camo trucker is my new go-to. Fits perfectly under my binos.",
+    author: 'Cody W.',
+    location: 'Norfolk, NE',
+    productName: 'Realtree Camo Trucker',
+    productHandle: 'realtree-camo-trucker',
+  },
+  {
+    stars: 5,
+    text: 'Ordered 3 tees for our hunting crew. Everyone loves them.',
+    author: 'Brett S.',
+    location: 'Hastings, NE',
     productName: 'Timber Logo Tee',
     productHandle: 'timber-logo-tee',
   },
   {
     stars: 5,
-    text: 'Nebraska born and bred. Love supporting a local brand that actually delivers.',
-    author: 'Brett W.',
-    location: 'Norfolk, NE',
-    productName: 'State Outline Hoodie',
-    productHandle: 'state-outline-hoodie',
-  },
-  {
-    stars: 5,
-    text: 'The hoodie is thick and warm — perfect for late-season sits.',
-    author: 'Chris P.',
-    location: 'Hastings, NE',
-    productName: 'Shed Season Hoodie',
-    productHandle: 'shed-season-hoodie',
+    text: 'Nebraska proud! This brand speaks to who we are out here.',
+    author: 'Amanda L.',
+    location: 'Beatrice, NE',
+    productName: 'Forest Green Tee',
+    productHandle: 'forest-green-tee',
   },
 ]
 
 type ReviewCarouselProps = {
   reviews?: Review[]
+  allProducts?: { handle: string; title: string }[]
 }
 
-export function ReviewCarousel({ reviews }: ReviewCarouselProps) {
+export function ReviewCarousel({ reviews, allProducts }: ReviewCarouselProps) {
   const scrollRef = useRef<HTMLDivElement>(null)
+  const [showModal, setShowModal] = useState(false)
 
   // Use real reviews if available, otherwise fall back to placeholders
   const hasRealReviews = reviews && reviews.length > 0
@@ -119,7 +131,7 @@ export function ReviewCarousel({ reviews }: ReviewCarouselProps) {
       {/* Carousel */}
       <div
         ref={scrollRef}
-        className="flex gap-4 overflow-x-auto py-2.5 pb-5 scroll-snap-x-mandatory hide-scrollbar"
+        className="flex gap-4 overflow-x-auto py-2.5 pb-5 snap-x snap-mandatory hide-scrollbar"
       >
         {displayReviews.map((review, i) => (
           <ReviewCard key={i} {...review} />
@@ -141,6 +153,24 @@ export function ReviewCarousel({ reviews }: ReviewCarouselProps) {
           <ChevronRight className="w-4 h-4" />
         </button>
       </div>
+
+      {/* Write a Review button */}
+      <div className="text-center mt-5">
+        <button
+          onClick={() => setShowModal(true)}
+          className="font-nav text-[12px] tracking-[2px] uppercase py-[11px] px-6 bg-transparent text-text border-2 border-border cursor-pointer transition-all duration-300 hover:border-red hover:text-red"
+        >
+          Write a Review
+        </button>
+      </div>
+
+      {showModal && (
+        <ReviewModal
+          isOpen={showModal}
+          onClose={() => setShowModal(false)}
+          products={allProducts || []}
+        />
+      )}
     </section>
   )
 }
