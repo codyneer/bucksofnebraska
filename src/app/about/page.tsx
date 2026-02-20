@@ -173,6 +173,19 @@ export default function AboutPage() {
               Anyway, I played a couple years at Nebraska&mdash;GBR&mdash;then went on to play professionally a few years until one day it was just over. Released, and no teams called again.
             </p>
 
+            {/* Baseball photo */}
+            <div className="flex justify-center py-2">
+              <div className="relative w-full max-w-[400px] overflow-hidden rounded-sm" style={{ boxShadow: '0 4px 16px rgba(0,0,0,0.12)' }}>
+                <Image
+                  src="/images/swing.jpg"
+                  alt="Cody Neer playing baseball"
+                  width={600}
+                  height={400}
+                  className="w-full h-auto"
+                />
+              </div>
+            </div>
+
             <p>
               So I got a job skinning deer at the processor and spent nights chasing coyotes and coons. That&apos;s when I had that other moment&mdash;I Googled &quot;how to make money online&quot;&mdash;and a few years later&hellip;
             </p>
