@@ -9,7 +9,7 @@ export function AnnouncementBar() {
         {[1, 2].map((dup) => (
           <div key={dup} className="inline-flex gap-[60px]">
             <span className="flex items-center gap-2">
-              <Truck className="w-3.5 h-3.5 text-red-light" />
+              <Truck className="w-3.5 h-3.5 text-red-light fill-red-light" />
               <span className="text-red-light font-semibold">FREE SHIPPING</span> on orders over $75
             </span>
             <span className="flex items-center gap-2">
