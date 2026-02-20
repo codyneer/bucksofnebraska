@@ -1,6 +1,6 @@
 'use client'
 
-import { Truck, Flame, Star } from 'lucide-react'
+import { Truck, Mic, Star } from 'lucide-react'
 
 export function AnnouncementBar() {
   return (
@@ -13,7 +13,7 @@ export function AnnouncementBar() {
               <span className="text-red-light font-semibold">FREE SHIPPING</span> on orders over $75
             </span>
             <span className="flex items-center gap-2">
-              <Flame className="w-3.5 h-3.5 text-red-light" />
+              <Mic className="w-3.5 h-3.5 text-red-light" />
               NEW PODCAST EPISODE JUST DROPPED
             </span>
             <span className="flex items-center gap-2">
