@@ -15,7 +15,6 @@ const footerColumns = [
     title: 'Company',
     links: [
       { label: 'Our Story', href: '/about' },
-      { label: 'Podcast', href: '/podcast' },
       { label: 'Contact', href: '/contact' },
       { label: 'Wholesale', href: '/contact' },
       { label: 'Blog', href: '/blog' },
@@ -30,6 +29,7 @@ const footerColumns = [
       { label: 'Facebook', href: 'https://facebook.com/bucksofnebraska' },
       { label: 'TikTok', href: 'https://tiktok.com/@bucksofnebraska' },
       { label: 'X (Twitter)', href: 'https://x.com/bucksofnebraska' },
+      { label: 'Podcast', href: '/podcast' },
     ],
   },
 ]
@@ -49,7 +49,7 @@ export function Footer() {
             className="h-14 w-auto mb-3.5"
           />
           <p className="text-white/50 text-[14px] leading-[1.7] max-w-[280px] font-body">
-            Field-ready apparel rooted in the Nebraska outdoors. Born from the hunt. Built for the life around it.
+            Nebraska&apos;s #1 source for deer hunting. From the Missouri River Bottoms to the Sandhills, we&apos;ve got you covered.
           </p>
         </div>
 
@@ -86,10 +86,21 @@ export function Footer() {
       </div>
 
       {/* Bottom bar */}
-      <div className="max-w-[1200px] mx-auto text-center pt-7">
+      <div className="max-w-[1200px] mx-auto pt-7 flex flex-col sm:flex-row items-center justify-between gap-3">
         <p className="text-[11px] text-white/30 tracking-[1px] font-body">
           &copy; {new Date().getFullYear()} Bucks of Nebraska. All Rights Reserved. Nebraska Proud.
         </p>
+        <div className="flex items-center gap-4">
+          <Link href="/terms" className="text-[11px] text-white/30 hover:text-white/60 tracking-[1px] font-body transition-colors">
+            Terms
+          </Link>
+          <Link href="/privacy" className="text-[11px] text-white/30 hover:text-white/60 tracking-[1px] font-body transition-colors">
+            Privacy
+          </Link>
+          <Link href="/returns" className="text-[11px] text-white/30 hover:text-white/60 tracking-[1px] font-body transition-colors">
+            Returns
+          </Link>
+        </div>
       </div>
     </footer>
   )
