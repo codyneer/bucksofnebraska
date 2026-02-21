@@ -492,13 +492,7 @@ export function Navbar() {
         </div>
       </div>
 
-      {/* Mobile menu overlay */}
-      <div
-        className={`lg:hidden fixed inset-0 bg-black/40 z-[-1] transition-opacity duration-300 ${
-          mobileOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
-        }`}
-        onClick={() => setMobileOpen(false)}
-      />
+      {/* Mobile menu overlay removed — menu has X button to close */}
 
       {/* Mobile menu */}
       <div
@@ -506,7 +500,7 @@ export function Navbar() {
           mobileOpen ? 'max-h-[calc(100vh-120px)] opacity-100' : 'max-h-0 opacity-0 overflow-hidden'
         }`}
       >
-        <div className="flex flex-col gap-0.5 py-4 px-5 sm:px-10">
+        <div className="flex flex-col gap-0.5 pt-4 pb-8 px-5 sm:px-10">
           {/* Shop All CTA */}
           <Link
             href="/shop"
@@ -558,43 +552,41 @@ export function Navbar() {
           <p className="font-nav text-[10px] tracking-[2px] uppercase text-red mt-3 mb-1">
             Collections
           </p>
-          <div className="grid grid-cols-2 gap-x-4">
-            <Link
-              href="/collections/deer"
-              className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5 border-b border-border-light"
-              onClick={() => setMobileOpen(false)}
-            >
-              Deer
-            </Link>
-            <Link
-              href="/collections/duck"
-              className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5 border-b border-border-light"
-              onClick={() => setMobileOpen(false)}
-            >
-              Ducks
-            </Link>
-            <Link
-              href="/collections/pheasant-hats"
-              className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5 border-b border-border-light"
-              onClick={() => setMobileOpen(false)}
-            >
-              Pheasants
-            </Link>
-            <Link
-              href="/collections/bass-hats"
-              className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5 border-b border-border-light"
-              onClick={() => setMobileOpen(false)}
-            >
-              Fish
-            </Link>
-            <Link
-              href="/collections/new-arrivals"
-              className="font-nav text-[13px] tracking-[2px] uppercase text-red hover:text-red-dark py-2.5 border-b border-border-light"
-              onClick={() => setMobileOpen(false)}
-            >
-              New Arrivals
-            </Link>
-          </div>
+          <Link
+            href="/collections/deer"
+            className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5 border-b border-border-light"
+            onClick={() => setMobileOpen(false)}
+          >
+            Deer
+          </Link>
+          <Link
+            href="/collections/duck"
+            className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5 border-b border-border-light"
+            onClick={() => setMobileOpen(false)}
+          >
+            Ducks
+          </Link>
+          <Link
+            href="/collections/pheasant-hats"
+            className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5 border-b border-border-light"
+            onClick={() => setMobileOpen(false)}
+          >
+            Pheasants
+          </Link>
+          <Link
+            href="/collections/bass-hats"
+            className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5 border-b border-border-light"
+            onClick={() => setMobileOpen(false)}
+          >
+            Fish
+          </Link>
+          <Link
+            href="/collections/new-arrivals"
+            className="font-nav text-[13px] tracking-[2px] uppercase text-red hover:text-red-dark py-2.5 border-b border-border-light"
+            onClick={() => setMobileOpen(false)}
+          >
+            New Arrivals
+          </Link>
 
           <div className="h-px bg-border my-3" />
 
@@ -647,31 +639,33 @@ export function Navbar() {
 
           <div className="h-px bg-border my-3" />
 
-          {/* Account + Social */}
-          <Link
-            href={isAuthenticated ? '/account' : '/account/login'}
-            className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5 flex items-center gap-2"
-            onClick={() => setMobileOpen(false)}
-          >
-            <User className="w-4 h-4" />
-            {isAuthenticated ? 'My Account' : 'Sign In'}
-          </Link>
+          {/* Account + Social — side by side */}
+          <div className="flex items-start justify-between py-2.5">
+            <Link
+              href={isAuthenticated ? '/account' : '/account/login'}
+              className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red flex items-center gap-2"
+              onClick={() => setMobileOpen(false)}
+            >
+              <User className="w-4 h-4" />
+              {isAuthenticated ? 'My Account' : 'Sign In'}
+            </Link>
 
-          <div className="flex gap-3 py-3 mt-1">
-            {socialLinks.map((social) => {
-              const Icon = social.icon
-              return (
-                <a
-                  key={social.label}
-                  href={social.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-2 rounded bg-offWhite transition-opacity hover:opacity-70"
-                >
-                  <Icon className="w-5 h-5" style={{ color: social.color }} />
-                </a>
-              )
-            })}
+            <div className="flex gap-2.5">
+              {socialLinks.map((social) => {
+                const Icon = social.icon
+                return (
+                  <a
+                    key={social.label}
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-2 rounded bg-offWhite transition-opacity hover:opacity-70"
+                  >
+                    <Icon className="w-5 h-5" style={{ color: social.color }} />
+                  </a>
+                )
+              })}
+            </div>
           </div>
         </div>
       </div>
