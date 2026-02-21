@@ -100,7 +100,10 @@ export function ProductDetail({ product, reviews = [], allProducts = [] }: Produ
   }, [variants, images])
 
   const totalPrice = tierPrice * tierQuantity * quantity
-  const viewerCount = 23 + Math.floor(Math.random() * 30)
+  const [viewerCount, setViewerCount] = useState(0)
+  useEffect(() => {
+    setViewerCount(23 + Math.floor(Math.random() * 30))
+  }, [])
 
   // Track ViewContent on product page load
   useEffect(() => {
