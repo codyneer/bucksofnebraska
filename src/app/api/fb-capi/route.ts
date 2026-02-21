@@ -6,7 +6,8 @@ const FB_API_VERSION = 'v21.0'
 
 export async function POST(request: NextRequest) {
   if (!FB_PIXEL_ID || !FB_CAPI_TOKEN) {
-    return NextResponse.json({ error: 'FB not configured' }, { status: 500 })
+    // Return 200 silently so client doesn't log errors
+    return NextResponse.json({ success: false, reason: 'not configured' })
   }
 
   try {
