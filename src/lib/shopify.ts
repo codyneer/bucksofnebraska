@@ -314,7 +314,7 @@ export async function getProduct(handle: string) {
   return data.productByHandle
 }
 
-export async function getAllProducts(first = 50) {
+export async function getAllProducts(first = 250) {
   const data = await shopifyFetch<{
     products: { edges: { node: ShopifyProduct }[] }
   }>({

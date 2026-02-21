@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 }
 
 export default async function ShopPage() {
-  const products = await getAllProducts(50)
+  const products = await getAllProducts(250)
 
   return (
     <div className="py-12 sm:py-20 px-4 sm:px-10 max-w-[1300px] mx-auto">

@@ -4,7 +4,9 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useCart } from '@/lib/cart-context'
 import { formatPrice, calculateSavings } from '@/lib/utils'
+import { ReviewStarsDisplay } from '@/components/reviews/ReviewStars'
 import type { ShopifyProduct } from '@/lib/shopify'
+import type { Review } from '@/lib/reviews'
 
 type ProductCardProps = {
   product: ShopifyProduct
@@ -25,6 +27,21 @@ export function ProductCard({ product }: ProductCardProps) {
     return Math.min(min, node.quantityAvailable)
   }, Infinity)
   const showUrgency = lowestQuantity < 15 && lowestQuantity > 0
+
+  // Parse reviews from metafield
+  const reviews: Review[] = (() => {
+    if (!product.metafield?.value) return []
+    try {
+      const parsed: Review[] = JSON.parse(product.metafield.value)
+      return parsed.filter((r) => r.status === 'approved')
+    } catch {
+      return []
+    }
+  })()
+  const reviewCount = reviews.length
+  const avgStars = reviewCount > 0
+    ? Math.round(reviews.reduce((sum, r) => sum + r.stars, 0) / reviewCount)
+    : 0
 
   const tag = product.tags.includes('best-seller')
     ? 'Best Seller'
@@ -90,6 +107,14 @@ export function ProductCard({ product }: ProductCardProps) {
         <h3 className="font-nav text-[15px] tracking-[1px] uppercase text-text mb-1 line-clamp-2">
           {product.title}
         </h3>
+        {reviewCount > 0 && (
+          <div className="flex items-center gap-1.5 mb-1">
+            <ReviewStarsDisplay count={avgStars} size="sm" />
+            <span className="font-nav text-[11px] tracking-[1px] text-text-muted">
+              ({reviewCount})
+            </span>
+          </div>
+        )}
         <div className="flex items-center gap-2.5">
           <span className="font-display text-[22px] text-red">{formatPrice(price)}</span>
           {hasDiscount && (

@@ -135,12 +135,11 @@ const shopColumns: MenuColumn[] = [
 ]
 
 const shopFeatured: MegaMenuFeatured = {
-  title: 'New Arrivals',
-  subtitle: 'Just Dropped',
-  image:
-    'https://cdn.shopify.com/s/files/1/0398/3185/collections/header_deer.jpg?v=1732444809',
+  title: 'Shed Season',
+  subtitle: "It's Time",
+  image: '/shedseason.png',
   href: '/collections/new-arrivals',
-  ctaLabel: 'Shop New',
+  ctaLabel: 'Shop Now',
 }
 
 const communityColumns: MenuColumn[] = [
