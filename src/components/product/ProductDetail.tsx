@@ -133,19 +133,26 @@ export function ProductDetail({ product, reviews = [], allProducts = [] }: Produ
         <div>
           <h1 className="font-display text-[clamp(28px,6vw,38px)] text-text mb-1">{product.title}</h1>
 
-          {/* Star rating */}
+          {/* Star rating — clicks to scroll to reviews */}
           {reviews.length > 0 && (
-            <div className="flex items-center gap-2 mb-3">
+            <a
+              href="#reviews"
+              className="flex items-center gap-2 mb-3 no-underline cursor-pointer group"
+              onClick={(e) => {
+                e.preventDefault()
+                document.getElementById('reviews')?.scrollIntoView({ behavior: 'smooth' })
+              }}
+            >
               <span className="text-gold text-[14px]">
                 {Array.from({ length: 5 }, (_, i) => {
                   const avg = reviews.reduce((sum, r) => sum + r.stars, 0) / reviews.length
                   return i < Math.round(avg) ? '★' : '☆'
                 }).join('')}
               </span>
-              <span className="text-[13px] text-text-muted">
+              <span className="text-[13px] text-text-muted group-hover:text-red transition-colors">
                 {(reviews.reduce((sum, r) => sum + r.stars, 0) / reviews.length).toFixed(1)} ({reviews.length} {reviews.length === 1 ? 'review' : 'reviews'})
               </span>
-            </div>
+            </a>
           )}
 
           {/* Price */}

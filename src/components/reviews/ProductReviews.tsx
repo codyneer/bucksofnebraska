@@ -62,7 +62,7 @@ export function ProductReviews({
   const hasMore = visibleCount < sortedReviews.length
 
   return (
-    <div className="mt-16 pt-10 border-t-2 border-border">
+    <div id="reviews" className="mt-16 pt-10 border-t-2 border-border scroll-mt-24">
       {/* Section Header */}
       <div className="text-center mb-10">
         <h3 className="font-display text-[36px] text-text">
