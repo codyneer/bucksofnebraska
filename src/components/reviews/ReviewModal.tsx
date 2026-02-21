@@ -72,7 +72,7 @@ export function ReviewModal({ isOpen, onClose, prefilledProduct, products }: Rev
           <X className="w-6 h-6" />
         </button>
 
-        <h2 className="font-display text-[32px] text-text mb-1">
+        <h2 className="font-display text-[26px] sm:text-[32px] text-text mb-1">
           Write a <span className="text-red">Review</span>
         </h2>
 

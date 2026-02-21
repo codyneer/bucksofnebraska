@@ -53,7 +53,7 @@ export function BundleTiers({ basePrice, onTierChange }: BundleTiersProps) {
   return (
     <div className="mb-7 border-2 border-red overflow-hidden">
       {/* Header */}
-      <div className="bg-red text-white px-4 py-2.5 font-nav text-[13px] tracking-[2px] uppercase flex justify-between items-center">
+      <div className="bg-red text-white px-3 sm:px-4 py-2.5 font-nav text-[11px] sm:text-[13px] tracking-[1.5px] sm:tracking-[2px] uppercase flex justify-between items-center">
         <span className="flex items-center gap-1.5">
           <Flame className="w-4 h-4" /> Bundle & Save
         </span>
@@ -65,11 +65,11 @@ export function BundleTiers({ basePrice, onTierChange }: BundleTiersProps) {
         <div
           key={tier.quantity}
           onClick={() => handleSelect(i)}
-          className={`px-4 py-3.5 flex items-center justify-between border-b border-border-light last:border-b-0 cursor-pointer transition-colors duration-200 hover:bg-red/[0.03] ${
+          className={`px-3 sm:px-4 py-3 sm:py-3.5 flex items-center justify-between gap-2 border-b border-border-light last:border-b-0 cursor-pointer transition-colors duration-200 hover:bg-red/[0.03] ${
             selectedIndex === i ? 'bg-red/[0.06] border-l-[3px] border-l-red' : ''
           }`}
         >
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3 min-w-0 flex-1">
             {/* Radio */}
             <div
               className={`w-[18px] h-[18px] rounded-full border-2 flex items-center justify-center flex-shrink-0 ${
@@ -81,24 +81,24 @@ export function BundleTiers({ basePrice, onTierChange }: BundleTiersProps) {
               )}
             </div>
 
-            <div>
-              <div className="font-nav text-[14px] tracking-[1px] uppercase text-text">
+            <div className="min-w-0">
+              <div className="font-nav text-[13px] sm:text-[14px] tracking-[1px] uppercase text-text">
                 {tier.label}
               </div>
-              <div className="font-body text-[12px] text-text-muted mt-0.5">
+              <div className="font-body text-[11px] sm:text-[12px] text-text-muted mt-0.5 truncate">
                 {tier.subtitle}
               </div>
             </div>
 
             {tier.badge && (
-              <span className="bg-green text-white font-nav text-[10px] tracking-[1.5px] uppercase py-0.5 px-2 ml-2">
+              <span className="bg-green text-white font-nav text-[9px] sm:text-[10px] tracking-[1px] sm:tracking-[1.5px] uppercase py-0.5 px-1.5 sm:px-2 whitespace-nowrap">
                 {tier.badge}
               </span>
             )}
           </div>
 
-          <div className="text-right">
-            <div className="font-display text-[22px] text-red">
+          <div className="text-right flex-shrink-0">
+            <div className="font-display text-[18px] sm:text-[22px] text-red">
               ${tier.priceEach}{tier.quantity > 1 ? '/ea' : ''}
             </div>
             {tier.quantity > 1 && (

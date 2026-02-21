@@ -63,7 +63,7 @@ export default function PodcastPage() {
 
       {/* Episode 1 */}
       <div className="space-y-4">
-        <a href="https://www.youtube.com/@BucksofNebraska" target="_blank" rel="noopener noreferrer" className="bg-white border border-border-light p-6 flex gap-5 items-start cursor-pointer transition-all duration-300 hover:shadow-lg hover:border-red group block">
+        <a href="https://www.youtube.com/@BucksofNebraska" target="_blank" rel="noopener noreferrer" className="bg-white border border-border-light p-4 sm:p-6 flex gap-3 sm:gap-5 items-start cursor-pointer transition-all duration-300 hover:shadow-lg hover:border-red group block">
           <div className="flex-shrink-0 w-12 h-12 bg-red/[0.06] border border-red/20 flex items-center justify-center group-hover:bg-red group-hover:border-red transition-all duration-300">
             <Play className="w-4 h-4 text-red group-hover:text-white transition-colors" />
           </div>

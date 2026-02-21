@@ -66,7 +66,7 @@ export function ProductDetail({ product, reviews = [], allProducts = [] }: Produ
   }
 
   return (
-    <div className="pt-[40px] pb-20 px-4 sm:px-8 lg:px-10 max-w-[1060px] mx-auto">
+    <div className="pt-6 sm:pt-[40px] pb-12 sm:pb-20 px-4 sm:px-8 lg:px-10 max-w-[1060px] mx-auto">
       {/* Breadcrumb */}
       <p className="font-nav text-[11px] tracking-[2px] uppercase text-text-muted mb-3">
         <Link href="/" className="text-text-muted hover:text-red transition-colors">
@@ -80,7 +80,7 @@ export function ProductDetail({ product, reviews = [], allProducts = [] }: Produ
         {product.title}
       </p>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-start">
         {/* Left: Image Gallery */}
         <div>
           {/* Main image */}

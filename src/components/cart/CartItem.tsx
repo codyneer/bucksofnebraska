@@ -15,7 +15,7 @@ export function CartItem({ line }: CartItemProps) {
   const price = parseFloat(merchandise.price.amount)
 
   return (
-    <div className="grid grid-cols-[80px_1fr] gap-3.5 py-[18px] px-6 border-b border-border-light">
+    <div className="grid grid-cols-[60px_1fr] sm:grid-cols-[80px_1fr] gap-3 sm:gap-3.5 py-[18px] px-4 sm:px-6 border-b border-border-light">
       {/* Thumbnail */}
       {merchandise.image ? (
         <Image
@@ -23,17 +23,17 @@ export function CartItem({ line }: CartItemProps) {
           alt={merchandise.image.altText || merchandise.product.title}
           width={80}
           height={80}
-          className="w-[80px] h-[80px] object-cover border border-border-light"
+          className="w-[60px] h-[60px] sm:w-[80px] sm:h-[80px] object-cover border border-border-light"
         />
       ) : (
-        <div className="w-[80px] h-[80px] bg-offWhite flex items-center justify-center border border-border-light">
+        <div className="w-[60px] h-[60px] sm:w-[80px] sm:h-[80px] bg-offWhite flex items-center justify-center border border-border-light">
           <span className="font-display text-[20px] text-red">BN</span>
         </div>
       )}
 
       {/* Info */}
       <div>
-        <h4 className="font-nav text-[14px] tracking-[1px] uppercase text-text">
+        <h4 className="font-nav text-[12px] sm:text-[14px] tracking-[1px] uppercase text-text line-clamp-2">
           {merchandise.product.title}
         </h4>
         {merchandise.title !== 'Default Title' && (

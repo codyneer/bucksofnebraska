@@ -97,7 +97,7 @@ export default function AboutPage() {
       <div id="founders-letter" className="mt-20 relative scroll-mt-32">
         {/* Paper background */}
         <div
-          className="relative bg-[#faf6ef] rounded-sm px-8 sm:px-12 py-10 sm:py-14"
+          className="relative bg-[#faf6ef] rounded-sm px-5 sm:px-8 md:px-12 py-8 sm:py-10 md:py-14"
           style={{
             boxShadow: '0 2px 20px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,0,0,0.04)',
             backgroundImage: 'linear-gradient(to bottom, transparent 0%, rgba(196,30,58,0.02) 100%)',

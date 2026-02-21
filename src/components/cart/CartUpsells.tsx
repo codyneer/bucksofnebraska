@@ -41,7 +41,7 @@ export function CartUpsells({ products }: CartUpsellsProps) {
   if (displayed.length === 0) return null
 
   return (
-    <div className="px-6 pb-5 border-t border-border-light">
+    <div className="px-4 sm:px-6 pb-5 border-t border-border-light">
       <div className="font-nav text-[12px] tracking-[2px] uppercase text-text-muted py-4 pb-3 flex items-center gap-2">
         Add &amp; Save
         <span className="flex-1 h-px bg-border-light" />

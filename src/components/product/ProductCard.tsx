@@ -103,8 +103,8 @@ export function ProductCard({ product }: ProductCardProps) {
       )}
 
       {/* Card body */}
-      <div className="px-[18px] pt-4 pb-5 flex-1">
-        <h3 className="font-nav text-[15px] tracking-[1px] uppercase text-text mb-1 line-clamp-2">
+      <div className="px-3 sm:px-[18px] pt-3 sm:pt-4 pb-4 sm:pb-5 flex-1">
+        <h3 className="font-nav text-[13px] sm:text-[15px] tracking-[1px] uppercase text-text mb-1 line-clamp-2">
           {product.title}
         </h3>
         {reviewCount > 0 && (
@@ -115,14 +115,14 @@ export function ProductCard({ product }: ProductCardProps) {
             </span>
           </div>
         )}
-        <div className="flex items-center gap-2.5">
-          <span className="font-display text-[22px] text-red">{formatPrice(price)}</span>
+        <div className="flex items-center gap-1.5 sm:gap-2.5 flex-wrap">
+          <span className="font-display text-[20px] sm:text-[22px] text-red">{formatPrice(price)}</span>
           {hasDiscount && (
             <>
-              <span className="font-display text-[16px] text-text-muted line-through">
+              <span className="font-display text-[14px] sm:text-[16px] text-text-muted line-through">
                 {formatPrice(compareAtPrice)}
               </span>
-              <span className="font-nav text-[11px] text-green tracking-[1px] uppercase bg-green/[0.08] py-0.5 px-2 rounded-sm">
+              <span className="font-nav text-[10px] sm:text-[11px] text-green tracking-[1px] uppercase bg-green/[0.08] py-0.5 px-1.5 sm:px-2 rounded-sm">
                 Save ${savings}
               </span>
             </>
@@ -132,17 +132,17 @@ export function ProductCard({ product }: ProductCardProps) {
 
       {/* Urgency badge */}
       {showUrgency && (
-        <div className="px-[18px] py-1.5 bg-red/[0.04] border-t border-border-light font-nav text-[11px] text-red tracking-[1px] flex items-center gap-1.5">
+        <div className="px-3 sm:px-[18px] py-1.5 bg-red/[0.04] border-t border-border-light font-nav text-[10px] sm:text-[11px] text-red tracking-[1px] flex items-center gap-1.5">
           <span className="w-1.5 h-1.5 rounded-full bg-red animate-pulse-dot" />
           Only {lowestQuantity} left in stock
         </div>
       )}
 
       {/* Quick Add button */}
-      <div className="px-[18px] pb-[18px]">
+      <div className="px-3 sm:px-[18px] pb-3 sm:pb-[18px]">
         <button
           onClick={handleQuickAdd}
-          className="w-full py-3 bg-brand-black text-white border-none font-nav text-[12px] tracking-[2px] uppercase cursor-pointer transition-all duration-300 hover:bg-red"
+          className="w-full py-2.5 sm:py-3 bg-brand-black text-white border-none font-nav text-[11px] sm:text-[12px] tracking-[2px] uppercase cursor-pointer transition-all duration-300 hover:bg-red"
         >
           {hasOptions ? 'Choose Options' : 'Quick Add'}
         </button>

@@ -30,7 +30,7 @@ export function OrderBump({ productTitle, variantId, quantity, price, compareAtP
   }
 
   return (
-    <div className="mx-6 mb-4 border-2 border-dashed border-red p-4 bg-red/[0.02]">
+    <div className="mx-4 sm:mx-6 mb-4 border-2 border-dashed border-red p-3 sm:p-4 bg-red/[0.02]">
       <div
         className="flex items-start gap-3 cursor-pointer"
         onClick={handleToggle}

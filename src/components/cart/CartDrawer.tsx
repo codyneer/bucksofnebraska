@@ -94,8 +94,8 @@ export function CartDrawer() {
         }`}
       >
         {/* Header */}
-        <div className="px-6 py-5 flex justify-between items-center border-b border-border shrink-0">
-          <h2 className="font-display text-[26px] text-text">Your Cart</h2>
+        <div className="px-4 sm:px-6 py-5 flex justify-between items-center border-b border-border shrink-0">
+          <h2 className="font-display text-[24px] sm:text-[26px] text-text">Your Cart</h2>
           <button
             onClick={closeCart}
             className="bg-transparent border-none text-text text-[24px] cursor-pointer transition-colors hover:text-red"
@@ -127,7 +127,7 @@ export function CartDrawer() {
 
               {/* Discount Code Banner */}
               {discountCodes.length === 0 && (
-                <div className="mx-5 mb-3 mt-1">
+                <div className="mx-3 sm:mx-5 mb-3 mt-1">
                   <button
                     onClick={async () => {
                       setApplyingDiscount(true)
@@ -135,17 +135,17 @@ export function CartDrawer() {
                       setApplyingDiscount(false)
                     }}
                     disabled={applyingDiscount}
-                    className="w-full flex items-center justify-between py-3 px-4 border-2 border-dashed border-red/40 bg-red/[0.04] cursor-pointer transition-all hover:border-red hover:bg-red/[0.08] disabled:opacity-50"
+                    className="w-full flex items-center justify-between py-2.5 sm:py-3 px-3 sm:px-4 border-2 border-dashed border-red/40 bg-red/[0.04] cursor-pointer transition-all hover:border-red hover:bg-red/[0.08] disabled:opacity-50 gap-2"
                   >
-                    <div className="flex items-center gap-2">
-                      <span className="font-nav text-[11px] tracking-[2px] uppercase text-red">
+                    <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
+                      <span className="font-nav text-[10px] sm:text-[11px] tracking-[1.5px] sm:tracking-[2px] uppercase text-red whitespace-nowrap">
                         SHEDSEASON
                       </span>
-                      <span className="font-body text-[13px] text-text-light">
-                        — 10% off your order
+                      <span className="font-body text-[12px] sm:text-[13px] text-text-light truncate">
+                        — 10% off
                       </span>
                     </div>
-                    <span className="font-nav text-[10px] tracking-[1.5px] uppercase text-red bg-red/10 px-2 py-1">
+                    <span className="font-nav text-[10px] tracking-[1.5px] uppercase text-red bg-red/10 px-2 py-1 whitespace-nowrap flex-shrink-0">
                       {applyingDiscount ? 'Applying...' : 'Apply'}
                     </span>
                   </button>
@@ -201,7 +201,7 @@ export function CartDrawer() {
             </div>
 
             {/* Footer */}
-            <div className="px-6 py-5 border-t border-border bg-offWhite shrink-0">
+            <div className="px-4 sm:px-6 py-4 sm:py-5 border-t border-border bg-offWhite shrink-0">
               {/* Savings banner */}
               {subtotal >= 50 && (
                 <div className="text-center bg-green/[0.06] py-2 mb-3 font-nav text-[12px] text-green tracking-[1px] uppercase">
@@ -264,7 +264,7 @@ export function CartDrawer() {
                 <span className="font-nav text-[14px] tracking-[2px] uppercase text-text">
                   Total
                 </span>
-                <span className="font-display text-[28px] text-red">
+                <span className="font-display text-[24px] sm:text-[28px] text-red">
                   {formatPrice(total)}
                 </span>
               </div>

@@ -62,10 +62,10 @@ export function ProductReviews({
   const hasMore = visibleCount < sortedReviews.length
 
   return (
-    <div id="reviews" className="mt-16 pt-10 border-t-2 border-border scroll-mt-24">
+    <div id="reviews" className="mt-10 sm:mt-16 pt-8 sm:pt-10 border-t-2 border-border scroll-mt-24">
       {/* Section Header */}
-      <div className="text-center mb-10">
-        <h3 className="font-display text-[36px] text-text">
+      <div className="text-center mb-8 sm:mb-10">
+        <h3 className="font-display text-[28px] sm:text-[36px] text-text">
           Customer <span className="text-red">Reviews</span>
         </h3>
         {approvedReviews.length > 0 && (
@@ -78,10 +78,10 @@ export function ProductReviews({
       {approvedReviews.length > 0 ? (
         <>
           {/* Summary + Histogram */}
-          <div className="flex flex-col sm:flex-row gap-8 sm:gap-12 items-center sm:items-start justify-center mb-10 pb-10 border-b border-border">
+          <div className="flex flex-col sm:flex-row gap-6 sm:gap-12 items-center sm:items-start justify-center mb-8 sm:mb-10 pb-8 sm:pb-10 border-b border-border">
             {/* Left: Big average */}
             <div className="text-center shrink-0">
-              <div className="font-display text-[64px] leading-none text-text">
+              <div className="font-display text-[48px] sm:text-[64px] leading-none text-text">
                 {avgStars.toFixed(1)}
               </div>
               <div className="mt-1">
@@ -167,11 +167,11 @@ export function ProductReviews({
           </div>
 
           {/* Review Cards — 2-column grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-5">
             {visibleReviews.map((review) => (
               <div
                 key={review.id}
-                className="border border-border-light p-5 bg-white transition-all duration-200 hover:border-border hover:shadow-sm"
+                className="border border-border-light p-4 sm:p-5 bg-white transition-all duration-200 hover:border-border hover:shadow-sm"
               >
                 <div className="flex items-start justify-between gap-3 mb-3">
                   <div>
