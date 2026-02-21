@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { useCart } from '@/lib/cart-context'
 import { useToast } from '@/components/ui/Toast'
 import { Check } from 'lucide-react'
+import { trackAddToCart } from '@/lib/fb-events'
 
 type OrderBumpProps = {
   productTitle: string
@@ -28,6 +29,13 @@ export function OrderBump({ productTitle, variantId, quantity, price, compareAtP
     if (!checked) {
       setChecked(true)
       await addItem(variantId, quantity)
+      trackAddToCart({
+        contentName: productTitle,
+        contentId: variantId,
+        contentType: 'product',
+        value: price * quantity,
+        quantity,
+      })
       showToast('Deal added to cart', 'cart')
     }
   }

@@ -8,6 +8,7 @@ import { FreeShippingBar } from './FreeShippingBar'
 import { CartItem } from './CartItem'
 import { OrderBump } from './OrderBump'
 import { CartUpsells } from './CartUpsells'
+import { trackInitiateCheckout } from '@/lib/fb-events'
 import type { ShopifyProduct } from '@/lib/shopify'
 
 export function CartDrawer() {
@@ -272,6 +273,13 @@ export function CartDrawer() {
               {/* Checkout button */}
               <a
                 href={cart?.checkoutUrl || '#'}
+                onClick={() => {
+                  trackInitiateCheckout({
+                    contentIds: lines.map((l) => l.merchandise.product.handle),
+                    value: total,
+                    numItems: itemCount,
+                  })
+                }}
                 className="block w-full py-4 bg-red text-white text-center border-none font-nav text-[15px] tracking-[3px] uppercase cursor-pointer transition-all duration-300 hover:bg-red-dark"
               >
                 Checkout

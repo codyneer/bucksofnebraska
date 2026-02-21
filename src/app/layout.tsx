@@ -11,6 +11,7 @@ import { ToastProvider } from '@/components/ui/Toast'
 import { OrganizationSchema, WebSiteSchema, SiteNavigationSchema } from '@/lib/structured-data'
 import { OmnisendScript } from '@/components/OmnisendScript'
 import { GoogleAnalytics } from '@/components/GoogleAnalytics'
+import { FacebookPixel } from '@/components/FacebookPixel'
 import { getAllApprovedReviews, computeReviewStats } from '@/lib/reviews'
 import './globals.css'
 
@@ -117,6 +118,7 @@ export default async function RootLayout({
         </ToastProvider>
         <OmnisendScript />
         <GoogleAnalytics />
+        <FacebookPixel />
       </body>
     </html>
   )

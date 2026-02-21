@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo, useCallback } from 'react'
+import { useState, useMemo, useCallback, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Lock, Truck, RefreshCw, Eye } from 'lucide-react'
@@ -9,6 +9,7 @@ import { useToast } from '@/components/ui/Toast'
 import { formatPrice } from '@/lib/utils'
 import { BundleTiers } from './BundleTiers'
 import { ProductReviews } from '@/components/reviews/ProductReviews'
+import { trackAddToCart, trackViewContent } from '@/lib/fb-events'
 import type { ShopifyProduct, ProductVariant } from '@/lib/shopify'
 import type { Review } from '@/lib/reviews'
 
@@ -101,9 +102,26 @@ export function ProductDetail({ product, reviews = [], allProducts = [] }: Produ
   const totalPrice = tierPrice * tierQuantity * quantity
   const viewerCount = 23 + Math.floor(Math.random() * 30)
 
+  // Track ViewContent on product page load
+  useEffect(() => {
+    trackViewContent({
+      contentName: product.title,
+      contentId: product.handle,
+      contentType: 'product',
+      value: basePrice,
+    })
+  }, [product.handle, product.title, basePrice])
+
   const handleAddToCart = async () => {
     if (!selectedVariant) return
     await addItem(selectedVariant.id, tierQuantity * quantity)
+    trackAddToCart({
+      contentName: product.title,
+      contentId: product.handle,
+      contentType: 'product',
+      value: totalPrice,
+      quantity: tierQuantity * quantity,
+    })
     showToast('Added to cart', 'cart')
   }
 

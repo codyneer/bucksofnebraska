@@ -6,6 +6,7 @@ import { useCart } from '@/lib/cart-context'
 import { useToast } from '@/components/ui/Toast'
 import { formatPrice, calculateSavings } from '@/lib/utils'
 import { ReviewStarsDisplay } from '@/components/reviews/ReviewStars'
+import { trackAddToCart } from '@/lib/fb-events'
 import type { ShopifyProduct } from '@/lib/shopify'
 import type { Review } from '@/lib/reviews'
 
@@ -67,6 +68,12 @@ export function ProductCard({ product }: ProductCardProps) {
     e.stopPropagation()
     if (firstVariant) {
       await addItem(firstVariant.id)
+      trackAddToCart({
+        contentName: product.title,
+        contentId: product.handle,
+        contentType: 'product',
+        value: parseFloat(price),
+      })
       showToast('Added to cart', 'cart')
     }
   }
