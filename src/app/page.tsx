@@ -14,8 +14,9 @@ import { getCollectionProducts, getAllProducts, type ShopifyProduct } from '@/li
 import { getAllApprovedReviews, computeReviewStats, type Review } from '@/lib/reviews'
 
 export const metadata: Metadata = {
-  title: 'Bucks of Nebraska — Nebraska Hunting Apparel',
-  description: 'Premium hunting apparel for Nebraska hunters. Hats, tees, hoodies, and gear built for the field. Free shipping on orders over $75.',
+  title: { absolute: 'Bucks of Nebraska | Nebraska Deer Hunting Apparel & Gear' },
+  description: 'Shop premium Nebraska deer hunting apparel. Hunting shirts, hoodies, hats, and gear built for the field by hunters, for hunters. Free shipping on orders over $75.',
+  alternates: { canonical: '/' },
 }
 
 export default async function Home() {

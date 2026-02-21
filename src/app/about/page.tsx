@@ -2,18 +2,20 @@ import type { Metadata } from 'next'
 import Image from 'next/image'
 
 export const metadata: Metadata = {
-  title: 'About',
-  description: 'The story behind Bucks of Nebraska. Born in the heartland, built for the hunt.',
+  title: 'Our Story | Nebraska-Born Hunting Apparel Brand',
+  description: 'The story behind Bucks of Nebraska. Founded in 2013 by Cody Neer, we build premium hunting apparel for Nebraska hunters. Born in the heartland, built for the hunt.',
+  keywords: ['bucks of nebraska', 'nebraska hunting brand', 'hunting apparel brand', 'nebraska outdoor lifestyle', 'state pride hunting'],
+  alternates: { canonical: '/about' },
   openGraph: {
-    title: 'About — Bucks of Nebraska',
-    description: 'The story behind Bucks of Nebraska. Born in the heartland, built for the hunt.',
-    images: [{ url: '/api/og?title=Our%20Story&subtitle=Born%20in%20the%20Heartland.%20Built%20for%20the%20Hunt.', width: 1200, height: 630 }],
+    title: 'Our Story | Bucks of Nebraska',
+    description: 'Founded in 2013, Bucks of Nebraska builds premium hunting apparel for Nebraska hunters. Born in the heartland, built for the hunt.',
+    images: [{ url: '/api/og?title=Our%20Story&subtitle=Nebraska-Born.%20Hunter%20Built.%20Since%202013.', width: 1200, height: 630 }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'About — Bucks of Nebraska',
-    description: 'The story behind Bucks of Nebraska. Born in the heartland, built for the hunt.',
-    images: ['/api/og?title=Our%20Story&subtitle=Born%20in%20the%20Heartland.%20Built%20for%20the%20Hunt.'],
+    title: 'Our Story | Bucks of Nebraska',
+    description: 'Founded in 2013, Bucks of Nebraska builds premium hunting apparel for Nebraska hunters. Born in the heartland, built for the hunt.',
+    images: ['/api/og?title=Our%20Story&subtitle=Nebraska-Born.%20Hunter%20Built.%20Since%202013.'],
   },
 }
 

@@ -3,7 +3,7 @@ import type { Review } from './reviews'
 import type { BlogPost } from './blog-data'
 import type { RecipePost } from './recipe-data'
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://bucksofnebraska.vercel.app'
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://bucksofnebraska.com'
 
 // ─── Generic JSON-LD component ───────────────────────────────────────────────
 
@@ -27,17 +27,23 @@ export function OrganizationSchema() {
         name: 'Bucks of Nebraska',
         url: siteUrl,
         logo: `${siteUrl}/logos/bn-deer-logo.png`,
-        description: 'Nebraska hunting apparel built for the field. Premium tees, hoodies, and hats designed by hunters, for hunters.',
+        description: 'Nebraska deer hunting apparel built for the field. Premium hunting shirts, hoodies, hats, and gear designed by hunters, for hunters.',
         foundingDate: '2013',
         founder: {
           '@type': 'Person',
           name: 'Cody Neer',
+          url: `${siteUrl}/about`,
         },
         address: {
           '@type': 'PostalAddress',
           addressLocality: 'Auburn',
           addressRegion: 'NE',
           addressCountry: 'US',
+        },
+        contactPoint: {
+          '@type': 'ContactPoint',
+          contactType: 'customer service',
+          url: `${siteUrl}/contact`,
         },
         sameAs: [
           'https://www.instagram.com/bucksofnebraska/',
@@ -59,6 +65,14 @@ export function WebSiteSchema() {
         '@type': 'WebSite',
         name: 'Bucks of Nebraska',
         url: siteUrl,
+        potentialAction: {
+          '@type': 'SearchAction',
+          target: {
+            '@type': 'EntryPoint',
+            urlTemplate: `${siteUrl}/shop?q={search_term_string}`,
+          },
+          'query-input': 'required name=search_term_string',
+        },
       }}
     />
   )
@@ -175,6 +189,36 @@ export function BreadcrumbSchema({
   )
 }
 
+// ─── ItemList (collection/shop pages) ────────────────────────────────────────
+
+export function ItemListSchema({
+  products,
+  listName,
+  url,
+}: {
+  products: ShopifyProduct[]
+  listName: string
+  url: string
+}) {
+  return (
+    <JsonLd
+      data={{
+        '@context': 'https://schema.org',
+        '@type': 'ItemList',
+        name: listName,
+        url,
+        numberOfItems: products.length,
+        itemListElement: products.slice(0, 50).map((p, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          url: `${siteUrl}/products/${p.handle}`,
+          name: p.title,
+        })),
+      }}
+    />
+  )
+}
+
 // ─── Article / BlogPosting ───────────────────────────────────────────────────
 
 export function BlogPostSchema({ post }: { post: BlogPost }) {
@@ -187,11 +231,10 @@ export function BlogPostSchema({ post }: { post: BlogPost }) {
         description: post.description,
         url: `${siteUrl}/blog/${post.slug}`,
         datePublished: post.date,
-        dateModified: post.date,
         author: {
-          '@type': 'Organization',
-          name: 'Bucks of Nebraska',
-          url: siteUrl,
+          '@type': 'Person',
+          name: 'Cody Neer',
+          url: `${siteUrl}/about`,
         },
         publisher: {
           '@type': 'Organization',
@@ -257,8 +300,9 @@ export function RecipeSchema({ recipe }: { recipe: RecipePost }) {
         url: `${siteUrl}/recipes/${recipe.slug}`,
         datePublished: recipe.date,
         author: {
-          '@type': 'Organization',
-          name: 'Bucks of Nebraska',
+          '@type': 'Person',
+          name: 'Cody Neer',
+          url: `${siteUrl}/about`,
         },
         cookTime: parseCookTime(recipe.cookTime),
         recipeYield: `${recipe.servings} servings`,

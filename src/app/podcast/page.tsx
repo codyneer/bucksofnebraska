@@ -3,18 +3,20 @@ import { Play, Headphones, ExternalLink } from 'lucide-react'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Podcast',
-  description: 'The Bucks of Nebraska podcast. Hunting stories, gear talk, and Nebraska pride.',
+  title: 'Podcast | Nebraska Deer Hunting Stories & Gear Talk',
+  description: 'Listen to the Bucks of Nebraska podcast. Nebraska deer hunting stories, gear reviews, whitetail strategies, and state pride from the field.',
+  keywords: ['hunting podcast', 'deer hunting podcast', 'nebraska hunting podcast', 'whitetail hunting stories'],
+  alternates: { canonical: '/podcast' },
   openGraph: {
-    title: 'Podcast — Bucks of Nebraska',
-    description: 'The Bucks of Nebraska podcast. Hunting stories, gear talk, and Nebraska pride.',
-    images: [{ url: '/api/og?title=The%20Podcast&subtitle=Hunting%20Stories%2C%20Gear%20Talk%2C%20Nebraska%20Pride', width: 1200, height: 630 }],
+    title: 'Podcast | Bucks of Nebraska',
+    description: 'Nebraska deer hunting stories, gear reviews, whitetail strategies, and state pride from the field.',
+    images: [{ url: '/api/og?title=The%20Podcast&subtitle=Nebraska%20Deer%20Hunting%20Stories%20%26%20Gear%20Talk', width: 1200, height: 630 }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Podcast — Bucks of Nebraska',
-    description: 'The Bucks of Nebraska podcast. Hunting stories, gear talk, and Nebraska pride.',
-    images: ['/api/og?title=The%20Podcast&subtitle=Hunting%20Stories%2C%20Gear%20Talk%2C%20Nebraska%20Pride'],
+    title: 'Podcast | Bucks of Nebraska',
+    description: 'Nebraska deer hunting stories, gear reviews, whitetail strategies, and state pride from the field.',
+    images: ['/api/og?title=The%20Podcast&subtitle=Nebraska%20Deer%20Hunting%20Stories%20%26%20Gear%20Talk'],
   },
 }
 

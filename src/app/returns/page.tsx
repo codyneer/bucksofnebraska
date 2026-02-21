@@ -3,7 +3,8 @@ import { getShopPolicies } from '@/lib/shopify'
 
 export const metadata: Metadata = {
   title: 'Returns & Refunds',
-  description: 'Return and refund policy for Bucks of Nebraska.',
+  description: 'Return and refund policy for Bucks of Nebraska. Easy returns within 30 days. Learn about our exchange process and refund timelines.',
+  alternates: { canonical: '/returns' },
   openGraph: {
     title: 'Returns & Refunds — Bucks of Nebraska',
     description: 'Return and refund policy for Bucks of Nebraska.',

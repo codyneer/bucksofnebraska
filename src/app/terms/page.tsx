@@ -3,7 +3,8 @@ import { getShopPolicies } from '@/lib/shopify'
 
 export const metadata: Metadata = {
   title: 'Terms of Service',
-  description: 'Terms of Service for Bucks of Nebraska.',
+  description: 'Terms of Service for Bucks of Nebraska. Review our policies on ordering, shipping, intellectual property, and your rights as a customer.',
+  alternates: { canonical: '/terms' },
   openGraph: {
     title: 'Terms of Service — Bucks of Nebraska',
     description: 'Terms of Service for Bucks of Nebraska.',

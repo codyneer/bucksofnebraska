@@ -1,18 +1,19 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Contact',
-  description: 'Get in touch with the Bucks of Nebraska team. Questions, feedback, wholesale inquiries.',
+  title: 'Contact Us',
+  description: 'Get in touch with the Bucks of Nebraska team. Questions about orders, wholesale inquiries, partnerships, or feedback — we are here to help.',
+  alternates: { canonical: '/contact' },
   openGraph: {
-    title: 'Contact — Bucks of Nebraska',
-    description: 'Get in touch with the Bucks of Nebraska team.',
-    images: [{ url: '/api/og?title=Get%20in%20Touch&subtitle=Questions%2C%20Feedback%2C%20or%20Wholesale%20Inquiries', width: 1200, height: 630 }],
+    title: 'Contact Us | Bucks of Nebraska',
+    description: 'Questions about orders, wholesale inquiries, or feedback — the Bucks of Nebraska team is here to help.',
+    images: [{ url: '/api/og?title=Get%20in%20Touch&subtitle=Questions%2C%20Orders%2C%20or%20Wholesale%20Inquiries', width: 1200, height: 630 }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Contact — Bucks of Nebraska',
-    description: 'Get in touch with the Bucks of Nebraska team.',
-    images: ['/api/og?title=Get%20in%20Touch&subtitle=Questions%2C%20Feedback%2C%20or%20Wholesale%20Inquiries'],
+    title: 'Contact Us | Bucks of Nebraska',
+    description: 'Questions about orders, wholesale inquiries, or feedback — the Bucks of Nebraska team is here to help.',
+    images: ['/api/og?title=Get%20in%20Touch&subtitle=Questions%2C%20Orders%2C%20or%20Wholesale%20Inquiries'],
   },
 }
 

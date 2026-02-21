@@ -3,7 +3,8 @@ import { getShopPolicies } from '@/lib/shopify'
 
 export const metadata: Metadata = {
   title: 'Privacy Policy',
-  description: 'Privacy Policy for Bucks of Nebraska.',
+  description: 'Privacy Policy for Bucks of Nebraska. Learn how we collect, use, and protect your personal information when you shop with us.',
+  alternates: { canonical: '/privacy' },
   openGraph: {
     title: 'Privacy Policy — Bucks of Nebraska',
     description: 'Privacy Policy for Bucks of Nebraska.',

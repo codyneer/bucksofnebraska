@@ -26,8 +26,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: post.title,
     description: post.description,
+    alternates: { canonical: `/blog/${slug}` },
     openGraph: {
-      title: `${post.title} — Bucks of Nebraska`,
+      title: `${post.title} | Bucks of Nebraska`,
       description: post.description,
       type: 'article',
       publishedTime: post.date,
@@ -35,7 +36,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${post.title} — Bucks of Nebraska`,
+      title: `${post.title} | Bucks of Nebraska`,
       description: post.description,
       images: [ogImage],
     },

@@ -18,7 +18,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   const price = `$${parseFloat(product.priceRange.minVariantPrice.amount).toFixed(0)}`
-  const description = product.description || `Shop ${product.title} from Bucks of Nebraska.`
+  const rawDesc = product.description || ''
+  const description = rawDesc.length > 20
+    ? rawDesc.slice(0, 155).trim() + (rawDesc.length > 155 ? '...' : '')
+    : `Shop ${product.title} — premium Nebraska deer hunting apparel. ${price}, free shipping over $75.`
   const productImage = product.images.edges[0]?.node.url
   const ogImage = productImage
     ? `/api/og/product?title=${encodeURIComponent(product.title)}&price=${encodeURIComponent(price)}&image=${encodeURIComponent(productImage)}`
@@ -27,19 +30,24 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: product.title,
     description,
+    alternates: { canonical: `/products/${handle}` },
     openGraph: {
-      title: `${product.title} — Bucks of Nebraska`,
+      title: `${product.title} | Bucks of Nebraska`,
       description,
-      type: 'website',
       images: [{ url: ogImage, width: 1200, height: 630, alt: product.title }],
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${product.title} — Bucks of Nebraska`,
+      title: `${product.title} | Bucks of Nebraska`,
       description,
       images: [ogImage],
     },
   }
+}
+
+export async function generateStaticParams() {
+  const products = await getAllProducts(250)
+  return products.map((p) => ({ handle: p.handle }))
 }
 
 export default async function ProductPage({ params }: Props) {

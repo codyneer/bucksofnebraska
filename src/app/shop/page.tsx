@@ -4,18 +4,20 @@ import { getAllProducts } from '@/lib/shopify'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Shop All',
-  description: 'Browse all Nebraska hunting apparel. Hats, tees, hoodies, decals, and more.',
+  title: 'Shop All Nebraska Hunting Apparel | Shirts, Hoodies & Hats',
+  description: 'Browse all Nebraska deer hunting apparel. Hunting shirts, hoodies, hats, decals, and accessories. Premium whitetail gear built for the field. Free shipping over $75.',
+  keywords: ['hunting shirts', 'deer hunting clothing', 'hunting apparel', 'nebraska hunting gear', 'whitetail clothing', 'hunting graphic tees'],
+  alternates: { canonical: '/shop' },
   openGraph: {
-    title: 'Shop All — Bucks of Nebraska',
-    description: 'Browse all Nebraska hunting apparel. Hats, tees, hoodies, decals, and more.',
-    images: [{ url: '/api/og?title=Shop%20All&subtitle=Nebraska%20Hunting%20Apparel', width: 1200, height: 630 }],
+    title: 'Shop All Nebraska Hunting Apparel | Bucks of Nebraska',
+    description: 'Browse all Nebraska deer hunting apparel. Hunting shirts, hoodies, hats, decals, and accessories. Free shipping over $75.',
+    images: [{ url: '/api/og?title=Shop%20All&subtitle=Nebraska%20Deer%20Hunting%20Apparel', width: 1200, height: 630 }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Shop All — Bucks of Nebraska',
-    description: 'Browse all Nebraska hunting apparel. Hats, tees, hoodies, decals, and more.',
-    images: ['/api/og?title=Shop%20All&subtitle=Nebraska%20Hunting%20Apparel'],
+    title: 'Shop All Nebraska Hunting Apparel | Bucks of Nebraska',
+    description: 'Browse all Nebraska deer hunting apparel. Hunting shirts, hoodies, hats, decals, and accessories. Free shipping over $75.',
+    images: ['/api/og?title=Shop%20All&subtitle=Nebraska%20Deer%20Hunting%20Apparel'],
   },
 }
 
