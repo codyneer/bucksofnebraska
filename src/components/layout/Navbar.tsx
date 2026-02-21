@@ -199,6 +199,12 @@ export function Navbar() {
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
+  // Close mobile menu and scroll to top (used by mobile nav links)
+  const closeMobileMenu = useCallback(() => {
+    setMobileOpen(false)
+    window.scrollTo(0, 0)
+  }, [])
+
   const openShopMenu = useCallback(() => {
     if (shopTimerRef.current) clearTimeout(shopTimerRef.current)
     setCommunityOpen(false)
@@ -500,12 +506,41 @@ export function Navbar() {
           mobileOpen ? 'max-h-[calc(100vh-120px)] opacity-100' : 'max-h-0 opacity-0 overflow-hidden'
         }`}
       >
-        <div className="flex flex-col gap-0.5 pt-4 pb-8 px-5 sm:px-10">
+        <div className="flex flex-col gap-0.5 pt-4 px-5 sm:px-10" style={{ paddingBottom: 'calc(2rem + env(safe-area-inset-bottom, 0px))' }}>
+          {/* Account + Social — top row */}
+          <div className="flex items-center justify-between py-2 mb-2 border-b border-border-light">
+            <Link
+              href={isAuthenticated ? '/account' : '/account/login'}
+              className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red flex items-center gap-2"
+              onClick={closeMobileMenu}
+            >
+              <User className="w-4 h-4" />
+              {isAuthenticated ? 'My Account' : 'Sign In'}
+            </Link>
+
+            <div className="flex gap-2">
+              {socialLinks.map((social) => {
+                const Icon = social.icon
+                return (
+                  <a
+                    key={social.label}
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-1.5 rounded bg-offWhite transition-opacity hover:opacity-70"
+                  >
+                    <Icon className="w-4 h-4" style={{ color: social.color }} />
+                  </a>
+                )
+              })}
+            </div>
+          </div>
+
           {/* Shop All CTA */}
           <Link
             href="/shop"
             className="block text-center py-3 mb-3 bg-red text-white font-nav text-[13px] tracking-[2px] uppercase transition-colors hover:bg-red-dark"
-            onClick={() => setMobileOpen(false)}
+            onClick={closeMobileMenu}
           >
             Shop All Products
           </Link>
@@ -517,14 +552,14 @@ export function Navbar() {
           <Link
             href="/collections/shirts"
             className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5 border-b border-border-light"
-            onClick={() => setMobileOpen(false)}
+            onClick={closeMobileMenu}
           >
             T-Shirts
           </Link>
           <Link
             href="/collections/hoodies"
             className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5 border-b border-border-light"
-            onClick={() => setMobileOpen(false)}
+            onClick={closeMobileMenu}
           >
             Hoodies
           </Link>
@@ -536,14 +571,14 @@ export function Navbar() {
           <Link
             href="/collections/hats"
             className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5 border-b border-border-light"
-            onClick={() => setMobileOpen(false)}
+            onClick={closeMobileMenu}
           >
             Hats & Caps
           </Link>
           <Link
             href="/collections/decals"
             className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5 border-b border-border-light"
-            onClick={() => setMobileOpen(false)}
+            onClick={closeMobileMenu}
           >
             Decals & Stickers
           </Link>
@@ -555,35 +590,35 @@ export function Navbar() {
           <Link
             href="/collections/deer"
             className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5 border-b border-border-light"
-            onClick={() => setMobileOpen(false)}
+            onClick={closeMobileMenu}
           >
             Deer
           </Link>
           <Link
             href="/collections/duck"
             className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5 border-b border-border-light"
-            onClick={() => setMobileOpen(false)}
+            onClick={closeMobileMenu}
           >
             Ducks
           </Link>
           <Link
             href="/collections/pheasant-hats"
             className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5 border-b border-border-light"
-            onClick={() => setMobileOpen(false)}
+            onClick={closeMobileMenu}
           >
             Pheasants
           </Link>
           <Link
             href="/collections/bass-hats"
             className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5 border-b border-border-light"
-            onClick={() => setMobileOpen(false)}
+            onClick={closeMobileMenu}
           >
             Fish
           </Link>
           <Link
             href="/collections/new-arrivals"
             className="font-nav text-[13px] tracking-[2px] uppercase text-red hover:text-red-dark py-2.5 border-b border-border-light"
-            onClick={() => setMobileOpen(false)}
+            onClick={closeMobileMenu}
           >
             New Arrivals
           </Link>
@@ -597,76 +632,46 @@ export function Navbar() {
           <Link
             href="/blog"
             className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5 border-b border-border-light"
-            onClick={() => setMobileOpen(false)}
+            onClick={closeMobileMenu}
           >
             Blog
           </Link>
           <Link
             href="/recipes"
             className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5 border-b border-border-light"
-            onClick={() => setMobileOpen(false)}
+            onClick={closeMobileMenu}
           >
             NE Recipes
           </Link>
           <Link
             href="/podcast"
             className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5 border-b border-border-light"
-            onClick={() => setMobileOpen(false)}
+            onClick={closeMobileMenu}
           >
             Podcast
           </Link>
           <Link
             href="/about"
             className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5 border-b border-border-light"
-            onClick={() => setMobileOpen(false)}
+            onClick={closeMobileMenu}
           >
             Our Story
           </Link>
           <Link
             href="/contact"
             className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5 border-b border-border-light"
-            onClick={() => setMobileOpen(false)}
+            onClick={closeMobileMenu}
           >
             Contact
           </Link>
           <Link
             href="/referral"
             className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red py-2.5 border-b border-border-light"
-            onClick={() => setMobileOpen(false)}
+            onClick={closeMobileMenu}
           >
             Refer a Friend — $10
           </Link>
 
-          <div className="h-px bg-border my-3" />
-
-          {/* Account + Social — side by side */}
-          <div className="flex items-start justify-between py-2.5">
-            <Link
-              href={isAuthenticated ? '/account' : '/account/login'}
-              className="font-nav text-[13px] tracking-[2px] uppercase text-text hover:text-red flex items-center gap-2"
-              onClick={() => setMobileOpen(false)}
-            >
-              <User className="w-4 h-4" />
-              {isAuthenticated ? 'My Account' : 'Sign In'}
-            </Link>
-
-            <div className="flex gap-2.5">
-              {socialLinks.map((social) => {
-                const Icon = social.icon
-                return (
-                  <a
-                    key={social.label}
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="p-2 rounded bg-offWhite transition-opacity hover:opacity-70"
-                  >
-                    <Icon className="w-5 h-5" style={{ color: social.color }} />
-                  </a>
-                )
-              })}
-            </div>
-          </div>
         </div>
       </div>
     </nav>
