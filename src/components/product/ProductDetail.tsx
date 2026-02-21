@@ -234,16 +234,16 @@ export function ProductDetail({ product, reviews = [], allProducts = [] }: Produ
               <RefreshCw className="w-3.5 h-3.5" /> 30-Day Returns
             </span>
           </div>
-
-          {/* Product Reviews */}
-          <ProductReviews
-            reviews={reviews}
-            productHandle={product.handle}
-            productTitle={product.title}
-            allProducts={allProducts}
-          />
         </div>
       </div>
+
+      {/* Product Reviews — full width, outside the 2-col grid */}
+      <ProductReviews
+        reviews={reviews}
+        productHandle={product.handle}
+        productTitle={product.title}
+        allProducts={allProducts}
+      />
     </div>
   )
 }
