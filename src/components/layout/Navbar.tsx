@@ -503,10 +503,10 @@ export function Navbar() {
       {/* Mobile menu */}
       <div
         className={`lg:hidden border-t border-border bg-white overflow-y-auto transition-all duration-300 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] ${
-          mobileOpen ? 'max-h-[calc(100vh-120px)] opacity-100' : 'max-h-0 opacity-0 overflow-hidden'
+          mobileOpen ? 'max-h-[calc(100dvh-120px)] opacity-100' : 'max-h-0 opacity-0 overflow-hidden'
         }`}
       >
-        <div className="flex flex-col gap-0.5 pt-4 px-5 sm:px-10" style={{ paddingBottom: 'calc(2rem + env(safe-area-inset-bottom, 0px))' }}>
+        <div className="flex flex-col gap-0.5 pt-4 px-5 sm:px-10" style={{ paddingBottom: 'calc(0.75rem + env(safe-area-inset-bottom, 0px))' }}>
           {/* Account + Social — top row */}
           <div className="flex items-center justify-between py-2 mb-2 border-b border-border-light">
             <Link
