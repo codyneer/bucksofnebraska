@@ -2,8 +2,10 @@
 
 import { useState } from 'react'
 import type { FormEvent } from 'react'
+import { useToast } from '@/components/ui/Toast'
 
 export default function ContactPage() {
+  const { showToast } = useToast()
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
@@ -24,12 +26,15 @@ export default function ContactPage() {
 
       if (res.ok) {
         setStatus('success')
+        showToast('Message sent', 'success')
       } else {
         setStatus('error')
+        showToast('Failed to send message', 'error')
         setTimeout(() => setStatus('idle'), 3000)
       }
     } catch {
       setStatus('error')
+      showToast('Failed to send message', 'error')
       setTimeout(() => setStatus('idle'), 3000)
     }
   }

@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useCart } from '@/lib/cart-context'
+import { useToast } from '@/components/ui/Toast'
 import { formatPrice, calculateSavings } from '@/lib/utils'
 import { ReviewStarsDisplay } from '@/components/reviews/ReviewStars'
 import type { ShopifyProduct } from '@/lib/shopify'
@@ -14,6 +15,7 @@ type ProductCardProps = {
 
 export function ProductCard({ product }: ProductCardProps) {
   const { addItem } = useCart()
+  const { showToast } = useToast()
 
   const firstImage = product.images.edges[0]?.node
   const firstVariant = product.variants.edges[0]?.node
@@ -59,12 +61,13 @@ export function ProductCard({ product }: ProductCardProps) {
 
   const hasOptions = product.variants.edges.length > 1
 
-  const handleQuickAdd = (e: React.MouseEvent) => {
+  const handleQuickAdd = async (e: React.MouseEvent) => {
     if (hasOptions) return // let the Link navigate to PDP
     e.preventDefault()
     e.stopPropagation()
     if (firstVariant) {
-      addItem(firstVariant.id)
+      await addItem(firstVariant.id)
+      showToast('Added to cart', 'cart')
     }
   }
 

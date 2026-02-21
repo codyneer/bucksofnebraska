@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { X } from 'lucide-react'
+import { useToast } from '@/components/ui/Toast'
 import { ReviewStarsInput } from './ReviewStars'
 
 type ReviewModalProps = {
@@ -17,6 +18,7 @@ export function ReviewModal({ isOpen, onClose, prefilledProduct, products }: Rev
   const [name, setName] = useState('')
   const [location, setLocation] = useState('')
   const [productHandle, setProductHandle] = useState(prefilledProduct || '')
+  const { showToast } = useToast()
   const [submitting, setSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
 
@@ -44,6 +46,7 @@ export function ReviewModal({ isOpen, onClose, prefilledProduct, products }: Rev
 
       if (res.ok) {
         setSubmitted(true)
+        showToast('Review submitted', 'success')
         setTimeout(() => {
           onClose()
           setSubmitted(false)

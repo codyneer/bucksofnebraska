@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Bebas_Neue, Oswald, Bitter, Caveat } from 'next/font/google'
 import { CartProvider } from '@/lib/cart-context'
 import { AuthProvider } from '@/lib/auth-context'
@@ -7,6 +7,7 @@ import { AnnouncementBar } from '@/components/layout/AnnouncementBar'
 import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
 import { CartDrawer } from '@/components/cart/CartDrawer'
+import { ToastProvider } from '@/components/ui/Toast'
 import { OrganizationSchema, WebSiteSchema } from '@/lib/structured-data'
 import { OmnisendScript } from '@/components/OmnisendScript'
 import './globals.css'
@@ -38,6 +39,12 @@ const caveat = Caveat({
   variable: '--font-caveat',
   display: 'swap',
 })
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
+}
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://bucksofnebraska.vercel.app'
 
@@ -87,16 +94,18 @@ export default function RootLayout({
         <WebSiteSchema />
       </head>
       <body className="font-body antialiased">
-        <AuthProvider>
-          <CartProvider>
-            <BrandBar />
-            <AnnouncementBar />
-            <Navbar />
-            <main>{children}</main>
-            <Footer />
-            <CartDrawer />
-          </CartProvider>
-        </AuthProvider>
+        <ToastProvider>
+          <AuthProvider>
+            <CartProvider>
+              <BrandBar />
+              <AnnouncementBar />
+              <Navbar />
+              <main>{children}</main>
+              <Footer />
+              <CartDrawer />
+            </CartProvider>
+          </AuthProvider>
+        </ToastProvider>
         <OmnisendScript />
       </body>
     </html>

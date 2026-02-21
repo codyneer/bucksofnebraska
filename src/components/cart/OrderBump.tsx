@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import { useCart } from '@/lib/cart-context'
+import { useToast } from '@/components/ui/Toast'
 import { Check } from 'lucide-react'
 
 type OrderBumpProps = {
@@ -18,6 +19,7 @@ type OrderBumpProps = {
 export function OrderBump({ productTitle, variantId, quantity, price, compareAtPrice, description, imageUrl }: OrderBumpProps) {
   const [checked, setChecked] = useState(false)
   const { addItem } = useCart()
+  const { showToast } = useToast()
 
   const savings = compareAtPrice - price
   const savingsPercent = Math.round((savings / compareAtPrice) * 100)
@@ -26,6 +28,7 @@ export function OrderBump({ productTitle, variantId, quantity, price, compareAtP
     if (!checked) {
       setChecked(true)
       await addItem(variantId, quantity)
+      showToast('Deal added to cart', 'cart')
     }
   }
 

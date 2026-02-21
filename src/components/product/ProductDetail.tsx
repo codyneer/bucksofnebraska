@@ -5,6 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Lock, Truck, RefreshCw, Eye } from 'lucide-react'
 import { useCart } from '@/lib/cart-context'
+import { useToast } from '@/components/ui/Toast'
 import { formatPrice } from '@/lib/utils'
 import { BundleTiers } from './BundleTiers'
 import { ProductReviews } from '@/components/reviews/ProductReviews'
@@ -19,6 +20,7 @@ type ProductDetailProps = {
 
 export function ProductDetail({ product, reviews = [], allProducts = [] }: ProductDetailProps) {
   const { addItem } = useCart()
+  const { showToast } = useToast()
   const images = product.images.edges.map((e) => e.node)
   const variants = product.variants.edges.map((e) => e.node)
   const basePrice = parseFloat(product.priceRange.minVariantPrice.amount)
@@ -99,9 +101,10 @@ export function ProductDetail({ product, reviews = [], allProducts = [] }: Produ
   const totalPrice = tierPrice * tierQuantity * quantity
   const viewerCount = 23 + Math.floor(Math.random() * 30)
 
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     if (!selectedVariant) return
-    addItem(selectedVariant.id, tierQuantity * quantity)
+    await addItem(selectedVariant.id, tierQuantity * quantity)
+    showToast('Added to cart', 'cart')
   }
 
   const handleTierChange = (qty: number, price: number) => {

@@ -3,20 +3,31 @@
 import { useMemo } from 'react'
 import Image from 'next/image'
 import { useCart } from '@/lib/cart-context'
+import { useToast } from '@/components/ui/Toast'
 import { formatPrice } from '@/lib/utils'
 import type { ShopifyProduct } from '@/lib/shopify'
 
 type CartUpsellsProps = {
   products: ShopifyProduct[]
+  excludeVariantIds?: string[]
 }
 
-export function CartUpsells({ products }: CartUpsellsProps) {
+export function CartUpsells({ products, excludeVariantIds = [] }: CartUpsellsProps) {
   const { addItem, lines } = useCart()
+  const { showToast } = useToast()
 
   // Only show products with a single variant (quick-add eligible)
+  // Also exclude products that contain any excluded variant ID (e.g. order bump product)
   const quickAddProducts = useMemo(
-    () => products.filter((p) => p.variants.edges.length === 1),
-    [products]
+    () => products.filter((p) => {
+      if (p.variants.edges.length !== 1) return false
+      if (excludeVariantIds.length > 0) {
+        const hasExcluded = p.variants.edges.some((v) => excludeVariantIds.includes(v.node.id))
+        if (hasExcluded) return false
+      }
+      return true
+    }),
+    [products, excludeVariantIds]
   )
 
   // Filter out products already in the cart
@@ -90,7 +101,7 @@ export function CartUpsells({ products }: CartUpsellsProps) {
             </div>
 
             <button
-              onClick={() => addItem(firstVariant.id)}
+              onClick={async () => { await addItem(firstVariant.id); showToast('Added to cart', 'cart') }}
               className="py-2.5 px-4 min-h-[44px] bg-brand-black text-white border-none font-nav text-[11px] tracking-[1.5px] uppercase cursor-pointer transition-colors duration-300 hover:bg-red whitespace-nowrap flex items-center"
             >
               Add
