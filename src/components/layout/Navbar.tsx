@@ -227,8 +227,22 @@ export function Navbar() {
       }`}
     >
       <div className="max-w-[1400px] mx-auto grid grid-cols-[1fr_auto_1fr] items-center py-2.5 px-4 sm:px-10 gap-3 sm:gap-5">
-        {/* Left nav */}
-        <div className="hidden lg:flex gap-6 items-center">
+        {/* Left column */}
+        <div className="flex items-center">
+          {/* Mobile: hamburger */}
+          <button
+            onClick={() => setMobileOpen(!mobileOpen)}
+            className="lg:hidden bg-transparent border-none cursor-pointer text-text p-2"
+          >
+            {mobileOpen ? (
+              <X className="w-6 h-6" />
+            ) : (
+              <Menu className="w-6 h-6" />
+            )}
+          </button>
+
+          {/* Desktop: nav links */}
+          <div className="hidden lg:flex gap-6 items-center">
           {/* Shop dropdown */}
           <div onMouseEnter={openShopMenu} onMouseLeave={closeShopMenu}>
             <button
@@ -276,6 +290,7 @@ export function Navbar() {
           >
             Our Story
           </Link>
+          </div>
         </div>
 
         {/* Center logo */}
@@ -292,42 +307,32 @@ export function Navbar() {
           />
         </Link>
 
-        {/* Right nav */}
-        <div className="hidden lg:flex gap-6 items-center justify-end">
-          <Link
-            href="/blog"
-            className="text-text font-nav text-[13px] tracking-[2px] uppercase py-2 transition-colors hover:text-red"
-          >
-            Blog
-          </Link>
-          <Link
-            href="/contact"
-            className="text-text font-nav text-[13px] tracking-[2px] uppercase py-2 transition-colors hover:text-red"
-          >
-            Contact
-          </Link>
-          <Link
-            href={isAuthenticated ? '/account' : '/account/login'}
-            className="text-text font-nav text-[13px] tracking-[2px] uppercase py-2 transition-colors hover:text-red flex items-center gap-1.5"
-          >
-            <User className="w-4 h-4" />
-            {isAuthenticated ? 'Account' : 'Sign In'}
-          </Link>
-          <button
-            onClick={openCart}
-            className="relative bg-transparent border-none cursor-pointer text-text p-2 transition-colors hover:text-red"
-          >
-            <ShoppingBag className="w-[22px] h-[22px]" />
-            {itemCount > 0 && (
-              <span className="absolute top-0 -right-0.5 bg-red text-white font-nav text-[10px] w-[18px] h-[18px] rounded-full flex items-center justify-center">
-                {itemCount}
-              </span>
-            )}
-          </button>
-        </div>
+        {/* Right column */}
+        <div className="flex items-center justify-end">
+          {/* Desktop: full nav */}
+          <div className="hidden lg:flex gap-6 items-center">
+            <Link
+              href="/blog"
+              className="text-text font-nav text-[13px] tracking-[2px] uppercase py-2 transition-colors hover:text-red"
+            >
+              Blog
+            </Link>
+            <Link
+              href="/contact"
+              className="text-text font-nav text-[13px] tracking-[2px] uppercase py-2 transition-colors hover:text-red"
+            >
+              Contact
+            </Link>
+            <Link
+              href={isAuthenticated ? '/account' : '/account/login'}
+              className="text-text font-nav text-[13px] tracking-[2px] uppercase py-2 transition-colors hover:text-red flex items-center gap-1.5"
+            >
+              <User className="w-4 h-4" />
+              {isAuthenticated ? 'Account' : 'Sign In'}
+            </Link>
+          </div>
 
-        {/* Mobile hamburger + cart */}
-        <div className="flex lg:hidden items-center gap-4 justify-end">
+          {/* Cart button (all sizes) */}
           <button
             onClick={openCart}
             className="relative bg-transparent border-none cursor-pointer text-text p-2 transition-colors hover:text-red"
@@ -337,16 +342,6 @@ export function Navbar() {
               <span className="absolute top-0 -right-0.5 bg-red text-white font-nav text-[10px] w-[18px] h-[18px] rounded-full flex items-center justify-center">
                 {itemCount}
               </span>
-            )}
-          </button>
-          <button
-            onClick={() => setMobileOpen(!mobileOpen)}
-            className="bg-transparent border-none cursor-pointer text-text p-2"
-          >
-            {mobileOpen ? (
-              <X className="w-6 h-6" />
-            ) : (
-              <Menu className="w-6 h-6" />
             )}
           </button>
         </div>
