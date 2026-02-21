@@ -8,7 +8,7 @@ import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
 import { CartDrawer } from '@/components/cart/CartDrawer'
 import { ToastProvider } from '@/components/ui/Toast'
-import { OrganizationSchema, WebSiteSchema } from '@/lib/structured-data'
+import { OrganizationSchema, WebSiteSchema, SiteNavigationSchema } from '@/lib/structured-data'
 import { OmnisendScript } from '@/components/OmnisendScript'
 import { getAllApprovedReviews, computeReviewStats } from '@/lib/reviews'
 import './globals.css'
@@ -47,7 +47,7 @@ export const viewport: Viewport = {
   viewportFit: 'cover',
 }
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://bucksofnebraska.vercel.app'
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://bucksofnebraska.com'
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -99,6 +99,7 @@ export default async function RootLayout({
       <head>
         <OrganizationSchema />
         <WebSiteSchema />
+        <SiteNavigationSchema />
       </head>
       <body className="font-body antialiased">
         <ToastProvider>

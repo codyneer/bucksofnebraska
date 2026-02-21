@@ -1,5 +1,6 @@
 import { FilterableProductGrid } from '@/components/product/FilterableProductGrid'
 import { SectionHeader } from '@/components/ui/SectionHeader'
+import { ItemListSchema } from '@/lib/structured-data'
 import { getAllProducts } from '@/lib/shopify'
 import type { Metadata } from 'next'
 
@@ -23,9 +24,11 @@ export const metadata: Metadata = {
 
 export default async function ShopPage() {
   const products = await getAllProducts(250)
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://bucksofnebraska.com'
 
   return (
     <div className="py-12 sm:py-20 px-4 sm:px-10 max-w-[1300px] mx-auto">
+      <ItemListSchema products={products} listName="All Products" url={`${siteUrl}/shop`} />
       <SectionHeader
         title="Shop"
         highlight="All"

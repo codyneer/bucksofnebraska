@@ -219,6 +219,39 @@ export function ItemListSchema({
   )
 }
 
+// ─── SiteNavigationElement (helps Google determine sitelinks) ────────────────
+
+export function SiteNavigationSchema() {
+  const navItems = [
+    { name: 'Shop All', url: `${siteUrl}/shop` },
+    { name: 'Hats', url: `${siteUrl}/collections/hats` },
+    { name: 'Shirts', url: `${siteUrl}/collections/shirts` },
+    { name: 'Hoodies', url: `${siteUrl}/collections/hoodies` },
+    { name: 'Decals', url: `${siteUrl}/collections/decals` },
+    { name: 'Blog', url: `${siteUrl}/blog` },
+    { name: 'Recipes', url: `${siteUrl}/recipes` },
+    { name: 'Podcast', url: `${siteUrl}/podcast` },
+    { name: 'About', url: `${siteUrl}/about` },
+    { name: 'Refer a Friend', url: `${siteUrl}/referral` },
+    { name: 'Contact', url: `${siteUrl}/contact` },
+  ]
+
+  return (
+    <JsonLd
+      data={{
+        '@context': 'https://schema.org',
+        '@type': 'ItemList',
+        itemListElement: navItems.map((item, i) => ({
+          '@type': 'SiteNavigationElement',
+          position: i + 1,
+          name: item.name,
+          url: item.url,
+        })),
+      }}
+    />
+  )
+}
+
 // ─── Article / BlogPosting ───────────────────────────────────────────────────
 
 export function BlogPostSchema({ post }: { post: BlogPost }) {
