@@ -42,11 +42,11 @@ export function Footer() {
         {/* Brand column */}
         <div>
           <Image
-            src="/logos/bn-footer-logo.png"
+            src="/logos/nlogo.png"
             alt="Bucks of Nebraska"
-            width={180}
-            height={48}
-            className="h-12 w-auto mb-3.5"
+            width={60}
+            height={60}
+            className="h-14 w-auto mb-3.5"
           />
           <p className="text-white/50 text-[14px] leading-[1.7] max-w-[280px] font-body">
             Field-ready apparel rooted in the Nebraska outdoors. Born from the hunt. Built for the life around it.
