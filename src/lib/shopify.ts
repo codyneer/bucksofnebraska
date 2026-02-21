@@ -55,6 +55,13 @@ export type ProductVariant = {
   price: Money
   compareAtPrice: Money | null
   selectedOptions: { name: string; value: string }[]
+  image?: ShopifyImage | null
+}
+
+export type ProductOption = {
+  id: string
+  name: string
+  values: string[]
 }
 
 export type ShopifyProduct = {
@@ -67,6 +74,7 @@ export type ShopifyProduct = {
   compareAtPriceRange: { minVariantPrice: Money | null }
   images: { edges: { node: ShopifyImage }[] }
   variants: { edges: { node: ProductVariant }[] }
+  options: ProductOption[]
   tags: string[]
   metafield: { value: string } | null
 }
@@ -155,7 +163,8 @@ export const GET_COLLECTION_PRODUCTS = `
             priceRange { minVariantPrice { amount currencyCode } }
             compareAtPriceRange { minVariantPrice { amount currencyCode } }
             images(first: 5) { edges { node { url altText width height } } }
-            variants(first: 10) {
+            options { id name values }
+            variants(first: 100) {
               edges {
                 node {
                   id title availableForSale quantityAvailable
@@ -181,13 +190,15 @@ export const GET_PRODUCT = `
       priceRange { minVariantPrice { amount currencyCode } }
       compareAtPriceRange { minVariantPrice { amount currencyCode } }
       images(first: 10) { edges { node { url altText width height } } }
-      variants(first: 20) {
+      options { id name values }
+      variants(first: 100) {
         edges {
           node {
             id title availableForSale quantityAvailable
             price { amount currencyCode }
             compareAtPrice { amount currencyCode }
             selectedOptions { name value }
+            image { url altText width height }
           }
         }
       }
@@ -206,7 +217,8 @@ export const GET_ALL_PRODUCTS = `
           priceRange { minVariantPrice { amount currencyCode } }
           compareAtPriceRange { minVariantPrice { amount currencyCode } }
           images(first: 5) { edges { node { url altText width height } } }
-          variants(first: 10) {
+          options { id name values }
+          variants(first: 100) {
             edges {
               node {
                 id title availableForSale quantityAvailable
@@ -282,6 +294,25 @@ export const APPLY_DISCOUNT_CODE = `
         field
         message
       }
+    }
+  }
+`
+
+// --------------- Shop Policies ---------------
+
+export type ShopPolicy = {
+  title: string
+  body: string
+  handle: string
+}
+
+export const GET_SHOP_POLICIES = `
+  query ShopPolicies {
+    shop {
+      privacyPolicy { title body handle }
+      termsOfService { title body handle }
+      refundPolicy { title body handle }
+      shippingPolicy { title body handle }
     }
   }
 `
@@ -389,4 +420,17 @@ export async function applyDiscountCode(cartId: string, discountCodes: string[])
   })
 
   return data.cartDiscountCodesUpdate
+}
+
+export async function getShopPolicies() {
+  const data = await shopifyFetch<{
+    shop: {
+      privacyPolicy: ShopPolicy | null
+      termsOfService: ShopPolicy | null
+      refundPolicy: ShopPolicy | null
+      shippingPolicy: ShopPolicy | null
+    }
+  }>({ query: GET_SHOP_POLICIES })
+
+  return data.shop
 }

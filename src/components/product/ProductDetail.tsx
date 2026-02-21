@@ -23,8 +23,12 @@ export function ProductDetail({ product, reviews = [], allProducts = [] }: Produ
   const variants = product.variants.edges.map((e) => e.node)
   const basePrice = parseFloat(product.priceRange.minVariantPrice.amount)
 
-  // Extract all unique option names and their values (e.g. Color, Size, Style)
+  // Use Shopify product-level options (guaranteed complete, not limited by variant pagination)
   const productOptions = useMemo(() => {
+    if (product.options && product.options.length > 0) {
+      return product.options.map((o) => ({ name: o.name, values: o.values }))
+    }
+    // Fallback: extract from variants (for older cached data)
     const optionsMap = new Map<string, string[]>()
     variants.forEach((v) => {
       v.selectedOptions.forEach((o) => {
@@ -38,7 +42,7 @@ export function ProductDetail({ product, reviews = [], allProducts = [] }: Produ
       })
     })
     return Array.from(optionsMap.entries()).map(([name, values]) => ({ name, values }))
-  }, [variants])
+  }, [product.options, variants])
 
   // Initialize selected options — pick sensible defaults
   const initialOptions = useMemo(() => {
