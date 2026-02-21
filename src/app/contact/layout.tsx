@@ -8,6 +8,12 @@ export const metadata: Metadata = {
     description: 'Get in touch with the Bucks of Nebraska team.',
     images: [{ url: '/api/og?title=Get%20in%20Touch&subtitle=Questions%2C%20Feedback%2C%20or%20Wholesale%20Inquiries', width: 1200, height: 630 }],
   },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Contact — Bucks of Nebraska',
+    description: 'Get in touch with the Bucks of Nebraska team.',
+    images: ['/api/og?title=Get%20in%20Touch&subtitle=Questions%2C%20Feedback%2C%20or%20Wholesale%20Inquiries'],
+  },
 }
 
 export default function ContactLayout({ children }: { children: React.ReactNode }) {

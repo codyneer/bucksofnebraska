@@ -10,6 +10,12 @@ export const metadata: Metadata = {
     description: 'The Bucks of Nebraska podcast. Hunting stories, gear talk, and Nebraska pride.',
     images: [{ url: '/api/og?title=The%20Podcast&subtitle=Hunting%20Stories%2C%20Gear%20Talk%2C%20Nebraska%20Pride', width: 1200, height: 630 }],
   },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Podcast — Bucks of Nebraska',
+    description: 'The Bucks of Nebraska podcast. Hunting stories, gear talk, and Nebraska pride.',
+    images: ['/api/og?title=The%20Podcast&subtitle=Hunting%20Stories%2C%20Gear%20Talk%2C%20Nebraska%20Pride'],
+  },
 }
 
 const platforms = [

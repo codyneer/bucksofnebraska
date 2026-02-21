@@ -15,7 +15,8 @@ export function HeroSection() {
       />
       <div className="absolute inset-0 bg-gradient-to-b from-brand-black/20 via-transparent via-40% via-brand-black/60 to-cream" />
 
-      <div className="relative z-[2] text-center max-w-[900px] px-5 text-white">
+      {/* -mt-16 on mobile nudges text block slightly above center; sm:mt-0 resets for desktop */}
+      <div className="relative z-[2] text-center max-w-[900px] px-5 text-white -mt-28 sm:-mt-16">
         <p className="font-nav text-[14px] tracking-[6px] uppercase text-red-light mb-5 opacity-0 animate-fade-up [animation-delay:300ms]">
           Est. 2013
         </p>

@@ -23,23 +23,10 @@ export async function GET(req: NextRequest) {
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundColor: '#1A1A1A',
+          backgroundColor: '#FFFFFF',
           position: 'relative',
         }}
       >
-        {/* Subtle background texture */}
-        <div
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            background: 'radial-gradient(circle at 50% 40%, #2C2C2C 0%, #1A1A1A 70%)',
-            display: 'flex',
-          }}
-        />
-
         {/* Top red accent bar */}
         <div
           style={{
@@ -78,23 +65,23 @@ export async function GET(req: NextRequest) {
             padding: '40px 60px',
           }}
         >
-          {/* Logo */}
+          {/* Logo — larger */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={logoBase64}
             alt="Bucks of Nebraska"
-            width={320}
-            height={202}
+            width={400}
+            height={252}
             style={{
-              marginBottom: '36px',
+              marginBottom: '32px',
             }}
           />
 
-          {/* Title */}
+          {/* Title — red */}
           <div
             style={{
-              fontSize: title.length > 40 ? '36px' : '44px',
-              color: '#FFFFFF',
+              fontSize: title.length > 40 ? '42px' : '52px',
+              color: '#C41E3A',
               textAlign: 'center',
               fontWeight: 700,
               letterSpacing: '3px',
@@ -107,12 +94,12 @@ export async function GET(req: NextRequest) {
             {title}
           </div>
 
-          {/* Subtitle */}
+          {/* Subtitle — black */}
           {subtitle && (
             <div
               style={{
-                fontSize: '20px',
-                color: '#C41E3A',
+                fontSize: '22px',
+                color: '#1A1A1A',
                 textAlign: 'center',
                 letterSpacing: '4px',
                 textTransform: 'uppercase',
@@ -132,7 +119,7 @@ export async function GET(req: NextRequest) {
             bottom: '24px',
             right: '40px',
             fontSize: '14px',
-            color: 'rgba(255,255,255,0.3)',
+            color: 'rgba(0,0,0,0.25)',
             letterSpacing: '2px',
             textTransform: 'uppercase',
             display: 'flex',

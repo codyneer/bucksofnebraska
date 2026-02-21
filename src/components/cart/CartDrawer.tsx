@@ -142,7 +142,7 @@ export function CartDrawer() {
                         SHEDSEASON
                       </span>
                       <span className="font-body text-[12px] sm:text-[13px] text-text-light truncate">
-                        — 10% off
+                        — 20% off
                       </span>
                     </div>
                     <span className="font-nav text-[10px] tracking-[1.5px] uppercase text-red bg-red/10 px-2 py-1 whitespace-nowrap flex-shrink-0">
@@ -172,7 +172,7 @@ export function CartDrawer() {
 
                 {/* Upsells */}
                 {upsellProducts.length > 0 && (
-                  <CartUpsells products={upsellProducts} />
+                  <CartUpsells products={upsellProducts} excludeVariantIds={[bumpVariantId]} />
                 )}
               </div>
 

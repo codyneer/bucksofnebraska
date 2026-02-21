@@ -20,7 +20,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const price = `$${parseFloat(product.priceRange.minVariantPrice.amount).toFixed(0)}`
   const description = product.description || `Shop ${product.title} from Bucks of Nebraska.`
   const productImage = product.images.edges[0]?.node.url
-  const ogImage = `/api/og?title=${encodeURIComponent(product.title)}&subtitle=${encodeURIComponent(price + ' — Free shipping over $75')}`
+  const ogImage = productImage
+    ? `/api/og/product?title=${encodeURIComponent(product.title)}&price=${encodeURIComponent(price)}&image=${encodeURIComponent(productImage)}`
+    : `/api/og?title=${encodeURIComponent(product.title)}&subtitle=${encodeURIComponent(price + ' — Free shipping over $75')}`
 
   return {
     title: product.title,
@@ -29,18 +31,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: `${product.title} — Bucks of Nebraska`,
       description,
       type: 'website',
-      images: productImage
-        ? [
-            { url: productImage, width: 800, height: 800, alt: product.title },
-            { url: ogImage, width: 1200, height: 630, alt: product.title },
-          ]
-        : [{ url: ogImage, width: 1200, height: 630, alt: product.title }],
+      images: [{ url: ogImage, width: 1200, height: 630, alt: product.title }],
     },
     twitter: {
       card: 'summary_large_image',
       title: `${product.title} — Bucks of Nebraska`,
       description,
-      images: productImage ? [productImage] : [ogImage],
+      images: [ogImage],
     },
   }
 }

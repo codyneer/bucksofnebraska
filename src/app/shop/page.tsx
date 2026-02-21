@@ -11,6 +11,12 @@ export const metadata: Metadata = {
     description: 'Browse all Nebraska hunting apparel. Hats, tees, hoodies, decals, and more.',
     images: [{ url: '/api/og?title=Shop%20All&subtitle=Nebraska%20Hunting%20Apparel', width: 1200, height: 630 }],
   },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Shop All — Bucks of Nebraska',
+    description: 'Browse all Nebraska hunting apparel. Hats, tees, hoodies, decals, and more.',
+    images: ['/api/og?title=Shop%20All&subtitle=Nebraska%20Hunting%20Apparel'],
+  },
 }
 
 export default async function ShopPage() {
