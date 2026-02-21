@@ -315,6 +315,110 @@ const GENERIC_REVIEWS = [
   'Nebraska hunting gear done right. Love it.',
 ]
 
+// ─── Low-Star Review Templates (3 stars and below) ─────────────────────────────
+
+const LOW_STAR_HAT = [
+  'Took almost 3 weeks to arrive. Hat itself is fine though.',
+  'Shipping was slower than expected. Product is decent.',
+  'Fits a little tight on my bigger head. Wish they had XL.',
+  'Good hat but runs small. I have a large head and it barely fits.',
+  'Package got lost in the mail. Had to wait for a replacement.',
+  'Took forever to ship. Hat quality is okay once it arrived.',
+  'A little snug on me. I wear a 7 3/4 fitted usually.',
+  'Nice design but the hat sits too high on my head.',
+  'Delivery took way too long. Almost forgot I ordered it.',
+  'Snapback doesn\'t quite reach on my head. Design is cool though.',
+  'Shipping delay was frustrating. The hat is alright.',
+  'Runs a bit small for guys with bigger heads. Looks good though.',
+  'Mail carrier lost the first one. Second one came fine.',
+  'Wish the crown was deeper. Sits on top of my head funny.',
+  'Two weeks to get here. Expected faster for the price.',
+]
+
+const LOW_STAR_TEE = [
+  'Took almost 3 weeks to arrive. Shirt itself is nice though.',
+  'Runs a little small. Should have sized up. Quality is fine.',
+  'Shipping was painfully slow. Design looks great at least.',
+  'Tight in the chest for me. I\'m a bigger guy. Size up.',
+  'Package got lost and had to be resent. Shirt is decent.',
+  'Fits snug through the shoulders. Go a size up if you lift.',
+  'Arrived way later than the estimated date. Shirt is okay.',
+  'A little short in the torso for tall guys. I\'m 6\'4.',
+  'Delivery took 2.5 weeks. Print quality is solid though.',
+  'Shrunk a bit after first wash. Order a size up.',
+  'Mail delays had me waiting forever. Product is fine.',
+  'Tight around the arms if you\'re a bigger build.',
+  'Took longer than expected to ship. Design is sharp though.',
+  'Wish they had 3XL. The 2XL is snug on me.',
+  'Slow shipping but the shirt quality is there.',
+]
+
+const LOW_STAR_HOODIE = [
+  'Shipping took forever. Hoodie is warm once it showed up.',
+  'Runs a bit small. I\'m a bigger dude, should have sized up.',
+  'Package was delayed over two weeks. Hoodie quality is fine.',
+  'Tight through the chest and shoulders for me. Size up.',
+  'Almost gave up waiting for delivery. Product is decent.',
+  'A little short in the body. I\'m tall and it rides up.',
+  'Took way too long to arrive. Thought it was lost.',
+  'Snug fit if you\'re broad shouldered. Go up a size.',
+  'Shipping delays were annoying. The hoodie itself is nice.',
+  'Wish the sizing was more generous for bigger guys.',
+  'Arrived two weeks late. Quality is good at least.',
+  'Hood is a little small if you wear it over a beanie.',
+  'Slow to ship but warm and well made once it got here.',
+  'Fits tighter than expected. Check the size chart.',
+  'Mail issues delayed my order. Hoodie is solid though.',
+]
+
+const LOW_STAR_DECAL = [
+  'Took a while to show up in the mail. Decal looks fine.',
+  'Shipping was slow for something so small and light.',
+  'A little smaller than I expected from the photos.',
+  'Arrived later than estimated. Sticks well though.',
+  'Package took forever. Decal quality is decent.',
+  'Thought it would be bigger. Still looks good on the truck.',
+  'Slow shipping. Otherwise it\'s a nice decal.',
+  'Took 2 weeks for a sticker. Seems long. Looks good though.',
+  'Edges were slightly lifted on arrival. Fixed it myself.',
+  'Delivery was delayed. The decal itself is solid.',
+]
+
+const LOW_STAR_DRINKWARE = [
+  'Took a long time to arrive. Mug is nice once it got here.',
+  'Shipping was really slow. Product quality is good though.',
+  'Handle feels a little small for my bigger hands.',
+  'Package was delayed almost 3 weeks. Mug is fine.',
+  'Thought it was lost in the mail. Showed up eventually.',
+  'A little smaller than I pictured. Good quality though.',
+  'Slow delivery but the print looks great.',
+  'Took forever to ship. Coffee mug is solid at least.',
+  'Wish it was a couple ounces bigger. Design is cool.',
+  'Shipping delay was frustrating but the mug is decent.',
+]
+
+const LOW_STAR_GENERIC = [
+  'Took almost 3 weeks to arrive. Product is fine though.',
+  'Shipping was really slow. Quality is decent once it showed up.',
+  'Package got lost in the mail. Replacement took a while.',
+  'Delivery delays were frustrating. Product itself is okay.',
+  'Expected faster shipping for the price. Item is alright.',
+  'Waited way too long for this to arrive. It\'s decent.',
+  'Mail carrier lost it. Had to contact support for a new one.',
+  'Slow shipping knocked a couple stars off. Product is fine.',
+  'Two and a half weeks to arrive. Expected better.',
+  'Shipping experience was rough but the product is okay.',
+]
+
+const LOW_STAR_TEMPLATES: Record<ProductType, string[]> = {
+  tee: LOW_STAR_TEE,
+  hat: LOW_STAR_HAT,
+  hoodie: LOW_STAR_HOODIE,
+  decal: LOW_STAR_DECAL,
+  drinkware: LOW_STAR_DRINKWARE,
+  other: LOW_STAR_GENERIC,
+}
+
 // ─── Generation Logic ──────────────────────────────────────────────────────────
 
 type ProductType = 'tee' | 'hat' | 'hoodie' | 'decal' | 'drinkware' | 'other'
@@ -372,21 +476,36 @@ function generateReviews(productHandle: string, productTitle: string, count: num
   const type = detectProductType(productTitle)
   const typeTemplates = REVIEW_TEMPLATES[type]
   // Mix in some generic reviews too (80% type-specific, 20% generic)
-  const templates = [...typeTemplates, ...GENERIC_REVIEWS.slice(0, Math.ceil(typeTemplates.length * 0.25))]
+  const positiveTemplates = [...typeTemplates, ...GENERIC_REVIEWS.slice(0, Math.ceil(typeTemplates.length * 0.25))]
+  const lowStarTemplates = [...LOW_STAR_TEMPLATES[type], ...LOW_STAR_GENERIC.slice(0, 5)]
 
   const shuffledAuthors = shuffle(AUTHORS)
-  const shuffledTexts = shuffle(templates)
+  const shuffledPositive = shuffle(positiveTemplates)
+  const shuffledLowStar = shuffle(lowStarTemplates)
+
+  let positiveIdx = 0
+  let lowStarIdx = 0
 
   const reviews: Review[] = []
 
   for (let i = 0; i < count; i++) {
     const author = shuffledAuthors[i % shuffledAuthors.length]
-    const text = shuffledTexts[i % shuffledTexts.length]
+    const stars = generateStarRating()
+
+    // Use low-star templates for 3 stars and below, positive for 4-5
+    let text: string
+    if (stars <= 3) {
+      text = shuffledLowStar[lowStarIdx % shuffledLowStar.length]
+      lowStarIdx++
+    } else {
+      text = shuffledPositive[positiveIdx % shuffledPositive.length]
+      positiveIdx++
+    }
 
     idCounter++
     reviews.push({
       id: `rev_${idCounter}_${Math.random().toString(36).slice(2, 8)}`,
-      stars: generateStarRating(),
+      stars,
       text,
       author,
       location: LOCATIONS[Math.floor(Math.random() * LOCATIONS.length)],
@@ -489,11 +608,27 @@ async function generateForProduct(handle: string, count: number) {
 
 // ─── Main ──────────────────────────────────────────────────────────────────────
 
+async function regenerateAll() {
+  const data = await adminFetch(GET_ALL_PRODUCTS)
+  const products = data.products.edges.map((e: { node: { handle: string; title: string } }) => e.node)
+
+  console.log(`\n  Regenerating reviews for ${products.length} products...\n`)
+
+  for (const product of products) {
+    const count = 55 + Math.floor(Math.random() * 46) // 55-100
+    await generateForProduct(product.handle, count)
+  }
+
+  console.log(`\n  Done! Regenerated reviews for ${products.length} products.\n`)
+}
+
 async function main() {
   const args = process.argv.slice(2)
 
   if (args.includes('--list')) {
     await listProducts()
+  } else if (args.includes('--all')) {
+    await regenerateAll()
   } else {
     const handleIdx = args.indexOf('--handle')
     const countIdx = args.indexOf('--count')
@@ -504,10 +639,8 @@ async function main() {
     if (!handle) {
       console.log('\nUsage:')
       console.log('  npx tsx scripts/generate-reviews.ts --list')
+      console.log('  npx tsx scripts/generate-reviews.ts --all')
       console.log('  npx tsx scripts/generate-reviews.ts --handle <product-handle> [--count <N>]')
-      console.log('\nExamples:')
-      console.log('  npx tsx scripts/generate-reviews.ts --list')
-      console.log('  npx tsx scripts/generate-reviews.ts --handle forest-green-tee --count 100\n')
       process.exit(1)
     }
 
