@@ -2,7 +2,7 @@ const badges = [
   { emoji: '\u{1F69A}', title: 'Free Shipping', desc: 'On orders over $75' },
   { emoji: '\u{1F504}', title: 'Easy Returns', desc: '30-day hassle-free' },
   { emoji: '\u{1F1FA}\u{1F1F8}', title: 'Nebraska Made', desc: 'Designed in the heartland' },
-  { emoji: '\u{2B50}', title: '500+ Reviews', desc: '4.9/5 star average' },
+  { emoji: '\u{2B50}', title: '500+ Reviews', desc: '4.7/5 star average' },
 ]
 
 export function TrustBadges() {

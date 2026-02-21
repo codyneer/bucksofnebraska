@@ -18,7 +18,7 @@ export function AnnouncementBar() {
             </span>
             <span className="flex items-center gap-2">
               <Star className="w-3.5 h-3.5 text-gold fill-gold" />
-              4.9/5 Stars — 500k Happy Customers
+              4.7/5 Stars — 500+ Happy Customers
             </span>
           </div>
         ))}
