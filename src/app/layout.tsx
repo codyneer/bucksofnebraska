@@ -10,6 +10,7 @@ import { CartDrawer } from '@/components/cart/CartDrawer'
 import { ToastProvider } from '@/components/ui/Toast'
 import { OrganizationSchema, WebSiteSchema } from '@/lib/structured-data'
 import { OmnisendScript } from '@/components/OmnisendScript'
+import { getAllApprovedReviews, computeReviewStats } from '@/lib/reviews'
 import './globals.css'
 
 const bebasNeue = Bebas_Neue({
@@ -82,11 +83,19 @@ export const metadata: Metadata = {
   },
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  let reviewStats = { avgRating: '4.7', totalCount: 0 }
+  try {
+    const reviews = await getAllApprovedReviews()
+    reviewStats = computeReviewStats(reviews)
+  } catch {
+    // Fall back to defaults
+  }
+
   return (
     <html lang="en" className={`${bebasNeue.variable} ${oswald.variable} ${bitter.variable} ${caveat.variable}`}>
       <head>
@@ -98,7 +107,7 @@ export default function RootLayout({
           <AuthProvider>
             <CartProvider>
               <BrandBar />
-              <AnnouncementBar />
+              <AnnouncementBar reviewStats={reviewStats} />
               <Navbar />
               <main>{children}</main>
               <Footer />

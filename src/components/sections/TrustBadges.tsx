@@ -1,11 +1,20 @@
-const badges = [
-  { emoji: '\u{1F69A}', title: 'Free Shipping', desc: 'On orders over $75' },
-  { emoji: '\u{1F504}', title: 'Easy Returns', desc: '30-day hassle-free' },
-  { emoji: '\u{1F1FA}\u{1F1F8}', title: 'Nebraska Made', desc: 'Designed in the heartland' },
-  { emoji: '\u{2B50}', title: '500+ Reviews', desc: '4.7/5 star average' },
-]
+import type { ReviewStats } from '@/lib/reviews'
 
-export function TrustBadges() {
+type TrustBadgesProps = {
+  reviewStats?: ReviewStats
+}
+
+export function TrustBadges({ reviewStats }: TrustBadgesProps) {
+  const rating = reviewStats?.avgRating || '4.7'
+  const count = reviewStats && reviewStats.totalCount > 0 ? `${reviewStats.totalCount}+` : '500+'
+
+  const badges = [
+    { emoji: '\u{1F69A}', title: 'Free Shipping', desc: 'On orders over $75' },
+    { emoji: '\u{1F504}', title: 'Easy Returns', desc: '30-day hassle-free' },
+    { emoji: '\u{1F1FA}\u{1F1F8}', title: 'Nebraska Made', desc: 'Designed in the heartland' },
+    { emoji: '\u{2B50}', title: `${count} Reviews`, desc: `${rating}/5 star average` },
+  ]
+
   return (
     <section className="grid grid-cols-2 sm:flex sm:justify-center gap-6 sm:gap-10 py-10 sm:py-[50px] px-5">
       {badges.map(({ emoji, title, desc }) => (

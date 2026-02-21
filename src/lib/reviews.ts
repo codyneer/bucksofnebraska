@@ -19,6 +19,23 @@ export type Review = {
   verified_purchase: boolean
 }
 
+export type ReviewStats = {
+  avgRating: string
+  totalCount: number
+}
+
+// Compute global review stats from a list of reviews
+export function computeReviewStats(reviews: Review[]): ReviewStats {
+  if (reviews.length === 0) {
+    return { avgRating: '0', totalCount: 0 }
+  }
+  const avg = reviews.reduce((sum, r) => sum + r.stars, 0) / reviews.length
+  return {
+    avgRating: avg.toFixed(1),
+    totalCount: reviews.length,
+  }
+}
+
 // Get reviews for a specific product
 export async function getProductReviews(handle: string): Promise<Review[]> {
   try {

@@ -1,12 +1,20 @@
 import { Star, Users, Flag, Truck } from 'lucide-react'
+import type { ReviewStats } from '@/lib/reviews'
 
-export function SocialProofBar() {
+type SocialProofBarProps = {
+  reviewStats?: ReviewStats
+}
+
+export function SocialProofBar({ reviewStats }: SocialProofBarProps) {
+  const rating = reviewStats?.avgRating || '4.7'
+  const count = reviewStats && reviewStats.totalCount > 0 ? `${reviewStats.totalCount}+` : '500+'
+
   return (
     <section className="py-6 sm:py-10 px-4 sm:px-10 text-center bg-offWhite border-t border-b border-border-light">
       <div className="grid grid-cols-2 gap-3 sm:flex sm:justify-center sm:gap-[50px] sm:flex-wrap items-center">
         <div className="font-nav text-[10px] sm:text-[13px] tracking-[1.5px] sm:tracking-[2px] uppercase text-text-light flex items-center gap-1.5 sm:gap-2 justify-center">
           <Star className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gold fill-gold flex-shrink-0" />
-          <span><strong className="text-text text-[12px] sm:text-[15px]">4.7/5</strong> 500+ Reviews</span>
+          <span><strong className="text-text text-[12px] sm:text-[15px]">{rating}/5</strong> {count} Reviews</span>
         </div>
         <div className="font-nav text-[10px] sm:text-[13px] tracking-[1.5px] sm:tracking-[2px] uppercase text-text-light flex items-center gap-1.5 sm:gap-2 justify-center">
           <Users className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red flex-shrink-0" />

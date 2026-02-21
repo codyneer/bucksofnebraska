@@ -11,7 +11,7 @@ import { StatePrideCards } from '@/components/sections/StatePrideCards'
 import { SectionHeader } from '@/components/ui/SectionHeader'
 import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
 import { getCollectionProducts, getAllProducts, type ShopifyProduct } from '@/lib/shopify'
-import { getAllApprovedReviews, type Review } from '@/lib/reviews'
+import { getAllApprovedReviews, computeReviewStats, type Review } from '@/lib/reviews'
 
 export const metadata: Metadata = {
   title: 'Bucks of Nebraska — Nebraska Hunting Apparel',
@@ -47,10 +47,12 @@ export default async function Home() {
     // Reviews will be empty, carousel shows placeholder data
   }
 
+  const reviewStats = computeReviewStats(reviews)
+
   return (
     <div className="min-h-screen">
       <HeroSection />
-      <SocialProofBar />
+      <SocialProofBar reviewStats={reviewStats} />
 
       {/* Best Sellers */}
       <RevealOnScroll>
@@ -69,7 +71,7 @@ export default async function Home() {
       </RevealOnScroll>
 
       <RevealOnScroll delay={140}>
-        <TrustBadges />
+        <TrustBadges reviewStats={reviewStats} />
       </RevealOnScroll>
 
       <div className="h-px bg-gradient-to-r from-transparent via-border to-transparent max-w-[1200px] mx-auto" />
