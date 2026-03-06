@@ -8,6 +8,7 @@ import { LifestyleGrid } from '@/components/sections/LifestyleGrid'
 import { RedBanner } from '@/components/sections/RedBanner'
 import { ReferralSection } from '@/components/sections/ReferralSection'
 import { StatePrideCards } from '@/components/sections/StatePrideCards'
+import { BuckAlertSignup } from '@/components/sections/BuckAlertSignup'
 import { SectionHeader } from '@/components/ui/SectionHeader'
 import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
 import { getCollectionProducts, getAllProducts, getProduct, type ShopifyProduct } from '@/lib/shopify'
@@ -104,6 +105,10 @@ export default async function Home() {
 
       <RevealOnScroll delay={140}>
         <ReferralSection />
+      </RevealOnScroll>
+
+      <RevealOnScroll>
+        <BuckAlertSignup />
       </RevealOnScroll>
 
       <RevealOnScroll>
