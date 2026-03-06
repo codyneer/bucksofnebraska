@@ -19,6 +19,7 @@ export function ProductCard({ product }: ProductCardProps) {
   const { showToast } = useToast()
 
   const firstImage = product.images.edges[0]?.node
+  const secondImage = product.images.edges[1]?.node
   const firstVariant = product.variants.edges[0]?.node
   const price = product.priceRange.minVariantPrice.amount
   const compareAtPrice = product.compareAtPriceRange?.minVariantPrice?.amount
@@ -92,16 +93,25 @@ export function ProductCard({ product }: ProductCardProps) {
         </span>
       )}
 
-      {/* Product image */}
+      {/* Product image with hover swap */}
       {firstImage ? (
         <div className="relative overflow-hidden bg-white" style={{ aspectRatio: '1 / 1' }}>
           <Image
             src={firstImage.url}
             alt={firstImage.altText || product.title}
             fill
-            className="object-contain p-2 transition-transform duration-500 group-hover:scale-[1.03]"
+            className={`object-contain p-2 transition-all duration-500 ${secondImage ? 'group-hover:opacity-0' : 'group-hover:scale-[1.03]'}`}
             sizes="(max-width: 768px) 50vw, 33vw"
           />
+          {secondImage && (
+            <Image
+              src={secondImage.url}
+              alt={secondImage.altText || `${product.title} - back`}
+              fill
+              className="object-contain p-2 opacity-0 transition-all duration-500 group-hover:opacity-100 group-hover:scale-[1.03]"
+              sizes="(max-width: 768px) 50vw, 33vw"
+            />
+          )}
         </div>
       ) : (
         <div
