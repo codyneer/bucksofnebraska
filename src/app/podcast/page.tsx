@@ -89,6 +89,24 @@ export default function PodcastPage() {
             </p>
           </div>
         </a>
+        <a href="https://youtu.be/pM3IP9n0lLs?si=2AYF7MWvEbNutMPV" target="_blank" rel="noopener noreferrer" className="bg-white border border-border-light p-4 sm:p-6 flex gap-3 sm:gap-5 items-start cursor-pointer transition-all duration-300 hover:shadow-lg hover:border-red group block">
+          <div className="flex-shrink-0 w-12 h-12 bg-red/[0.06] border border-red/20 flex items-center justify-center group-hover:bg-red group-hover:border-red transition-all duration-300">
+            <Play className="w-4 h-4 text-red group-hover:text-white transition-colors" />
+          </div>
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-2 mb-1">
+              <span className="font-nav text-[11px] tracking-[1.5px] uppercase text-red">
+                EP 2
+              </span>
+            </div>
+            <h3 className="font-nav text-[14px] tracking-[0.5px] uppercase text-text mb-1.5 leading-snug">
+              The Best Deer of 2025
+            </h3>
+            <p className="text-text-light text-[14px] leading-relaxed font-body">
+              We break down the biggest and best whitetail bucks taken across Nebraska in 2025.
+            </p>
+          </div>
+        </a>
       </div>
     </div>
   )
