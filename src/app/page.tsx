@@ -10,7 +10,7 @@ import { ReferralSection } from '@/components/sections/ReferralSection'
 import { StatePrideCards } from '@/components/sections/StatePrideCards'
 import { SectionHeader } from '@/components/ui/SectionHeader'
 import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
-import { getCollectionProducts, getAllProducts, type ShopifyProduct } from '@/lib/shopify'
+import { getCollectionProducts, getAllProducts, getProduct, type ShopifyProduct } from '@/lib/shopify'
 import { getAllApprovedReviews, computeReviewStats, type Review } from '@/lib/reviews'
 
 export const metadata: Metadata = {
@@ -25,13 +25,30 @@ export default async function Home() {
 
   try {
     // Try best-sellers collection first, fall back to all products
-    const collection = await getCollectionProducts('best-sellers', 6)
+    const collection = await getCollectionProducts('best-sellers', 7)
     if (collection && collection.products.edges.length > 0) {
       products = collection.products.edges.map((e) => e.node)
     } else {
-      const allProducts = await getAllProducts(6)
+      const allProducts = await getAllProducts(7)
       products = allProducts
     }
+
+    // Swap out Nebraska State Hat for Property of BN Hoodie
+    const hatIndex = products.findIndex((p) => p.handle.includes('nebraska-state') && p.handle.includes('hat'))
+    if (hatIndex !== -1) {
+      try {
+        const hoodie = await getProduct('property-of-bucks-of-nebraska-hoodie')
+        if (hoodie) {
+          products[hatIndex] = hoodie
+        }
+      } catch {
+        // If hoodie fetch fails, just remove the hat
+        products.splice(hatIndex, 1)
+      }
+    }
+
+    // Ensure we show exactly 6 products
+    products = products.slice(0, 6)
   } catch (error) {
     console.error('Failed to fetch products:', error)
     try {
