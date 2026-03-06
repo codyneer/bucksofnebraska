@@ -24,7 +24,7 @@ export function ProductDetail({ product, reviews = [], allProducts = [] }: Produ
   const { showToast } = useToast()
   const images = product.images.edges.map((e) => e.node)
   const variants = product.variants.edges.map((e) => e.node)
-  const basePrice = parseFloat(product.priceRange.minVariantPrice.amount)
+  const minPrice = parseFloat(product.priceRange.minVariantPrice.amount)
 
   // Use Shopify product-level options (guaranteed complete, not limited by variant pagination)
   const productOptions = useMemo(() => {
@@ -64,7 +64,7 @@ export function ProductDetail({ product, reviews = [], allProducts = [] }: Produ
   const [selectedImageIndex, setSelectedImageIndex] = useState(0)
   const [selectedOptions, setSelectedOptions] = useState<Record<string, string>>(initialOptions)
   const [tierQuantity, setTierQuantity] = useState(2)
-  const [tierPrice, setTierPrice] = useState(Math.round(basePrice * 0.86))
+  const [tierPrice, setTierPrice] = useState(0) // initialized in effect below
   const [quantity, setQuantity] = useState(1)
 
   // Find the matching variant based on ALL selected options
@@ -99,6 +99,17 @@ export function ProductDetail({ product, reviews = [], allProducts = [] }: Produ
     })
   }, [variants, images])
 
+  // The price for bundle calculations — always the selected variant's actual price
+  const variantPrice = selectedVariant
+    ? parseFloat(selectedVariant.price.amount)
+    : minPrice
+
+  // Keep tier price in sync when the selected variant (and its price) changes
+  useEffect(() => {
+    const multiplier = tierQuantity === 1 ? 1 : tierQuantity === 2 ? 0.86 : 0.71
+    setTierPrice(Math.round(variantPrice * multiplier))
+  }, [variantPrice, tierQuantity])
+
   const totalPrice = tierPrice * tierQuantity * quantity
   const [viewerCount, setViewerCount] = useState(0)
   useEffect(() => {
@@ -111,9 +122,9 @@ export function ProductDetail({ product, reviews = [], allProducts = [] }: Produ
       contentName: product.title,
       contentId: product.handle,
       contentType: 'product',
-      value: basePrice,
+      value: minPrice,
     })
-  }, [product.handle, product.title, basePrice])
+  }, [product.handle, product.title, minPrice])
 
   const handleAddToCart = async () => {
     if (!selectedVariant) return
@@ -265,7 +276,7 @@ export function ProductDetail({ product, reviews = [], allProducts = [] }: Produ
           {/* Price */}
           <div className="mb-5">
             <span className="font-display text-[32px] text-red">
-              {selectedVariant ? formatPrice(selectedVariant.price.amount) : formatPrice(basePrice)}
+              {formatPrice(variantPrice)}
             </span>
             {selectedVariant?.compareAtPrice && parseFloat(selectedVariant.compareAtPrice.amount) > parseFloat(selectedVariant.price.amount) && (
               <span className="ml-2 text-[16px] text-text-muted line-through">
@@ -287,7 +298,7 @@ export function ProductDetail({ product, reviews = [], allProducts = [] }: Produ
           )}
 
           {/* Bundle Tiers */}
-          <BundleTiers basePrice={basePrice} onTierChange={handleTierChange} />
+          <BundleTiers basePrice={variantPrice} onTierChange={handleTierChange} />
 
           {/* All Option Selectors (Color, Size, Style, etc.) */}
           {productOptions.map((option) => {
