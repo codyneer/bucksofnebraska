@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
+import { FooterSignup } from './FooterSignup'
 
 const footerColumns = [
   {
@@ -37,8 +38,8 @@ const footerColumns = [
 export function Footer() {
   return (
     <footer className="bg-brand-black text-white pt-16 pb-8 px-5 sm:px-10">
-      {/* Top: 4-column grid */}
-      <div className="max-w-[1200px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1fr] gap-10 pb-10 border-b border-white/10">
+      {/* Top: 5-column grid */}
+      <div className="max-w-[1200px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1fr_1.5fr] gap-8 lg:gap-10 pb-10 border-b border-white/10">
         {/* Brand column */}
         <div>
           <Image
@@ -48,7 +49,7 @@ export function Footer() {
             height={60}
             className="h-14 w-auto mb-3.5"
           />
-          <p className="text-white/50 text-[14px] leading-[1.7] max-w-[280px] font-body">
+          <p className="text-white/50 text-[14px] leading-[1.7] max-w-[250px] font-body">
             Nebraska&apos;s #1 source for deer hunting. From the Missouri River Bottoms to the Sandhills, we&apos;ve got you covered.
           </p>
         </div>
@@ -83,6 +84,9 @@ export function Footer() {
             </ul>
           </div>
         ))}
+
+        {/* Buck Alerts signup */}
+        <FooterSignup />
       </div>
 
       {/* Bottom bar */}
