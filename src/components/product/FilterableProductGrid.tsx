@@ -1,7 +1,7 @@
 'use client'
 
-import { useState, Suspense } from 'react'
-import { useSearchParams } from 'next/navigation'
+import { useState, Suspense, useCallback } from 'react'
+import { useSearchParams, useRouter, usePathname } from 'next/navigation'
 import { SlidersHorizontal } from 'lucide-react'
 import { ProductGrid } from './ProductGrid'
 import { FilterSidebar } from './FilterSidebar'
@@ -10,7 +10,9 @@ import {
   extractSizes,
   applyFilters,
   parseFiltersFromParams,
+  filtersToParams,
   countActiveFilters,
+  COLLECTION_TAG_FILTERS,
 } from '@/lib/filter-utils'
 import type { ShopifyProduct } from '@/lib/shopify'
 
@@ -25,13 +27,68 @@ function FilterableProductGridInner({
 }: FilterableProductGridProps) {
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false)
   const searchParams = useSearchParams()
+  const router = useRouter()
+  const pathname = usePathname()
   const filters = parseFiltersFromParams(searchParams)
   const activeCount = countActiveFilters(filters)
   const availableSizes = extractSizes(products)
   const filteredProducts = applyFilters(products, filters)
 
+  const tagFilters = collectionHandle ? COLLECTION_TAG_FILTERS[collectionHandle] : undefined
+
+  const handleTagToggle = useCallback(
+    (tag: string) => {
+      const currentTags = filters.tags
+      const newTags = currentTags.includes(tag)
+        ? currentTags.filter((t) => t !== tag)
+        : [...currentTags, tag]
+      const newFilters = { ...filters, tags: newTags }
+      const qs = filtersToParams(newFilters)
+      router.push(qs ? `${pathname}?${qs}` : pathname, { scroll: false })
+    },
+    [filters, router, pathname]
+  )
+
   return (
     <>
+      {/* Tag filter pills */}
+      {tagFilters && (
+        <div className="flex items-center gap-2 mb-6 flex-wrap">
+          <button
+            onClick={() => {
+              if (filters.tags.length > 0) {
+                const newFilters = { ...filters, tags: [] }
+                const qs = filtersToParams(newFilters)
+                router.push(qs ? `${pathname}?${qs}` : pathname, { scroll: false })
+              }
+            }}
+            className={`py-2 px-4 font-nav text-[12px] tracking-[2px] uppercase border transition-all duration-200 cursor-pointer ${
+              filters.tags.length === 0
+                ? 'bg-red text-white border-red'
+                : 'bg-white text-text border-border hover:border-red hover:text-red'
+            }`}
+          >
+            All
+          </button>
+          {tagFilters.map((tf) => {
+            const isActive = filters.tags.includes(tf.tag)
+            return (
+              <button
+                key={tf.tag}
+                onClick={() => handleTagToggle(tf.tag)}
+                className={`py-2 px-4 font-nav text-[12px] tracking-[2px] uppercase border transition-all duration-200 cursor-pointer ${
+                  isActive
+                    ? 'bg-red text-white border-red'
+                    : 'bg-white text-text border-border hover:border-red hover:text-red'
+                }`}
+              >
+                {tf.label}
+              </button>
+            )
+          })}
+        </div>
+      )}
+
       {/* Mobile filter bar */}
       <div className="lg:hidden flex items-center justify-between mb-5">
         <button

@@ -5,7 +5,19 @@ export type SortOption = 'best-sellers' | 'newest' | 'price-asc' | 'price-desc'
 export type FilterState = {
   sizes: string[]
   priceRanges: string[]
+  tags: string[]
   sort: SortOption
+}
+
+// Tag-based sub-category filters per collection
+export const COLLECTION_TAG_FILTERS: Record<string, { label: string; tag: string }[]> = {
+  hats: [
+    { label: 'Deer', tag: 'deer' },
+    { label: 'Ducks', tag: 'duck' },
+    { label: 'Fishing', tag: 'fishing' },
+    { label: 'Nebraska', tag: 'nebraska' },
+    { label: 'Pheasant', tag: 'pheasant' },
+  ],
 }
 
 export const PRICE_RANGES = [
@@ -66,6 +78,15 @@ export function applyFilters(
     )
   }
 
+  // Filter by tags
+  if (filters.tags.length > 0) {
+    result = result.filter((product) =>
+      filters.tags.some((tag) =>
+        product.tags.some((t) => t.toLowerCase() === tag.toLowerCase())
+      )
+    )
+  }
+
   // Filter by price range
   if (filters.priceRanges.length > 0) {
     const activeRanges = PRICE_RANGES.filter((r) =>
@@ -115,11 +136,13 @@ export function applyFilters(
 export function parseFiltersFromParams(params: URLSearchParams): FilterState {
   const sizeParam = params.get('size')
   const priceParam = params.get('price')
+  const tagParam = params.get('tag')
   const sortParam = params.get('sort')
 
   return {
     sizes: sizeParam ? sizeParam.split(',').filter(Boolean) : [],
     priceRanges: priceParam ? priceParam.split(',').filter(Boolean) : [],
+    tags: tagParam ? tagParam.split(',').filter(Boolean) : [],
     sort: (SORT_OPTIONS.some((o) => o.value === sortParam)
       ? sortParam
       : 'best-sellers') as SortOption,
@@ -135,6 +158,9 @@ export function filtersToParams(filters: FilterState): string {
   if (filters.priceRanges.length > 0) {
     params.set('price', filters.priceRanges.join(','))
   }
+  if (filters.tags.length > 0) {
+    params.set('tag', filters.tags.join(','))
+  }
   if (filters.sort !== 'best-sellers') {
     params.set('sort', filters.sort)
   }
@@ -143,5 +169,5 @@ export function filtersToParams(filters: FilterState): string {
 }
 
 export function countActiveFilters(filters: FilterState): number {
-  return filters.sizes.length + filters.priceRanges.length
+  return filters.sizes.length + filters.priceRanges.length + filters.tags.length
 }
