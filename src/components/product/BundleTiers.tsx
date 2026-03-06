@@ -27,19 +27,19 @@ export function BundleTiers({ basePrice, onTierChange }: BundleTiersProps) {
     },
     {
       quantity: 2,
-      priceEach: Math.round(basePrice * 0.86),
+      priceEach: Math.round(basePrice * 0.90),
       label: 'Buy 2',
       subtitle: 'Most popular — mix & match',
-      savingsPercent: 14,
-      badge: 'Save 14%',
+      savingsPercent: 10,
+      badge: 'Save 10%',
     },
     {
       quantity: 3,
-      priceEach: Math.round(basePrice * 0.71),
+      priceEach: Math.round(basePrice * 0.85),
       label: 'Buy 3+',
       subtitle: 'Best value — for you & the crew',
-      savingsPercent: 29,
-      badge: 'Save 29%',
+      savingsPercent: 15,
+      badge: 'Save 15%',
     },
   ]
 

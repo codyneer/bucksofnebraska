@@ -106,7 +106,7 @@ export function ProductDetail({ product, reviews = [], allProducts = [] }: Produ
 
   // Keep tier price in sync when the selected variant (and its price) changes
   useEffect(() => {
-    const multiplier = tierQuantity === 1 ? 1 : tierQuantity === 2 ? 0.86 : 0.71
+    const multiplier = tierQuantity === 1 ? 1 : tierQuantity === 2 ? 0.90 : 0.85
     setTierPrice(Math.round(variantPrice * multiplier))
   }, [variantPrice, tierQuantity])
 
