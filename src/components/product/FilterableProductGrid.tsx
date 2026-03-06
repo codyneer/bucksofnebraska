@@ -36,12 +36,10 @@ function FilterableProductGridInner({
 
   const tagFilters = collectionHandle ? COLLECTION_TAG_FILTERS[collectionHandle] : undefined
 
-  const handleTagToggle = useCallback(
+  const handleTagSelect = useCallback(
     (tag: string) => {
-      const currentTags = filters.tags
-      const newTags = currentTags.includes(tag)
-        ? currentTags.filter((t) => t !== tag)
-        : [...currentTags, tag]
+      // Single-select: clicking active tag deselects it, clicking new tag replaces
+      const newTags = filters.tags.includes(tag) ? [] : [tag]
       const newFilters = { ...filters, tags: newTags }
       const qs = filtersToParams(newFilters)
       router.push(qs ? `${pathname}?${qs}` : pathname, { scroll: false })
@@ -75,7 +73,7 @@ function FilterableProductGridInner({
             return (
               <button
                 key={tf.tag}
-                onClick={() => handleTagToggle(tf.tag)}
+                onClick={() => handleTagSelect(tf.tag)}
                 className={`py-2 px-4 font-nav text-[12px] tracking-[2px] uppercase border transition-all duration-200 cursor-pointer ${
                   isActive
                     ? 'bg-red text-white border-red'
