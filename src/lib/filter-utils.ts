@@ -23,7 +23,7 @@ export type CollectionFilter = {
 export const COLLECTION_TAG_FILTERS: Record<string, CollectionFilter[]> = {
   hats: [
     { label: 'Deer', key: 'deer', tags: ['deer'] },
-    { label: 'Ducks', key: 'duck', tags: ['duck'] },
+    { label: 'Ducks', key: 'duck', tags: ['duck', 'duck-hunt', 'duck hunt', 'waterfowl'], titleKeywords: ['duck'] },
     { label: 'Fishing', key: 'fishing', tags: ['fishing', 'bass'], titleKeywords: ['topwater', 'frog', 'bass', 'fishing'] },
     { label: 'Nebraska', key: 'nebraska', tags: ['nebraska', 'state'], titleKeywords: ['nebraska'] },
     { label: 'Pheasant', key: 'pheasant', tags: ['pheasant'] },
