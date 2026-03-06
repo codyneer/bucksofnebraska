@@ -29,7 +29,8 @@ function FilterableProductGridInner({
   const searchParams = useSearchParams()
   const router = useRouter()
   const pathname = usePathname()
-  const filters = parseFiltersFromParams(searchParams)
+  const baseFilters = parseFiltersFromParams(searchParams)
+  const filters = { ...baseFilters, collectionHandle }
   const activeCount = countActiveFilters(filters)
   const availableSizes = extractSizes(products)
   const filteredProducts = applyFilters(products, filters)
@@ -69,11 +70,11 @@ function FilterableProductGridInner({
             All
           </button>
           {tagFilters.map((tf) => {
-            const isActive = filters.tags.includes(tf.tag)
+            const isActive = filters.tags.includes(tf.key)
             return (
               <button
-                key={tf.tag}
-                onClick={() => handleTagSelect(tf.tag)}
+                key={tf.key}
+                onClick={() => handleTagSelect(tf.key)}
                 className={`py-2 px-4 font-nav text-[12px] tracking-[2px] uppercase border transition-all duration-200 cursor-pointer ${
                   isActive
                     ? 'bg-red text-white border-red'

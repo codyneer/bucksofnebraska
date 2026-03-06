@@ -7,16 +7,26 @@ export type FilterState = {
   priceRanges: string[]
   tags: string[]
   sort: SortOption
+  collectionHandle?: string
 }
 
 // Tag-based sub-category filters per collection
-export const COLLECTION_TAG_FILTERS: Record<string, { label: string; tag: string }[]> = {
+// `tags` matches against Shopify product tags (exact, case-insensitive)
+// `titleKeywords` matches against product title (contains, case-insensitive)
+export type CollectionFilter = {
+  label: string
+  key: string
+  tags: string[]
+  titleKeywords?: string[]
+}
+
+export const COLLECTION_TAG_FILTERS: Record<string, CollectionFilter[]> = {
   hats: [
-    { label: 'Deer', tag: 'deer' },
-    { label: 'Ducks', tag: 'duck' },
-    { label: 'Fishing', tag: 'fishing' },
-    { label: 'Nebraska', tag: 'nebraska' },
-    { label: 'Pheasant', tag: 'pheasant' },
+    { label: 'Deer', key: 'deer', tags: ['deer'] },
+    { label: 'Ducks', key: 'duck', tags: ['duck'] },
+    { label: 'Fishing', key: 'fishing', tags: ['fishing', 'bass'], titleKeywords: ['topwater', 'frog', 'bass', 'fishing'] },
+    { label: 'Nebraska', key: 'nebraska', tags: ['nebraska', 'state'], titleKeywords: ['nebraska'] },
+    { label: 'Pheasant', key: 'pheasant', tags: ['pheasant'] },
   ],
 }
 
@@ -78,8 +88,25 @@ export function applyFilters(
     )
   }
 
-  // Filter by tags
-  if (filters.tags.length > 0) {
+  // Filter by collection tag filters (supports multiple tags + title keywords)
+  if (filters.tags.length > 0 && filters.collectionHandle) {
+    const collectionFilters = COLLECTION_TAG_FILTERS[filters.collectionHandle]
+    if (collectionFilters) {
+      const activeFilters = collectionFilters.filter((f) => filters.tags.includes(f.key))
+      if (activeFilters.length > 0) {
+        result = result.filter((product) => {
+          const productTags = product.tags.map((t) => t.toLowerCase())
+          const title = product.title.toLowerCase()
+          return activeFilters.some((af) => {
+            const tagMatch = af.tags.some((t) => productTags.includes(t.toLowerCase()))
+            const titleMatch = af.titleKeywords?.some((kw) => title.includes(kw.toLowerCase())) ?? false
+            return tagMatch || titleMatch
+          })
+        })
+      }
+    }
+  } else if (filters.tags.length > 0) {
+    // Fallback: simple tag match for collections without expanded config
     result = result.filter((product) =>
       filters.tags.some((tag) =>
         product.tags.some((t) => t.toLowerCase() === tag.toLowerCase())
