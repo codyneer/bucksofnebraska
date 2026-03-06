@@ -21,7 +21,7 @@ export function CartDrawer() {
 
   const subtotal = cart ? parseFloat(cart.cost.subtotalAmount.amount) : 0
   const totalAfterDiscount = cart ? parseFloat(cart.cost.totalAmount.amount) : subtotal
-  const shipping = calculateShipping(totalAfterDiscount)
+  const shipping = calculateShipping(subtotal)
   const total = totalAfterDiscount + shipping
 
   // Check scroll position to show/hide arrows

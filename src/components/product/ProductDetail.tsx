@@ -5,6 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Lock, Truck, RefreshCw, Eye } from 'lucide-react'
 import { useCart } from '@/lib/cart-context'
+import { useUpsell } from '@/lib/upsell-context'
 import { useToast } from '@/components/ui/Toast'
 import { formatPrice } from '@/lib/utils'
 import { BundleTiers } from './BundleTiers'
@@ -21,6 +22,7 @@ type ProductDetailProps = {
 
 export function ProductDetail({ product, reviews = [], allProducts = [] }: ProductDetailProps) {
   const { addItem } = useCart()
+  const { addItemWithUpsell } = useUpsell()
   const { showToast } = useToast()
   const images = product.images.edges.map((e) => e.node)
   const variants = product.variants.edges.map((e) => e.node)
@@ -128,15 +130,29 @@ export function ProductDetail({ product, reviews = [], allProducts = [] }: Produ
 
   const handleAddToCart = async () => {
     if (!selectedVariant) return
-    await addItem(selectedVariant.id, tierQuantity * quantity)
+    const totalQty = tierQuantity * quantity
+
+    if (totalQty === 1) {
+      // Single item — show Buy 2 upsell popup
+      await addItemWithUpsell(selectedVariant.id, 1, {
+        title: product.title,
+        image: images[0]?.url ?? null,
+        price: variantPrice,
+        variantTitle: selectedVariant.title,
+      })
+    } else {
+      // Multi-item — go straight to cart
+      await addItem(selectedVariant.id, totalQty)
+      showToast('Added to cart', 'cart')
+    }
+
     trackAddToCart({
       contentName: product.title,
       contentId: product.handle,
       contentType: 'product',
       value: totalPrice,
-      quantity: tierQuantity * quantity,
+      quantity: totalQty,
     })
-    showToast('Added to cart', 'cart')
   }
 
   const handleTierChange = (qty: number, price: number) => {

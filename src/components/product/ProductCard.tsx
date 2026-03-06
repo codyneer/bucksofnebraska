@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useCart } from '@/lib/cart-context'
+import { useUpsell } from '@/lib/upsell-context'
 import { useToast } from '@/components/ui/Toast'
 import { formatPrice, calculateSavings } from '@/lib/utils'
 import { ReviewStarsDisplay } from '@/components/reviews/ReviewStars'
@@ -16,6 +17,7 @@ type ProductCardProps = {
 
 export function ProductCard({ product }: ProductCardProps) {
   const { addItem } = useCart()
+  const { addItemWithUpsell } = useUpsell()
   const { showToast } = useToast()
 
   const firstImage = product.images.edges[0]?.node
@@ -68,14 +70,18 @@ export function ProductCard({ product }: ProductCardProps) {
     e.preventDefault()
     e.stopPropagation()
     if (firstVariant) {
-      await addItem(firstVariant.id)
+      await addItemWithUpsell(firstVariant.id, 1, {
+        title: product.title,
+        image: firstImage?.url ?? null,
+        price: parseFloat(price),
+        variantTitle: firstVariant.title,
+      })
       trackAddToCart({
         contentName: product.title,
         contentId: product.handle,
         contentType: 'product',
         value: parseFloat(price),
       })
-      showToast('Added to cart', 'cart')
     }
   }
 

@@ -7,6 +7,8 @@ import { AnnouncementBar } from '@/components/layout/AnnouncementBar'
 import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
 import { CartDrawer } from '@/components/cart/CartDrawer'
+import { UpsellProvider } from '@/lib/upsell-context'
+import { UpsellModal } from '@/components/cart/UpsellModal'
 import { ToastProvider } from '@/components/ui/Toast'
 import { OrganizationSchema, WebSiteSchema, SiteNavigationSchema } from '@/lib/structured-data'
 import { OmnisendScript } from '@/components/OmnisendScript'
@@ -107,12 +109,15 @@ export default async function RootLayout({
         <ToastProvider>
           <AuthProvider>
             <CartProvider>
-              <BrandBar />
-              <AnnouncementBar reviewStats={reviewStats} />
-              <Navbar />
-              <main>{children}</main>
-              <Footer />
-              <CartDrawer />
+              <UpsellProvider>
+                <BrandBar />
+                <AnnouncementBar reviewStats={reviewStats} />
+                <Navbar />
+                <main>{children}</main>
+                <Footer />
+                <UpsellModal />
+                <CartDrawer />
+              </UpsellProvider>
             </CartProvider>
           </AuthProvider>
         </ToastProvider>

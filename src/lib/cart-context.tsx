@@ -22,7 +22,7 @@ type CartContextType = {
   discountTotal: number
   openCart: () => void
   closeCart: () => void
-  addItem: (merchandiseId: string, quantity?: number) => Promise<void>
+  addItem: (merchandiseId: string, quantity?: number, options?: { suppressDrawer?: boolean }) => Promise<void>
   removeItem: (lineId: string) => Promise<void>
   updateItemQuantity: (lineId: string, quantity: number) => Promise<void>
   applyDiscount: (code: string) => Promise<void>
@@ -96,13 +96,15 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const closeCart = useCallback(() => setIsOpen(false), [])
 
   const addItem = useCallback(
-    async (merchandiseId: string, quantity = 1) => {
+    async (merchandiseId: string, quantity = 1, options?: { suppressDrawer?: boolean }) => {
       setIsLoading(true)
       try {
         const currentCart = await ensureCart()
         const updatedCart = await shopifyAddToCart(currentCart.id, [{ merchandiseId, quantity }])
         setCart(updatedCart)
-        setIsOpen(true)
+        if (!options?.suppressDrawer) {
+          setIsOpen(true)
+        }
       } catch (error) {
         console.error('Failed to add item to cart:', error)
       } finally {
