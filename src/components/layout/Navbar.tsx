@@ -46,28 +46,30 @@ function XIcon({ className, style }: IconProps) {
 
 // ——— Social links data ———
 
+const NAV_UTM = '?utm_source=bucksofnebraska&utm_medium=navbar&utm_campaign=social_follow'
+
 const socialLinks = [
   {
     label: 'Facebook',
-    href: 'https://facebook.com/bucksofnebraska',
+    href: `https://facebook.com/bucksofnebraska${NAV_UTM}`,
     icon: FacebookIcon,
     color: '#1877F2',
   },
   {
     label: 'Instagram',
-    href: 'https://instagram.com/bucksofnebraska',
+    href: `https://instagram.com/bucksofnebraska${NAV_UTM}`,
     icon: InstagramIcon,
     color: '#E4405F',
   },
   {
     label: 'TikTok',
-    href: 'https://tiktok.com/@bucksofnebraska',
+    href: `https://tiktok.com/@bucksofnebraska${NAV_UTM}`,
     icon: TikTokIcon,
     color: '#000000',
   },
   {
     label: 'X (Twitter)',
-    href: 'https://x.com/bucksofnebraska',
+    href: `https://x.com/bucksofnebraska${NAV_UTM}`,
     icon: XIcon,
     color: '#000000',
   },

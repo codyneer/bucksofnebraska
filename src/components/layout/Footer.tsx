@@ -18,18 +18,20 @@ const companyLinks = [
   { label: 'Refer a Friend', href: '/referral' },
 ]
 
+const FOOTER_UTM = '?utm_source=bucksofnebraska&utm_medium=footer&utm_campaign=social_follow'
+
 const followLinks = [
-  { label: 'Instagram', href: 'https://instagram.com/bucksofnebraska' },
-  { label: 'Facebook', href: 'https://facebook.com/bucksofnebraska' },
-  { label: 'TikTok', href: 'https://tiktok.com/@bucksofnebraska' },
-  { label: 'X (Twitter)', href: 'https://x.com/bucksofnebraska' },
+  { label: 'Instagram', href: `https://instagram.com/bucksofnebraska${FOOTER_UTM}` },
+  { label: 'Facebook', href: `https://facebook.com/bucksofnebraska${FOOTER_UTM}` },
+  { label: 'TikTok', href: `https://tiktok.com/@bucksofnebraska${FOOTER_UTM}` },
+  { label: 'X (Twitter)', href: `https://x.com/bucksofnebraska${FOOTER_UTM}` },
   { label: 'Podcast', href: '/podcast' },
 ]
 
 const socialIcons = [
   {
     label: 'Instagram',
-    href: 'https://instagram.com/bucksofnebraska',
+    href: `https://instagram.com/bucksofnebraska${FOOTER_UTM}`,
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="w-[18px] h-[18px]">
         <rect x="2" y="2" width="20" height="20" rx="5" />
@@ -40,7 +42,7 @@ const socialIcons = [
   },
   {
     label: 'Facebook',
-    href: 'https://facebook.com/bucksofnebraska',
+    href: `https://facebook.com/bucksofnebraska${FOOTER_UTM}`,
     icon: (
       <svg viewBox="0 0 24 24" fill="currentColor" className="w-[18px] h-[18px]">
         <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" />
@@ -49,7 +51,7 @@ const socialIcons = [
   },
   {
     label: 'TikTok',
-    href: 'https://tiktok.com/@bucksofnebraska',
+    href: `https://tiktok.com/@bucksofnebraska${FOOTER_UTM}`,
     icon: (
       <svg viewBox="0 0 24 24" fill="currentColor" className="w-[18px] h-[18px]">
         <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.15 15.2a6.34 6.34 0 0010.86 4.43V13.4a8.16 8.16 0 004.77 1.53V11.5a4.82 4.82 0 01-.8.07 4.83 4.83 0 01-2.83-.92v-3.96h4.44z" />
@@ -58,7 +60,7 @@ const socialIcons = [
   },
   {
     label: 'X',
-    href: 'https://x.com/bucksofnebraska',
+    href: `https://x.com/bucksofnebraska${FOOTER_UTM}`,
     icon: (
       <svg viewBox="0 0 24 24" fill="currentColor" className="w-[16px] h-[16px]">
         <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />

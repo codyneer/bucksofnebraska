@@ -272,7 +272,7 @@ Each winner gets a 3-pack of BN decals — our classic red antler logo in 4", 8"
 
 The March giveaway is already live. Here's how to enter:
 
-1. Follow [@bucksofnebraska](https://instagram.com/bucksofnebraska) on Instagram
+1. Follow [@bucksofnebraska](https://instagram.com/bucksofnebraska?utm_source=bucksofnebraska&utm_medium=blog&utm_campaign=social_follow) on Instagram
 2. Like the giveaway post (pinned to the top of our feed)
 3. Tag a hunting buddy in the comments
 
