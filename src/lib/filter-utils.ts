@@ -18,6 +18,7 @@ export type CollectionFilter = {
   key: string
   tags: string[]
   titleKeywords?: string[]
+  excludeTags?: string[]
 }
 
 export const COLLECTION_TAG_FILTERS: Record<string, CollectionFilter[]> = {
@@ -25,7 +26,7 @@ export const COLLECTION_TAG_FILTERS: Record<string, CollectionFilter[]> = {
     { label: 'Deer', key: 'deer', tags: ['deer'] },
     { label: 'Ducks', key: 'duck', tags: ['duck', 'duck-hunt', 'duck hunt', 'waterfowl'], titleKeywords: ['duck'] },
     { label: 'Fishing', key: 'fishing', tags: ['fishing', 'bass'], titleKeywords: ['topwater', 'frog', 'bass', 'fishing'] },
-    { label: 'Nebraska', key: 'nebraska', tags: ['nebraska', 'state'], titleKeywords: ['nebraska'] },
+    { label: 'Nebraska', key: 'nebraska', tags: ['nebraska', 'state'], titleKeywords: ['nebraska'], excludeTags: ['duck', 'deer', 'pheasant', 'bass'] },
     { label: 'Pheasant', key: 'pheasant', tags: ['pheasant'] },
   ],
 }
@@ -98,6 +99,10 @@ export function applyFilters(
           const productTags = product.tags.map((t) => t.toLowerCase())
           const title = product.title.toLowerCase()
           return activeFilters.some((af) => {
+            // Exclude products that belong to another category
+            if (af.excludeTags?.some((t) => productTags.includes(t.toLowerCase()))) {
+              return false
+            }
             const tagMatch = af.tags.some((t) => productTags.includes(t.toLowerCase()))
             const titleMatch = af.titleKeywords?.some((kw) => title.includes(kw.toLowerCase())) ?? false
             return tagMatch || titleMatch
