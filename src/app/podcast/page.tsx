@@ -1,6 +1,7 @@
 import Image from 'next/image'
-import { Play, Headphones, ExternalLink } from 'lucide-react'
+import { Headphones, ExternalLink, Clock, Calendar } from 'lucide-react'
 import type { Metadata } from 'next'
+import { fetchPodcastEpisodes, formatDuration, formatPubDate } from '@/lib/podcast'
 
 export const metadata: Metadata = {
   title: 'Podcast | Nebraska Deer Hunting Stories & Gear Talk',
@@ -29,7 +30,9 @@ const platforms = [
   { name: 'Amazon Music', url: `https://music.amazon.com/podcasts/00db4019-fe71-4898-b759-aa99a4af5cca/bucks-of-nebraska-podcast${PODCAST_UTM}`, color: 'bg-[#00A8E1]' },
 ]
 
-export default function PodcastPage() {
+export default async function PodcastPage() {
+  const episodes = await fetchPodcastEpisodes()
+
   return (
     <div className="py-12 sm:py-20 px-4 sm:px-10 max-w-[800px] mx-auto">
       <div className="text-center mb-8">
@@ -54,7 +57,7 @@ export default function PodcastPage() {
         </p>
       </div>
 
-      {/* Platform buttons */}
+      {/* Subscribe platform buttons */}
       <div className="flex justify-center gap-3 mb-14 flex-wrap">
         {platforms.map((p) => (
           <a
@@ -71,44 +74,90 @@ export default function PodcastPage() {
         ))}
       </div>
 
-      {/* Episode 1 */}
+      {/* Episodes */}
       <div className="space-y-4">
-        <a href={`https://www.youtube.com/@BucksofNebraska${PODCAST_UTM}`} target="_blank" rel="noopener noreferrer" className="bg-white border border-border-light p-4 sm:p-6 flex gap-3 sm:gap-5 items-start cursor-pointer transition-all duration-300 hover:shadow-lg hover:border-red group block">
-          <div className="flex-shrink-0 w-12 h-12 bg-red/[0.06] border border-red/20 flex items-center justify-center group-hover:bg-red group-hover:border-red transition-all duration-300">
-            <Play className="w-4 h-4 text-red group-hover:text-white transition-colors" />
-          </div>
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-2 mb-1">
-              <span className="font-nav text-[11px] tracking-[1.5px] uppercase text-red">
-                EP 1
-              </span>
+        {episodes.map((ep) => (
+          <div
+            key={ep.id}
+            className="bg-white border border-border-light overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-red group"
+          >
+            {/* Episode header */}
+            <div className="p-4 sm:p-6 flex gap-3 sm:gap-5 items-start">
+              {/* Episode artwork */}
+              {ep.artworkUrl ? (
+                <div className="flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 overflow-hidden border border-border-light">
+                  <Image
+                    src={ep.artworkUrl}
+                    alt={ep.title}
+                    width={80}
+                    height={80}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              ) : (
+                <div className="flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 bg-red/[0.06] border border-red/20 flex items-center justify-center">
+                  <Headphones className="w-6 h-6 text-red" />
+                </div>
+              )}
+
+              <div className="flex-1 min-w-0">
+                {/* Episode number + date + duration */}
+                <div className="flex items-center gap-3 mb-1 flex-wrap">
+                  <span className="font-nav text-[11px] tracking-[1.5px] uppercase text-red">
+                    EP {ep.episodeNumber}
+                  </span>
+                  <span className="flex items-center gap-1 text-text-muted text-[11px] font-nav tracking-[1px] uppercase">
+                    <Calendar className="w-3 h-3" />
+                    {formatPubDate(ep.pubDate)}
+                  </span>
+                  {ep.duration > 0 && (
+                    <span className="flex items-center gap-1 text-text-muted text-[11px] font-nav tracking-[1px] uppercase">
+                      <Clock className="w-3 h-3" />
+                      {formatDuration(ep.duration)}
+                    </span>
+                  )}
+                </div>
+
+                {/* Title */}
+                <h3 className="font-nav text-[14px] tracking-[0.5px] uppercase text-text mb-1.5 leading-snug">
+                  {ep.title}
+                </h3>
+
+                {/* Summary */}
+                <p className="text-text-light text-[14px] leading-relaxed font-body">
+                  {ep.summary}
+                </p>
+
+                {/* Listen on platforms hint */}
+                <p className="text-text-muted text-[11px] font-nav tracking-[1.5px] uppercase mt-3">
+                  Listen below or find us on Spotify, Apple, YouTube &amp; Amazon
+                </p>
+              </div>
             </div>
-            <h3 className="font-nav text-[14px] tracking-[0.5px] uppercase text-text mb-1.5 leading-snug">
-              We&apos;re Just Getting Started
-            </h3>
-            <p className="text-text-light text-[14px] leading-relaxed font-body">
-              The very first episode of the Bucks of Nebraska podcast. Who we are, why we started this, and what&apos;s coming next.
+
+            {/* Embedded Buzzsprout player */}
+            <div className="border-t border-border-light">
+              <iframe
+                src={ep.playerUrl}
+                loading="lazy"
+                width="100%"
+                height="200"
+                frameBorder="0"
+                scrolling="no"
+                title={`Play: ${ep.title}`}
+              />
+            </div>
+          </div>
+        ))}
+
+        {episodes.length === 0 && (
+          <div className="text-center py-16">
+            <Headphones className="w-10 h-10 text-text-muted mx-auto mb-4" />
+            <p className="font-nav text-[13px] tracking-[2px] uppercase text-text-muted">
+              Episodes coming soon
             </p>
           </div>
-        </a>
-        <a href={`https://youtu.be/pM3IP9n0lLs?si=2AYF7MWvEbNutMPV&utm_source=bucksofnebraska&utm_medium=podcast_page&utm_campaign=episode`} target="_blank" rel="noopener noreferrer" className="bg-white border border-border-light p-4 sm:p-6 flex gap-3 sm:gap-5 items-start cursor-pointer transition-all duration-300 hover:shadow-lg hover:border-red group block">
-          <div className="flex-shrink-0 w-12 h-12 bg-red/[0.06] border border-red/20 flex items-center justify-center group-hover:bg-red group-hover:border-red transition-all duration-300">
-            <Play className="w-4 h-4 text-red group-hover:text-white transition-colors" />
-          </div>
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-2 mb-1">
-              <span className="font-nav text-[11px] tracking-[1.5px] uppercase text-red">
-                EP 2
-              </span>
-            </div>
-            <h3 className="font-nav text-[14px] tracking-[0.5px] uppercase text-text mb-1.5 leading-snug">
-              The Best Deer of 2025
-            </h3>
-            <p className="text-text-light text-[14px] leading-relaxed font-body">
-              We break down the biggest and best whitetail bucks taken across Nebraska in 2025.
-            </p>
-          </div>
-        </a>
+        )}
       </div>
     </div>
   )
