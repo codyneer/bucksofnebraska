@@ -101,51 +101,51 @@ export function ProductCard({ product }: ProductCardProps) {
 
       {/* Product image with hover swap */}
       {firstImage ? (
-        <div className="relative overflow-hidden bg-white" style={{ aspectRatio: '1 / 1' }}>
+        <div className="relative overflow-hidden bg-white" style={{ aspectRatio: '4 / 5' }}>
           <Image
             src={firstImage.url}
             alt={firstImage.altText || product.title}
             fill
-            className={`object-contain p-2 transition-all duration-500 ${secondImage ? 'group-hover:opacity-0' : 'group-hover:scale-[1.03]'}`}
-            sizes="(max-width: 768px) 50vw, 33vw"
+            className={`object-contain transition-all duration-500 ${secondImage ? 'group-hover:opacity-0' : 'group-hover:scale-[1.03]'}`}
+            sizes="(max-width: 768px) 50vw, 50vw"
           />
           {secondImage && (
             <Image
               src={secondImage.url}
               alt={secondImage.altText || `${product.title} - back`}
               fill
-              className="object-contain p-2 opacity-0 transition-all duration-500 group-hover:opacity-100 group-hover:scale-[1.03]"
-              sizes="(max-width: 768px) 50vw, 33vw"
+              className="object-contain opacity-0 transition-all duration-500 group-hover:opacity-100 group-hover:scale-[1.03]"
+              sizes="(max-width: 768px) 50vw, 50vw"
             />
           )}
         </div>
       ) : (
         <div
           className="bg-offWhite flex items-center justify-center"
-          style={{ aspectRatio: '1 / 1' }}
+          style={{ aspectRatio: '4 / 5' }}
         >
           <span className="font-display text-[40px] text-red">BN</span>
         </div>
       )}
 
       {/* Card body */}
-      <div className="px-3 sm:px-[18px] pt-3 sm:pt-4 pb-4 sm:pb-5 flex-1">
-        <h3 className="font-nav text-[13px] sm:text-[15px] tracking-[1px] uppercase text-text mb-1 line-clamp-2">
+      <div className="px-4 sm:px-5 pt-3 sm:pt-4 pb-4 sm:pb-5 flex-1">
+        <h3 className="font-nav text-[13px] sm:text-[16px] tracking-[1px] uppercase text-text mb-1.5 line-clamp-2">
           {product.title}
         </h3>
         {reviewCount > 0 && (
-          <div className="flex items-center gap-1.5 mb-1">
+          <div className="flex items-center gap-1.5 mb-1.5">
             <ReviewStarsDisplay count={avgStars} size="sm" />
             <span className="font-nav text-[11px] tracking-[1px] text-text-muted">
               ({reviewCount})
             </span>
           </div>
         )}
-        <div className="flex items-center gap-1.5 sm:gap-2.5 flex-wrap">
-          <span className="font-display text-[20px] sm:text-[22px] text-red">{formatPrice(price)}</span>
+        <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
+          <span className="font-display text-[22px] sm:text-[26px] text-red">{formatPrice(price)}</span>
           {hasDiscount && (
             <>
-              <span className="font-display text-[14px] sm:text-[16px] text-text-muted line-through">
+              <span className="font-display text-[15px] sm:text-[18px] text-text-muted line-through">
                 {formatPrice(compareAtPrice)}
               </span>
               <span className="font-nav text-[10px] sm:text-[11px] text-green tracking-[1px] uppercase bg-green/[0.08] py-0.5 px-1.5 sm:px-2 rounded-sm">
@@ -165,10 +165,10 @@ export function ProductCard({ product }: ProductCardProps) {
       )}
 
       {/* Quick Add button */}
-      <div className="px-3 sm:px-[18px] pb-3 sm:pb-[18px]">
+      <div className="px-4 sm:px-5 pb-4 sm:pb-5">
         <button
           onClick={handleQuickAdd}
-          className="w-full py-2.5 sm:py-3 bg-brand-black text-white border-none font-nav text-[11px] sm:text-[12px] tracking-[2px] uppercase cursor-pointer transition-all duration-300 hover:bg-red"
+          className="w-full py-3 sm:py-3.5 bg-brand-black text-white border-none font-nav text-[11px] sm:text-[13px] tracking-[2px] uppercase cursor-pointer transition-all duration-300 hover:bg-red"
         >
           {hasOptions ? 'Choose Options' : 'Quick Add'}
         </button>

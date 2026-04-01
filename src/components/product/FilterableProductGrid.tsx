@@ -150,13 +150,13 @@ export function FilterableProductGrid(props: FilterableProductGridProps) {
             ))}
           </div>
           {/* Grid skeleton */}
-          <div className="flex-1 grid grid-cols-2 xl:grid-cols-3 gap-5">
-            {[1, 2, 3, 4, 5, 6].map((i) => (
+          <div className="flex-1 grid grid-cols-2 gap-6">
+            {[1, 2, 3, 4].map((i) => (
               <div
                 key={i}
                 className="bg-white border border-border-light animate-pulse"
               >
-                <div className="bg-border-light" style={{ aspectRatio: '1 / 1.15' }} />
+                <div className="bg-border-light" style={{ aspectRatio: '4 / 5' }} />
                 <div className="p-4 space-y-2">
                   <div className="h-3 bg-border-light rounded w-3/4" />
                   <div className="h-4 bg-border-light rounded w-1/4" />
