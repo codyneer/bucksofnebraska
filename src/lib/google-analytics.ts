@@ -1,15 +1,7 @@
-import { createSign, createPrivateKey } from 'crypto'
+import { JWT } from 'google-auth-library'
 
-// --------------- JWT Auth ---------------
+// --------------- Auth ---------------
 
-function base64url(input: Buffer): string {
-  return input.toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '')
-}
-
-/**
- * Decode the private key from base64 (stored in Vercel as a single clean string).
- * Falls back to raw PEM normalization for backwards compatibility.
- */
 function normalizePrivateKey(raw: string): string {
   const trimmed = raw.trim()
   // If it doesn't start with -----BEGIN, assume it's base64-encoded PEM
@@ -23,50 +15,20 @@ function normalizePrivateKey(raw: string): string {
   return lines.join('\n') + '\n'
 }
 
-function createJWT(email: string, rawKey: string): string {
-  const now = Math.floor(Date.now() / 1000)
-  const header = base64url(Buffer.from(JSON.stringify({ alg: 'RS256', typ: 'JWT' })))
-  const payload = base64url(
-    Buffer.from(
-      JSON.stringify({
-        iss: email,
-        sub: email,
-        scope: 'https://www.googleapis.com/auth/analytics.readonly',
-        aud: 'https://oauth2.googleapis.com/token',
-        iat: now,
-        exp: now + 3600,
-      })
-    )
-  )
-  const message = `${header}.${payload}`
-  const sign = createSign('RSA-SHA256')
-  sign.update(message)
-  // Use createPrivateKey for robust PEM parsing
-  const keyObject = createPrivateKey({ key: normalizePrivateKey(rawKey), format: 'pem' })
-  const sig = sign.sign(keyObject)
-  return `${message}.${base64url(sig)}`
-}
-
 async function getAccessToken(): Promise<string> {
   const email = process.env.GA_SERVICE_ACCOUNT_EMAIL
   const rawKey = process.env.GA_SERVICE_ACCOUNT_PRIVATE_KEY
   if (!email || !rawKey) throw new Error('GA credentials not configured')
 
-  const jwt = createJWT(email, rawKey)
-
-  const res = await fetch('https://oauth2.googleapis.com/token', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: `grant_type=urn%3Aietf%3Aparams%3Aoauth2%3Agrant-type%3Ajwt-bearer&assertion=${encodeURIComponent(jwt)}`,
+  const auth = new JWT({
+    email,
+    key: normalizePrivateKey(rawKey),
+    scopes: ['https://www.googleapis.com/auth/analytics.readonly'],
   })
 
-  if (!res.ok) {
-    const err = await res.text()
-    throw new Error(`GA token error: ${err}`)
-  }
-
-  const data = await res.json()
-  return data.access_token
+  const tokenResponse = await auth.getAccessToken()
+  if (!tokenResponse.token) throw new Error('Failed to obtain GA access token')
+  return tokenResponse.token
 }
 
 // --------------- Types ---------------
@@ -118,7 +80,6 @@ export async function getAnalyticsData(): Promise<AnalyticsData> {
           { startDate: '7daysAgo', endDate: 'today', name: 'weekly' },
           { startDate: '30daysAgo', endDate: 'today', name: 'monthly' },
         ],
-        dimensions: [{ name: 'dateRange' }],
         metrics: [{ name: 'activeUsers' }],
       }),
     }),
@@ -136,7 +97,8 @@ export async function getAnalyticsData(): Promise<AnalyticsData> {
   ])
 
   if (!summaryRes.ok || !pagesRes.ok) {
-    throw new Error('GA API request failed')
+    const errText = await (summaryRes.ok ? pagesRes : summaryRes).text()
+    throw new Error(`GA API request failed: ${errText}`)
   }
 
   const [summaryData, pagesData] = await Promise.all([summaryRes.json(), pagesRes.json()])
@@ -148,13 +110,19 @@ export async function getAnalyticsData(): Promise<AnalyticsData> {
     summaryMap[name] = parseInt(row.metricValues[0].value ?? '0', 10)
   }
 
-  // Parse pages
-  const pages: PageView[] = (pagesData.rows ?? []).map(
-    (row: { dimensionValues: { value: string }[]; metricValues: { value: string }[] }) => ({
+  // Parse pages — filter out Next.js internal paths and .js artifacts
+  const pages: PageView[] = (pagesData.rows ?? [])
+    .map((row: { dimensionValues: { value: string }[]; metricValues: { value: string }[] }) => ({
       path: row.dimensionValues[0].value,
       views: parseInt(row.metricValues[0].value ?? '0', 10),
-    })
-  )
+    }))
+    .filter(
+      (p: PageView) =>
+        !p.path.endsWith('.js') &&
+        !p.path.endsWith('.json') &&
+        !p.path.startsWith('/_next') &&
+        !p.path.startsWith('/api/')
+    )
 
   // Extract product pages and format title from handle
   const products: ProductView[] = pages
