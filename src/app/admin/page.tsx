@@ -1,25 +1,25 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { Lock, ClipboardList, TrendingUp } from 'lucide-react'
 import { AdminPanel } from '@/components/reviews/AdminPanel'
-import { Lock } from 'lucide-react'
+import { AnalyticsDashboard } from '@/components/admin/AnalyticsDashboard'
 
 const ADMIN_TOKEN_KEY = 'bn_admin_token'
+type Tab = 'reviews' | 'analytics'
 
 export default function AdminPage() {
   const [isAuthed, setIsAuthed] = useState(false)
   const [isChecking, setIsChecking] = useState(true)
+  const [activeTab, setActiveTab] = useState<Tab>('reviews')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
 
-  // Check for existing session
   useEffect(() => {
     const token = localStorage.getItem(ADMIN_TOKEN_KEY)
-    if (token) {
-      setIsAuthed(true)
-    }
+    if (token) setIsAuthed(true)
     setIsChecking(false)
   }, [])
 
@@ -27,14 +27,12 @@ export default function AdminPage() {
     e.preventDefault()
     setError('')
     setIsLoading(true)
-
     try {
       const res = await fetch('/api/admin/auth', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
       })
-
       if (res.ok) {
         const data = await res.json()
         localStorage.setItem(ADMIN_TOKEN_KEY, data.token)
@@ -74,7 +72,7 @@ export default function AdminPage() {
             </div>
             <h1 className="font-display text-[36px] text-text">Admin Access</h1>
             <p className="font-nav text-[11px] tracking-[2px] uppercase text-text-muted mt-1">
-              Review moderation panel
+              Bucks of Nebraska
             </p>
           </div>
 
@@ -118,8 +116,12 @@ export default function AdminPage() {
   }
 
   return (
-    <div>
-      <div className="flex justify-end px-5 sm:px-10 pt-4">
+    <div className="min-h-screen bg-offWhite">
+      {/* Top bar */}
+      <div className="bg-white border-b border-border-light px-5 sm:px-10 py-3 flex items-center justify-between">
+        <span className="font-nav text-[11px] tracking-[2px] uppercase text-text-muted">
+          Admin Panel
+        </span>
         <button
           onClick={handleLogout}
           className="font-nav text-[11px] tracking-[2px] uppercase text-text-muted hover:text-red transition-colors"
@@ -127,7 +129,37 @@ export default function AdminPage() {
           Sign Out
         </button>
       </div>
-      <AdminPanel initialReviews={[]} />
+
+      {/* Tab bar */}
+      <div className="bg-white border-b border-border-light px-5 sm:px-10">
+        <div className="flex gap-0 max-w-[1100px] mx-auto">
+          {(
+            [
+              { key: 'reviews', label: 'Reviews', icon: ClipboardList },
+              { key: 'analytics', label: 'Analytics', icon: TrendingUp },
+            ] as { key: Tab; label: string; icon: React.ElementType }[]
+          ).map(({ key, label, icon: Icon }) => (
+            <button
+              key={key}
+              onClick={() => setActiveTab(key)}
+              className={`flex items-center gap-2 py-3.5 px-5 font-nav text-[12px] tracking-[2px] uppercase border-b-2 transition-all duration-200 cursor-pointer ${
+                activeTab === key
+                  ? 'border-red text-red'
+                  : 'border-transparent text-text-muted hover:text-text'
+              }`}
+            >
+              <Icon className="w-3.5 h-3.5" />
+              {label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Tab content */}
+      <div className="bg-offWhite">
+        {activeTab === 'reviews' && <AdminPanel initialReviews={[]} />}
+        {activeTab === 'analytics' && <AnalyticsDashboard />}
+      </div>
     </div>
   )
 }
