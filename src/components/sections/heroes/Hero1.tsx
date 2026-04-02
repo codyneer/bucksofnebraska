@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
-export function HeroSection() {
+export function Hero1() {
   return (
     <section className="relative h-[92vh] min-h-[650px] flex items-center justify-center overflow-hidden">
       {/* Background image */}
