@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Email and password required' }, { status: 400 })
     }
 
-    if (email.toLowerCase().trim() === ADMIN_EMAIL.toLowerCase() && password === ADMIN_PASSWORD) {
+    if (email.toLowerCase().trim() === ADMIN_EMAIL.toLowerCase().trim() && password.trim() === ADMIN_PASSWORD.trim()) {
       // Generate a simple session token (hash of credentials + date)
       const token = Buffer.from(`${ADMIN_EMAIL}:${Date.now()}`).toString('base64')
       return NextResponse.json({ success: true, token })
