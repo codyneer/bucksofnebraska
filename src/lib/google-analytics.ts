@@ -7,15 +7,18 @@ function base64url(input: Buffer): string {
 }
 
 /**
- * Normalize the private key regardless of how Vercel stored it.
- * Handles: escaped \n, actual newlines, Windows line endings, extra spaces.
+ * Decode the private key from base64 (stored in Vercel as a single clean string).
+ * Falls back to raw PEM normalization for backwards compatibility.
  */
 function normalizePrivateKey(raw: string): string {
-  // If it contains literal \n (two chars), unescape them
-  let key = raw.includes('\\n') ? raw.replace(/\\n/g, '\n') : raw
-  // Strip Windows-style carriage returns
+  const trimmed = raw.trim()
+  // If it doesn't start with -----BEGIN, assume it's base64-encoded PEM
+  if (!trimmed.startsWith('-----')) {
+    return Buffer.from(trimmed, 'base64').toString('utf-8')
+  }
+  // Legacy: raw PEM with escaped or actual newlines
+  let key = trimmed.includes('\\n') ? trimmed.replace(/\\n/g, '\n') : trimmed
   key = key.replace(/\r/g, '')
-  // Split into lines, drop blanks, rejoin — keeps PEM header/footer + base64 intact
   const lines = key.split('\n').filter((l) => l.trim().length > 0)
   return lines.join('\n') + '\n'
 }
