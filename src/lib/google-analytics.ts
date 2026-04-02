@@ -1,4 +1,4 @@
-import { createSign } from 'crypto'
+import { createSign, createPrivateKey } from 'crypto'
 
 // --------------- JWT Auth ---------------
 
@@ -6,7 +6,21 @@ function base64url(input: Buffer): string {
   return input.toString('base64').replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '')
 }
 
-function createJWT(email: string, privateKey: string): string {
+/**
+ * Normalize the private key regardless of how Vercel stored it.
+ * Handles: escaped \n, actual newlines, Windows line endings, extra spaces.
+ */
+function normalizePrivateKey(raw: string): string {
+  // If it contains literal \n (two chars), unescape them
+  let key = raw.includes('\\n') ? raw.replace(/\\n/g, '\n') : raw
+  // Strip Windows-style carriage returns
+  key = key.replace(/\r/g, '')
+  // Split into lines, drop blanks, rejoin — keeps PEM header/footer + base64 intact
+  const lines = key.split('\n').filter((l) => l.trim().length > 0)
+  return lines.join('\n') + '\n'
+}
+
+function createJWT(email: string, rawKey: string): string {
   const now = Math.floor(Date.now() / 1000)
   const header = base64url(Buffer.from(JSON.stringify({ alg: 'RS256', typ: 'JWT' })))
   const payload = base64url(
@@ -24,7 +38,9 @@ function createJWT(email: string, privateKey: string): string {
   const message = `${header}.${payload}`
   const sign = createSign('RSA-SHA256')
   sign.update(message)
-  const sig = sign.sign(privateKey)
+  // Use createPrivateKey for robust PEM parsing
+  const keyObject = createPrivateKey({ key: normalizePrivateKey(rawKey), format: 'pem' })
+  const sig = sign.sign(keyObject)
   return `${message}.${base64url(sig)}`
 }
 
@@ -33,9 +49,7 @@ async function getAccessToken(): Promise<string> {
   const rawKey = process.env.GA_SERVICE_ACCOUNT_PRIVATE_KEY
   if (!email || !rawKey) throw new Error('GA credentials not configured')
 
-  // Vercel stores \n as literal \\n — unescape them
-  const privateKey = rawKey.replace(/\\n/g, '\n')
-  const jwt = createJWT(email, privateKey)
+  const jwt = createJWT(email, rawKey)
 
   const res = await fetch('https://oauth2.googleapis.com/token', {
     method: 'POST',
