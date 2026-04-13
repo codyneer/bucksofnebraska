@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { blogPosts } from '@/lib/blog-data'
 
@@ -51,11 +52,23 @@ export default function BlogPage() {
             href={`/blog/${post.slug}`}
             className="block bg-white border border-border-light overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-lg hover:-translate-y-[3px] group"
           >
-            <div className="relative h-[200px] bg-gradient-to-br from-charcoal to-brand-black flex items-center justify-center overflow-hidden">
-              <span className="font-display text-[60px] text-white/10 group-hover:scale-110 transition-transform duration-500">
-                BN
-              </span>
-              <span className="absolute top-3 left-3 font-nav text-[10px] tracking-[1.5px] uppercase bg-red text-white py-0.5 px-2">
+            <div className="relative h-[200px] bg-gradient-to-br from-charcoal to-brand-black overflow-hidden">
+              {post.image && post.image !== '/logos/bn-antler.png' ? (
+                <Image
+                  src={post.image}
+                  alt={post.imageAlt}
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center">
+                  <span className="font-display text-[60px] text-white/10 group-hover:scale-110 transition-transform duration-500">
+                    BN
+                  </span>
+                </div>
+              )}
+              <span className="absolute top-3 left-3 font-nav text-[10px] tracking-[1.5px] uppercase bg-red text-white py-0.5 px-2 z-10">
                 {post.category}
               </span>
             </div>

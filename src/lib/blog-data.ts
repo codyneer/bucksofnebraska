@@ -21,8 +21,8 @@ const existingPosts: BlogPost[] = [
     category: 'News',
     date: '2026-04-13',
     readTime: '4 min read',
-    image: '/logos/bn-antler.png',
-    imageAlt: 'Bucks of Nebraska official apparel partner Nebraska Deer and Game Expo',
+    image: 'https://cdn.shopify.com/s/files/1/0398/3185/files/8638886459268636935_2048.jpg?v=1724945504',
+    imageAlt: 'Nebraska Big Game Expo Event Shirt by Bucks of Nebraska',
     content: `For over a decade, Bucks of Nebraska has been the voice of Nebraska deer hunting. What started in 2013 as a passion project rooted in state pride and whitetail obsession has grown into the state's most recognized outdoor apparel brand. Now, we're proud to announce the next chapter — **Bucks of Nebraska is the official apparel partner and designer of the Nebraska Deer & Game Expo**.
 
 ## A Partnership Built on Nebraska Pride
