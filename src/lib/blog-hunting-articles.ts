@@ -463,7 +463,7 @@ Nebraska's spring turkey season is a hidden gem. Accessible tags, multiple subsp
     category: 'Hunting',
     date: '2026-01-10',
     readTime: '6 min read',
-    image: '/blog/turkey-hunting.jpeg',
+    image: '/blog/turkey-calling-tips-beginners.jpeg',
     imageAlt: 'Turkey hunter using a box call in a Nebraska field blind',
     content: `Turkey calling intimidates a lot of new hunters. There are dozens of calls, multiple call types, and experienced hunters make it sound effortless. But here is the truth: turkeys are not music critics. A handful of basic sounds, delivered with decent timing, will kill birds all spring long. You do not need to sound like a world champion caller — you need to sound like a turkey.
 
@@ -563,7 +563,7 @@ There are situations where decoys work against you. **In thick timber** with lim
     category: 'Hunting',
     date: '2026-01-25',
     readTime: '6 min read',
-    image: '/blog/turkey-hunting.jpeg',
+    image: '/blog/best-counties-turkey-hunting-nebraska.jpeg',
     imageAlt: 'Map highlighting top turkey hunting counties in Nebraska',
     content: `Nebraska has turkeys in nearly every county, but some areas consistently produce better hunting than others. The state sits at the intersection of three wild turkey subspecies — Eastern, Rio Grande, and Merriam's — and each inhabits distinct regions with different terrain and habitat. Here is where to focus your spring and fall turkey efforts.
 
@@ -669,7 +669,7 @@ By late season — December and January — pheasant hunting can be outstanding.
     category: 'Hunting',
     date: '2025-10-10',
     readTime: '6 min read',
-    image: '/blog/pheasant-hunting.jpeg',
+    image: '/blog/quail-hunting-nebraska-public-land.jpeg',
     imageAlt: 'Bobwhite quail covey rising from grass edge in southeast Nebraska',
     content: `Bobwhite quail hunting is one of the most rewarding and challenging upland pursuits in Nebraska. The birds are fast, the shots are quick, and hunting them behind a well-trained pointing dog in the rolling grasslands of southeast Nebraska is an experience that connects you to a deep tradition. Here is how to find and hunt quail on Nebraska public land.
 
@@ -715,7 +715,7 @@ Check the Nebraska Game and Parks upland bird forecast each fall — it reports 
     category: 'Hunting',
     date: '2025-10-25',
     readTime: '6 min read',
-    image: '/blog/sandhills-landscape.jpeg',
+    image: '/blog/sharptail-grouse-hunting-sandhills.jpeg',
     imageAlt: 'Sharp-tailed grouse in flight over Nebraska Sandhills grass dunes',
     content: `There is no hunting experience in North America quite like walking the Nebraska Sandhills for sharptail grouse and greater prairie chickens. The landscape is vast, treeless, and rolling — 20,000 square miles of grass-stabilized sand dunes stretching across central Nebraska. The birds are wild, the country is empty, and every covey flush against that huge sky is unforgettable.
 
@@ -765,7 +765,7 @@ Load the truck, bring the dog, and go walk some grass. The Sandhills grouse expe
     category: 'Hunting',
     date: '2025-11-10',
     readTime: '7 min read',
-    image: '/blog/pheasant-hunting.jpeg',
+    image: '/blog/training-hunting-dog-first-season.jpeg',
     imageAlt: 'Young German Shorthaired Pointer on point in Nebraska grassland',
     content: `There is nothing more exciting — or more nerve-wracking — than taking a young hunting dog into the field for the first time. Months of training, early mornings with bumpers and check cords, and countless repetitions all come down to that first wild bird flush. Whether you are raising a new puppy or finishing a started dog, here is how to build a foundation that sets your hunting partner up for success.
 
@@ -825,7 +825,7 @@ The first season is a learning year for both of you. Be patient, keep it fun, an
     category: 'Hunting',
     date: '2025-12-10',
     readTime: '7 min read',
-    image: '/blog/waterfowl-wetland.jpeg',
+    image: '/blog/rainwater-basin-duck-hunting-guide.jpeg',
     imageAlt: 'Mallards working a decoy spread over a Rainwater Basin wetland',
     content: `The Rainwater Basin in south-central Nebraska is one of the most critical waterfowl migration staging areas in North America. Every spring, millions of ducks and geese funnel through this relatively small cluster of wetlands on their journey north. And in the fall, they stop here again on the way back south. For waterfowl hunters, the Rainwater Basin is a destination that belongs on your bucket list.
 
@@ -877,7 +877,7 @@ The Rainwater Basin is a national treasure for waterfowl and waterfowl hunters. 
     category: 'Hunting',
     date: '2025-12-20',
     readTime: '6 min read',
-    image: '/blog/waterfowl-wetland.jpeg',
+    image: '/blog/nebraska-goose-hunting-strategies.jpeg',
     imageAlt: 'Canada geese locked up and landing in a Nebraska corn stubble field',
     content: `Goose hunting in Nebraska ranges from early September hunts for resident Canada geese to the massive migration pushes of November and December that fill the skies over the Platte River valley. Whether you are a seasoned waterfowler or picking up a goose call for the first time, Nebraska offers world-class opportunities.
 
@@ -931,7 +931,7 @@ Build relationships. A farmer who lets you hunt this year and has a good experie
     category: 'Hunting',
     date: '2026-02-05',
     readTime: '6 min read',
-    image: '/blog/platte-river-corridor.jpeg',
+    image: '/blog/sandhill-crane-hunting-nebraska.jpeg',
     imageAlt: 'Sandhill cranes in flight over a Nebraska cornfield at dawn',
     content: `Sandhill crane hunting is one of the most underappreciated opportunities in American waterfowl hunting, and Nebraska is ground zero for it. The Central Flyway funnels hundreds of thousands of sandhill cranes through Nebraska each spring and fall, and the state is one of the few that allows a regulated harvest. If you have never hunted cranes, you are missing one of the most exciting and rewarding experiences the outdoors has to offer.
 
@@ -985,7 +985,7 @@ If you have never hunted cranes, Nebraska is the place to start. The migration s
     category: 'Hunting',
     date: '2026-02-12',
     readTime: '6 min read',
-    image: '/blog/waterfowl-wetland.jpeg',
+    image: '/blog/waterfowl-scouting-tips-nebraska.jpeg',
     imageAlt: 'Hunter glassing a Nebraska wetland at sunset scouting for ducks',
     content: `Waterfowl hunting is 90 percent scouting and 10 percent shooting. You can have the best decoy spread in the state and a call that sounds like a live mallard hen, but if you are not set up where the birds want to be, none of it matters. In Nebraska, where waterfowl habitat spans from the Rainwater Basin to the Platte River to dozens of reservoirs and WMAs, knowing how to scout efficiently puts you in the right field on the right morning.
 
@@ -1035,7 +1035,7 @@ The hunters who consistently shoot limits are the ones who spend twice as much t
     category: 'Hunting',
     date: '2025-09-10',
     readTime: '6 min read',
-    image: '/blog/hunting-regulations.jpeg',
+    image: '/blog/nebraska-hunting-license-guide-non-residents.jpeg',
     imageAlt: 'Welcome to Nebraska highway sign with hunting gear in truck bed',
     content: `Nebraska is one of the most accessible hunting states in America for non-residents, and if you have not hunted here before, you are overdue. Over-the-counter tags for whitetail, mule deer, turkey, and upland birds — plus over a million acres of public land — make Nebraska a realistic destination for hunters from any state. Here is exactly how to get licensed and in the field.
 
@@ -1095,7 +1095,7 @@ Nebraska's combination of accessible tags, diverse species, and vast public land
     category: 'Hunting',
     date: '2025-11-20',
     readTime: '6 min read',
-    image: '/blog/public-land-nebraska.jpeg',
+    image: '/blog/how-to-use-onx-hunt-app-nebraska.jpeg',
     imageAlt: 'Hunter looking at onX Hunt app on phone with Nebraska WMA map',
     content: `If you hunt Nebraska and you are not using a mapping app like onX Hunt, you are operating with one hand tied behind your back. In a state with over 250 WMAs, hundreds of OFWP parcels, national forests, grasslands, and a patchwork of private land, knowing exactly where you can and cannot hunt is the difference between a productive day and a trespassing citation. Here is how to get the most out of onX for Nebraska hunting.
 
@@ -1151,7 +1151,7 @@ Technology does not replace woodsmanship, but it multiplies your efficiency. Use
     category: 'Hunting',
     date: '2026-01-30',
     readTime: '6 min read',
-    image: '/blog/hunting-regulations.jpeg',
+    image: '/blog/hunting-safety-tips-every-season.jpeg',
     imageAlt: 'Hunter wearing safety harness in a treestand at dawn',
     content: `Hunting is one of the safest outdoor activities in America when done correctly, and one of the most dangerous when done carelessly. Every year, preventable accidents — treestand falls, firearm incidents, weather exposure — cut seasons short and change lives. Here are the safety fundamentals that every Nebraska hunter should follow, every hunt, no exceptions.
 
@@ -1205,7 +1205,7 @@ Hunting safely is not complicated. Wear the harness, handle firearms properly, t
     category: 'Hunting',
     date: '2026-02-08',
     readTime: '7 min read',
-    image: '/blog/field-dressing.jpeg',
+    image: '/blog/processing-wild-game-at-home.jpeg',
     imageAlt: 'Venison steaks and ground meat vacuum sealed on a butcher table',
     content: `Processing your own wild game is one of the most rewarding parts of the hunting experience. You carried the animal out of the field — finishing the job in your garage or kitchen connects you to the entire process from woods to table. Home processing also saves money, gives you complete control over your cuts and blends, and guarantees that the meat in your freezer came from your deer and nobody else's.
 
@@ -1271,7 +1271,7 @@ However you get it done, taking care of the meat honors the animal and the hunt.
     category: 'Hunting',
     date: '2026-02-18',
     readTime: '7 min read',
-    image: '/blog/river-bottom-landscape.jpeg',
+    image: '/blog/introducing-kids-to-hunting-nebraska.jpeg',
     imageAlt: 'Youth hunter and mentor walking a Nebraska field at sunrise',
     content: `Introducing a child to hunting is one of the most meaningful things you can do as a parent, grandparent, or mentor. Done right, it creates a lifelong connection to the outdoors, teaches responsibility and patience, and passes on traditions that are bigger than any single season. Done wrong — pushed too hard, too early, in miserable conditions — it can turn a kid off hunting permanently. Nebraska makes it easier than most states to get kids started, and the key is taking it slow and keeping it fun.
 
