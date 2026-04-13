@@ -108,6 +108,39 @@ export default async function BlogPostPage({ params }: Props) {
       {/* Article content — rendered from markdown-style content */}
       <div className="prose-bn">
         {post.content.split('\n\n').map((block, i) => {
+          // Inline formatting: bold + links
+          const renderInline = (text: string) => {
+            // Split by bold and link patterns
+            const parts = text.split(/(\*\*.*?\*\*|\[.*?\]\(.*?\))/g)
+            return parts.map((part, j) => {
+              // Bold
+              const boldMatch = part.match(/^\*\*(.*?)\*\*$/)
+              if (boldMatch) {
+                return (
+                  <strong key={j} className="font-semibold text-text">
+                    {boldMatch[1]}
+                  </strong>
+                )
+              }
+              // Link
+              const linkMatch = part.match(/^\[(.*?)\]\((.*?)\)$/)
+              if (linkMatch) {
+                const isExternal = linkMatch[2].startsWith('http')
+                return (
+                  <Link
+                    key={j}
+                    href={linkMatch[2]}
+                    className="text-red hover:text-red-dark underline underline-offset-2 transition-colors"
+                    {...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                  >
+                    {linkMatch[1]}
+                  </Link>
+                )
+              }
+              return <span key={j}>{part}</span>
+            })
+          }
+
           // H2 headings
           if (block.startsWith('## ')) {
             return (
@@ -117,27 +150,6 @@ export default async function BlogPostPage({ params }: Props) {
               >
                 {block.replace('## ', '')}
               </h2>
-            )
-          }
-
-          // Bold paragraph starts (like **The River Bottom Tee**)
-          if (block.startsWith('**') && block.includes('**')) {
-            const parts = block.split(/\*\*(.*?)\*\*/g)
-            return (
-              <p
-                key={i}
-                className="font-body text-[16px] text-text leading-[1.8] mb-4"
-              >
-                {parts.map((part, j) =>
-                  j % 2 === 1 ? (
-                    <strong key={j} className="font-semibold text-text">
-                      {part}
-                    </strong>
-                  ) : (
-                    <span key={j}>{part}</span>
-                  )
-                )}
-              </p>
             )
           }
 
@@ -153,36 +165,20 @@ export default async function BlogPostPage({ params }: Props) {
                     key={j}
                     className="font-body text-[16px] text-text leading-[1.8] mb-1 pl-4 relative before:content-[''] before:absolute before:left-0 before:top-[12px] before:w-1.5 before:h-1.5 before:rounded-full before:bg-red"
                   >
-                    {item.replace(/^(\d+\.\s*|\-\s*)/, '').split(/\*\*(.*?)\*\*/g).map((part, k) =>
-                      k % 2 === 1 ? (
-                        <strong key={k} className="font-semibold">
-                          {part}
-                        </strong>
-                      ) : (
-                        <span key={k}>{part}</span>
-                      )
-                    )}
+                    {renderInline(item.replace(/^(\d+\.\s*|\-\s*)/, ''))}
                   </li>
                 ))}
               </ul>
             )
           }
 
-          // Regular paragraphs with bold support
+          // Regular paragraphs with bold + link support
           return (
             <p
               key={i}
               className="font-body text-[16px] text-text leading-[1.8] mb-4"
             >
-              {block.split(/\*\*(.*?)\*\*/g).map((part, j) =>
-                j % 2 === 1 ? (
-                  <strong key={j} className="font-semibold text-text">
-                    {part}
-                  </strong>
-                ) : (
-                  <span key={j}>{part}</span>
-                )
-              )}
+              {renderInline(block)}
             </p>
           )
         })}

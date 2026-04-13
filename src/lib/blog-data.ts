@@ -14,6 +14,50 @@ export type BlogPost = {
 
 const existingPosts: BlogPost[] = [
   {
+    slug: 'bucks-of-nebraska-official-apparel-partner-nebraska-deer-game-expo',
+    title: 'Bucks of Nebraska Named Official Apparel Partner of the Nebraska Deer & Game Expo',
+    description:
+      'Nebraska\'s original outdoor brand since 2013 is now the official apparel designer and provider for the state\'s premier hunting expo.',
+    category: 'News',
+    date: '2026-04-13',
+    readTime: '4 min read',
+    image: '/logos/bn-antler.png',
+    imageAlt: 'Bucks of Nebraska official apparel partner Nebraska Deer and Game Expo',
+    content: `For over a decade, Bucks of Nebraska has been the voice of Nebraska deer hunting. What started in 2013 as a passion project rooted in state pride and whitetail obsession has grown into the state's most recognized outdoor apparel brand. Now, we're proud to announce the next chapter — **Bucks of Nebraska is the official apparel partner and designer of the Nebraska Deer & Game Expo**.
+
+## A Partnership Built on Nebraska Pride
+
+The [Nebraska Deer & Game Expo](https://www.nebraskadeerandgameexpo.com/) is the state's premier hunting event, bringing together thousands of hunters, outfitters, and outdoor enthusiasts from across the Great Plains. It's the one weekend every year where Nebraska's hunting community comes together under one roof to celebrate the lifestyle we all live for.
+
+When the Expo team approached us about becoming their official apparel partner, it was a no-brainer. This partnership is a natural fit — two Nebraska-born brands that exist to serve the hunters of this state. We've attended the Expo as vendors, as fans, and as fellow hunters. Now we get to outfit the entire event.
+
+## Nebraska's Outdoor Brand Since 2013
+
+Bucks of Nebraska was built on one simple idea — **Nebraska hunters deserve a brand that represents them**. Not a national chain slapping a state outline on a generic tee. A brand that knows the river bottoms of the Platte, the cedar draws of the Pine Ridge, and the CRP fields of the southwest. A brand built by hunters who wake up at 4 AM to sit in a frozen treestand because that's just what we do.
+
+Since 2013, we've designed and delivered apparel that captures the spirit of hunting in the Cornhusker State. Every design tells a Nebraska story. Every product is made for the men and women who hunt this land.
+
+## The Official Expo Shirt
+
+As the official apparel designer for the Nebraska Deer & Game Expo, we created an exclusive event shirt that you can only get through Bucks of Nebraska. It's available in black and white and features custom artwork designed specifically for this partnership.
+
+**[Grab the Nebraska Big Game Expo Event Shirt here](/products/nebraska-big-game-expo-event-shirt-black-white)** — available now while supplies last.
+
+This isn't a mass-produced souvenir. It's a limited-run piece designed by Nebraska hunters, for Nebraska hunters. Once they're gone, they're gone.
+
+## What This Means Going Forward
+
+This partnership is more than a logo on a shirt. It represents what Bucks of Nebraska has always stood for — **building the Nebraska hunting community from the ground up**. We'll be designing exclusive apparel for future Expo events, collaborating on special releases, and continuing to show up for the hunters who have supported us since day one.
+
+Whether you've been rocking Bucks gear since 2013 or you just found us, this is your brand. This is your state. And this is your Expo.
+
+## Get Your Gear
+
+The official [Nebraska Big Game Expo Event Shirt](/products/nebraska-big-game-expo-event-shirt-black-white) is available now. Represent the partnership and grab yours before they sell out.
+
+We'll see you at the Expo.`,
+  },
+  {
     slug: 'top-5-public-land-spots-nebraska',
     title: 'Top 5 Public Land Spots in Nebraska',
     description:
