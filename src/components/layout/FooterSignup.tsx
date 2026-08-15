@@ -95,21 +95,22 @@ export function FooterSignup() {
         )}
       </div>
 
-      {/* Right: OBC logo */}
-      <a
-        href="https://outdoorbrandcompany.com?utm_source=bucksofnebraska&utm_medium=footer&utm_campaign=obc_logo"
-        target="_blank"
-        rel="noopener noreferrer"
+      {/* Right: Bucks of Nebraska mark (grayed) */}
+      {/* Using bn-deer-logo whitened via CSS as a working default. To use the
+          exact white vertical lockup, drop it in /public/logos and swap `src`. */}
+      <Link
+        href="/"
+        aria-label="Bucks of Nebraska home"
         className="shrink-0 opacity-40 hover:opacity-70 transition-opacity"
       >
         <Image
-          src="/logos/obc-logo-white.png"
-          alt="The Outdoor Brand Company"
+          src="/logos/bn-deer-logo.png"
+          alt="Bucks of Nebraska"
           width={200}
           height={80}
-          className="w-[160px] lg:w-[200px] h-auto"
+          className="w-[160px] lg:w-[200px] h-auto [filter:brightness(0)_invert(1)]"
         />
-      </a>
+      </Link>
     </div>
   )
 }

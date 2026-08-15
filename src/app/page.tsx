@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { HeroSection } from '@/components/sections/HeroSection'
+import { PromoBanner } from '@/components/sections/PromoBanner'
 import { SocialProofBar } from '@/components/sections/SocialProofBar'
 import { ProductGrid } from '@/components/product/ProductGrid'
 import { ReviewCarousel } from '@/components/reviews/ReviewCarousel'
@@ -70,6 +71,7 @@ export default async function Home() {
   return (
     <div className="min-h-screen">
       <HeroSection />
+      <PromoBanner />
       <SocialProofBar reviewStats={reviewStats} />
 
       {/* Best Sellers */}

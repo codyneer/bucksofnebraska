@@ -67,7 +67,6 @@ export function ProductDetail({ product, reviews = [], allProducts = [] }: Produ
   const [selectedOptions, setSelectedOptions] = useState<Record<string, string>>(initialOptions)
   const [tierQuantity, setTierQuantity] = useState(2)
   const [tierPrice, setTierPrice] = useState(0) // initialized in effect below
-  const [quantity, setQuantity] = useState(1)
 
   // Find the matching variant based on ALL selected options
   const selectedVariant: ProductVariant | undefined = useMemo(() => {
@@ -112,7 +111,7 @@ export function ProductDetail({ product, reviews = [], allProducts = [] }: Produ
     setTierPrice(Math.round(variantPrice * multiplier))
   }, [variantPrice, tierQuantity])
 
-  const totalPrice = tierPrice * tierQuantity * quantity
+  const totalPrice = tierPrice * tierQuantity
   const [viewerCount, setViewerCount] = useState(0)
   useEffect(() => {
     setViewerCount(23 + Math.floor(Math.random() * 30))
@@ -130,7 +129,7 @@ export function ProductDetail({ product, reviews = [], allProducts = [] }: Produ
 
   const handleAddToCart = async () => {
     if (!selectedVariant) return
-    const totalQty = tierQuantity * quantity
+    const totalQty = tierQuantity
 
     if (totalQty === 1) {
       // Single item — show Buy 2 upsell popup
@@ -395,27 +394,7 @@ export function ProductDetail({ product, reviews = [], allProducts = [] }: Produ
             </p>
           )}
 
-          {/* Quantity + Add to Cart */}
-          <div className="flex items-center gap-4 mb-5">
-            <div className="flex items-center border border-border">
-              <button
-                onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                className="w-10 h-10 bg-offWhite border-none text-text text-[18px] cursor-pointer transition-colors hover:bg-red/[0.08] flex items-center justify-center"
-              >
-                −
-              </button>
-              <span className="w-[50px] text-center font-nav text-[16px] h-10 leading-10 bg-white">
-                {quantity}
-              </span>
-              <button
-                onClick={() => setQuantity(quantity + 1)}
-                className="w-10 h-10 bg-offWhite border-none text-text text-[18px] cursor-pointer transition-colors hover:bg-red/[0.08] flex items-center justify-center"
-              >
-                +
-              </button>
-            </div>
-          </div>
-
+          {/* Add to Cart */}
           <button
             onClick={handleAddToCart}
             disabled={!selectedVariant?.availableForSale}
