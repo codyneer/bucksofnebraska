@@ -1,6 +1,6 @@
 'use client'
 
-import { Truck, Mic, Star } from 'lucide-react'
+import { Truck, Flame, Star } from 'lucide-react'
 import type { ReviewStats } from '@/lib/reviews'
 
 type AnnouncementBarProps = {
@@ -21,8 +21,8 @@ export function AnnouncementBar({ reviewStats }: AnnouncementBarProps) {
               <span className="text-red-light font-semibold">FREE SHIPPING</span> on orders over $75
             </span>
             <span className="flex items-center gap-2">
-              <Mic className="w-3.5 h-3.5 text-red-light" />
-              NEW PODCAST EPISODE JUST DROPPED
+              <Flame className="w-3.5 h-3.5 text-red-light" />
+              New Leviticus 11:3 Hats Just Dropped
             </span>
             <span className="flex items-center gap-2">
               <Star className="w-3.5 h-3.5 text-gold fill-gold" />
