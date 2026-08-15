@@ -95,20 +95,20 @@ export function FooterSignup() {
         )}
       </div>
 
-      {/* Right: Bucks of Nebraska mark (grayed) */}
-      {/* Using bn-deer-logo whitened via CSS as a working default. To use the
-          exact white vertical lockup, drop it in /public/logos and swap `src`. */}
+      {/* Right: Bucks of Nebraska mark (grayed vertical lockup, Shopify-hosted).
+          Art has a pure-black background; mix-blend-lighten drops the black into
+          the footer's #1A1A1A bg so only the gray mark shows — no seam. */}
       <Link
         href="/"
         aria-label="Bucks of Nebraska home"
-        className="shrink-0 opacity-40 hover:opacity-70 transition-opacity"
+        className="shrink-0"
       >
         <Image
-          src="/logos/bn-deer-logo.png"
+          src="https://cdn.shopify.com/s/files/1/0398/3185/files/images.png?v=1786756452"
           alt="Bucks of Nebraska"
-          width={200}
-          height={80}
-          className="w-[160px] lg:w-[200px] h-auto [filter:brightness(0)_invert(1)]"
+          width={419}
+          height={477}
+          className="h-[80px] lg:h-[96px] w-auto mix-blend-lighten transition-[filter] duration-300 hover:brightness-150"
         />
       </Link>
     </div>
