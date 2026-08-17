@@ -11,6 +11,11 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'storage.buzzsprout.com',
       },
+      {
+        // Facebook CDN — deer gallery photos pulled from the page album
+        protocol: 'https',
+        hostname: '**.fbcdn.net',
+      },
     ],
   },
 }

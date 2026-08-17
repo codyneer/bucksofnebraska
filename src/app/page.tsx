@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import { HeroSection } from '@/components/sections/HeroSection'
 import { PromoBanner } from '@/components/sections/PromoBanner'
 import { SocialProofBar } from '@/components/sections/SocialProofBar'
@@ -11,8 +12,10 @@ import { ReferralSection } from '@/components/sections/ReferralSection'
 import { StatePrideCards } from '@/components/sections/StatePrideCards'
 import { SectionHeader } from '@/components/ui/SectionHeader'
 import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
+import { DeerGallery } from '@/components/sections/DeerGallery'
 import { getCollectionProducts, getAllProducts, getProduct, type ShopifyProduct } from '@/lib/shopify'
 import { getAllApprovedReviews, computeReviewStats, type Review } from '@/lib/reviews'
+import { getAlbumPhotos, type GalleryPhoto } from '@/lib/facebook'
 
 export const metadata: Metadata = {
   title: { absolute: 'Bucks of Nebraska | Nebraska Deer Hunting Apparel & Gear' },
@@ -68,6 +71,13 @@ export default async function Home() {
 
   const reviewStats = computeReviewStats(reviews)
 
+  let galleryPhotos: GalleryPhoto[] = []
+  try {
+    galleryPhotos = await getAlbumPhotos(8)
+  } catch {
+    // Gallery is optional — homepage renders fine without it
+  }
+
   return (
     <div className="min-h-screen">
       <HeroSection />
@@ -99,6 +109,27 @@ export default async function Home() {
       <RevealOnScroll>
         <LifestyleGrid />
       </RevealOnScroll>
+
+      {galleryPhotos.length > 0 && (
+        <RevealOnScroll>
+          <section className="py-12 sm:py-20 px-4 sm:px-10 max-w-[1300px] mx-auto">
+            <SectionHeader
+              title="From"
+              highlight="The Herd"
+              subtitle="Nebraska bucks shared by our community on Facebook"
+            />
+            <DeerGallery photos={galleryPhotos} />
+            <div className="text-center mt-10">
+              <Link
+                href="/gallery"
+                className="inline-block font-nav text-[14px] tracking-[3px] uppercase py-3.5 px-9 border-2 border-charcoal text-charcoal transition-all duration-300 hover:bg-charcoal hover:text-white"
+              >
+                See the Full Herd
+              </Link>
+            </div>
+          </section>
+        </RevealOnScroll>
+      )}
 
       <RevealOnScroll delay={70}>
         <RedBanner />

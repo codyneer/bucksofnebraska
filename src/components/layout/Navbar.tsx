@@ -151,6 +151,7 @@ const communityColumns: MenuColumn[] = [
       { label: 'Blog', href: '/blog' },
       { label: 'Podcast', href: '/podcast' },
       { label: 'NE Recipes', href: '/recipes' },
+      { label: 'Deer Gallery', href: '/gallery' },
     ],
   },
   {
