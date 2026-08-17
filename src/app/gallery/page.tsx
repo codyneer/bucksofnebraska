@@ -3,9 +3,10 @@ import Link from 'next/link'
 import { SectionHeader } from '@/components/ui/SectionHeader'
 import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
 import { DeerGallery } from '@/components/sections/DeerGallery'
-import { getAlbumPhotos, getAlbumInfo, GALLERY_REVALIDATE_SECONDS } from '@/lib/facebook'
+import { getAlbumPhotos, getAlbumInfo } from '@/lib/facebook'
 
-export const revalidate = GALLERY_REVALIDATE_SECONDS
+// Must be a static literal for Next's segment-config analysis (6 hours).
+export const revalidate = 21600
 
 export const metadata: Metadata = {
   title: 'The Herd | Bucks of Nebraska Deer Gallery',
