@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { SectionHeader } from '@/components/ui/SectionHeader'
 import { RevealOnScroll } from '@/components/ui/RevealOnScroll'
 import { DeerGallery } from '@/components/sections/DeerGallery'
-import { getAlbumPhotos, GALLERY_REVALIDATE_SECONDS } from '@/lib/facebook'
+import { getAlbumPhotos, getAlbumInfo, GALLERY_REVALIDATE_SECONDS } from '@/lib/facebook'
 
 export const revalidate = GALLERY_REVALIDATE_SECONDS
 
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 }
 
 export default async function GalleryPage() {
-  const photos = await getAlbumPhotos(60)
+  const [photos, info] = await Promise.all([getAlbumPhotos(90), getAlbumInfo()])
 
   return (
     <div className="min-h-screen bg-cream">
@@ -27,9 +27,23 @@ export default async function GalleryPage() {
         />
 
         {photos.length > 0 ? (
-          <RevealOnScroll>
-            <DeerGallery photos={photos} />
-          </RevealOnScroll>
+          <>
+            <RevealOnScroll>
+              <DeerGallery photos={photos} />
+            </RevealOnScroll>
+            {info && info.count > photos.length && (
+              <div className="text-center mt-10">
+                <a
+                  href={info.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block font-nav text-[14px] tracking-[3px] uppercase py-3.5 px-9 border-2 border-charcoal text-charcoal transition-all duration-300 hover:bg-charcoal hover:text-white"
+                >
+                  See All {info.count} on Facebook
+                </a>
+              </div>
+            )}
+          </>
         ) : (
           <div className="text-center py-16">
             <p className="font-body text-text-light mb-6">

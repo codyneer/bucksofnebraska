@@ -46,41 +46,67 @@ function pickImage(images: FbImage[]): FbImage | null {
   return sorted.find((img) => img.width >= 720) ?? sorted[sorted.length - 1]
 }
 
+function normalize(photo: FbPhoto): GalleryPhoto | null {
+  const image = pickImage(photo.images)
+  if (!image) return null
+  return {
+    id: photo.id,
+    src: image.source,
+    width: image.width,
+    height: image.height,
+    caption: photo.name ?? '',
+    link: photo.link,
+    createdTime: photo.created_time,
+  }
+}
+
+// Fetches up to `limit` photos, following Facebook's pagination cursors since a
+// single request caps at ~100. The album can hold hundreds; we only pull a
+// browsable slice for the page and link out to Facebook for the full archive.
 export async function getAlbumPhotos(limit = 60): Promise<GalleryPhoto[]> {
   if (!FB_ALBUM_ID || !FB_PAGE_ACCESS_TOKEN) return []
 
   const params = new URLSearchParams({
     fields: 'id,name,created_time,link,images',
-    limit: String(limit),
+    limit: String(Math.min(limit, 100)),
     access_token: FB_PAGE_ACCESS_TOKEN,
   })
-  const url = `https://graph.facebook.com/${FB_API_VERSION}/${FB_ALBUM_ID}/photos?${params}`
+  let url: string | undefined = `https://graph.facebook.com/${FB_API_VERSION}/${FB_ALBUM_ID}/photos?${params}`
 
+  const photos: GalleryPhoto[] = []
   try {
-    const res = await fetch(url, {
-      next: { revalidate: GALLERY_REVALIDATE_SECONDS },
-    })
-    if (!res.ok) return []
-
-    const json: { data?: FbPhoto[] } = await res.json()
-    if (!json.data) return []
-
-    return json.data
-      .map((photo): GalleryPhoto | null => {
-        const image = pickImage(photo.images)
-        if (!image) return null
-        return {
-          id: photo.id,
-          src: image.source,
-          width: image.width,
-          height: image.height,
-          caption: photo.name ?? '',
-          link: photo.link,
-          createdTime: photo.created_time,
-        }
-      })
-      .filter((p): p is GalleryPhoto => p !== null)
+    while (url && photos.length < limit) {
+      const res = await fetch(url, { next: { revalidate: GALLERY_REVALIDATE_SECONDS } })
+      if (!res.ok) break
+      const json: { data?: FbPhoto[]; paging?: { next?: string } } = await res.json()
+      for (const photo of json.data ?? []) {
+        const p = normalize(photo)
+        if (p) photos.push(p)
+      }
+      url = json.paging?.next
+    }
   } catch {
-    return []
+    // Return whatever we gathered before the error (possibly empty)
+  }
+  return photos.slice(0, limit)
+}
+
+// Total photo count in the album (for "see all NNN on Facebook" copy).
+export async function getAlbumInfo(): Promise<{ count: number; url: string } | null> {
+  if (!FB_ALBUM_ID || !FB_PAGE_ACCESS_TOKEN) return null
+  try {
+    const params = new URLSearchParams({ fields: 'count,link', access_token: FB_PAGE_ACCESS_TOKEN })
+    const res = await fetch(
+      `https://graph.facebook.com/${FB_API_VERSION}/${FB_ALBUM_ID}?${params}`,
+      { next: { revalidate: GALLERY_REVALIDATE_SECONDS } },
+    )
+    if (!res.ok) return null
+    const json: { count?: number; link?: string } = await res.json()
+    return {
+      count: json.count ?? 0,
+      url: json.link ?? `https://www.facebook.com/media/set/?set=a.${FB_ALBUM_ID}`,
+    }
+  } catch {
+    return null
   }
 }
