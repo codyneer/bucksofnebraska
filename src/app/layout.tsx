@@ -53,6 +53,10 @@ export const viewport: Viewport = {
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://bucksofnebraska.com'
 
+// Site-wide default social share image (1731×909, ~1.91:1). Product/blog pages
+// still generate their own page-specific OG images via /api/og.
+const OG_IMAGE = 'https://cdn.shopify.com/s/files/1/0398/3185/files/Bucks_of_Nebraska_Logo.png?v=1787081234'
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
@@ -70,9 +74,9 @@ export const metadata: Metadata = {
     description: 'Nebraska hunting apparel built for the field. Premium deer hunting shirts, hoodies, hats, and gear designed by hunters, for hunters. Free shipping over $75.',
     images: [
       {
-        url: '/api/og',
-        width: 1200,
-        height: 630,
+        url: OG_IMAGE,
+        width: 1731,
+        height: 909,
         alt: 'Bucks of Nebraska — Nebraska Deer Hunting Apparel',
       },
     ],
@@ -81,7 +85,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Bucks of Nebraska | Nebraska Deer Hunting Apparel & Gear',
     description: 'Nebraska hunting apparel built for the field. Premium deer hunting shirts, hoodies, hats, and gear. Free shipping over $75.',
-    images: ['/api/og'],
+    images: [OG_IMAGE],
   },
 }
 
