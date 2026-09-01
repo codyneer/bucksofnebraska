@@ -145,11 +145,17 @@ export function UpsellModal() {
             </div>
 
             {/* Savings callout */}
-            <div className="text-center mb-5">
+            <div className="text-center mb-2">
               <span className="font-nav text-[11px] tracking-[1.5px] uppercase text-green">
                 You save {formatPrice(totalSavings)} on {quantity}!
               </span>
             </div>
+
+            {/* The tier keys off the whole cart, not this one product */}
+            <p className="text-center font-body text-[11px] text-text-muted leading-snug mb-5">
+              {percentOff}% applies to any {quantity}+ items in your cart — mix &amp;
+              match if you&apos;d rather add something else.
+            </p>
 
             {/* Accept CTA */}
             <button

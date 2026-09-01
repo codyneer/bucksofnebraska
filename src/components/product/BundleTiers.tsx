@@ -23,22 +23,22 @@ export function BundleTiers({ basePrice, onTierChange }: BundleTiersProps) {
     {
       quantity: 1,
       priceEach: basePrice,
-      label: 'Buy 1',
+      label: '1 Item',
       subtitle: 'Standard price',
     },
     {
       quantity: 2,
       priceEach: basePrice * 0.90,
-      label: 'Buy 2',
-      subtitle: 'Most popular — mix & match',
+      label: 'Any 2 Items',
+      subtitle: 'Most popular — mix & match anything',
       savingsPercent: 10,
       badge: 'Save 10%',
     },
     {
       quantity: 3,
       priceEach: basePrice * 0.85,
-      label: 'Buy 3+',
-      subtitle: 'Best value — for you & the crew',
+      label: 'Any 3+ Items',
+      subtitle: 'Best value — stack it across your whole cart',
       savingsPercent: 15,
       badge: 'Save 15%',
     },
@@ -110,6 +110,14 @@ export function BundleTiers({ basePrice, onTierChange }: BundleTiersProps) {
           </div>
         </div>
       ))}
+
+      {/* The discount keys off the whole cart, not this product's quantity */}
+      <div className="bg-offWhite px-3 sm:px-4 py-2.5 border-t border-border-light">
+        <p className="font-body text-[11px] sm:text-[12px] text-text-muted leading-snug">
+          Mix &amp; match — the discount applies to any 2+ items in your cart, not
+          just this one. Add it now or keep shopping and it still counts.
+        </p>
+      </div>
     </div>
   )
 }

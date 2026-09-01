@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef, useCallback } from 'react'
 import { X, Lock, ChevronUp, ChevronDown } from 'lucide-react'
 import { useCart } from '@/lib/cart-context'
-import { formatPrice, calculateShipping, FREE_SHIPPING_THRESHOLD } from '@/lib/utils'
+import { formatPrice } from '@/lib/utils'
 import { FreeShippingBar } from './FreeShippingBar'
 import { CartItem } from './CartItem'
 import { OrderBump } from './OrderBump'
@@ -36,8 +36,9 @@ export function CartDrawer() {
     (c) => !c.applicable && c.code.toUpperCase() !== ORDER_BUMP_DISCOUNT_CODE.toUpperCase()
   )?.code
   const totalAfterDiscount = cart ? parseFloat(cart.cost.totalAmount.amount) : subtotal
-  const shipping = calculateShipping(subtotal)
-  const total = totalAfterDiscount + shipping
+  // Shipping is not computable here: the store runs several delivery profiles
+  // with different rates and free-shipping thresholds, and Shopify only resolves
+  // them once it has an address. Quote merchandise only and let checkout add it.
 
   // Check scroll position to show/hide arrows
   const checkScroll = useCallback(() => {
@@ -93,6 +94,10 @@ export function CartDrawer() {
   )
   // The bundle is itself in a discounted collection, so adding it moves the
   // eligible count up by one.
+  // How close the cart is to the next automatic quantity tier
+  const nextTierQuantity = eligibleQuantity < 2 ? 2 : eligibleQuantity < 3 ? 3 : null
+  const nextTierPercent = nextTierQuantity ? quantityTierFor(nextTierQuantity) : 0
+
   // Once it is in the cart the offer is spent — the line item above shows it.
   const bumpAlreadyInCart = lines.some((line) => line.merchandise.id === bumpVariantId)
   const bumpPercentOff = quantityTierFor(eligibleQuantity + bumpQuantity)
@@ -153,6 +158,16 @@ export function CartDrawer() {
             {/* Sticky: Free Shipping Bar */}
             <div className="shrink-0 border-b border-border">
               <FreeShippingBar subtotal={subtotal} />
+
+              {nextTierQuantity && (
+                <div className="mx-3 sm:mx-5 mb-3 py-2 px-3 bg-green/[0.06] border border-green/20">
+                  <p className="font-nav text-[10px] sm:text-[11px] tracking-[1px] uppercase text-green text-center">
+                    Add {nextTierQuantity - eligibleQuantity} more item
+                    {nextTierQuantity - eligibleQuantity > 1 ? 's' : ''} to save{' '}
+                    {nextTierPercent}% on your whole cart
+                  </p>
+                </div>
+              )}
             </div>
 
             {/* Scrollable cart items with arrows */}
@@ -218,16 +233,6 @@ export function CartDrawer() {
                 </div>
               )}
 
-              {/* Subtotal */}
-              <div className="flex justify-between mb-1.5">
-                <span className="font-nav text-[13px] tracking-[2px] uppercase text-text-light">
-                  Subtotal
-                </span>
-                <span className="font-display text-[18px] text-text">
-                  {formatPrice(subtotal)}
-                </span>
-              </div>
-
               {/* Referral code in cart but threshold not yet met */}
               {pendingReferralCode && discountTotal === 0 && (
                 <div className="mb-1.5 py-1.5 px-2 bg-gold/10 border border-gold/20">
@@ -237,29 +242,19 @@ export function CartDrawer() {
                 </div>
               )}
 
-              {/* Shipping */}
-              <div className="flex justify-between mb-1.5">
-                <span className="font-nav text-[13px] tracking-[2px] uppercase text-text-light">
-                  Shipping
+              {/* Subtotal — merchandise only; shipping resolves at checkout */}
+              <div className="flex justify-between items-center mb-1">
+                <span className="font-nav text-[14px] tracking-[2px] uppercase text-text">
+                  Subtotal
                 </span>
-                <span className="font-display text-[18px] text-text">
-                  {shipping === 0 ? (
-                    <span className="text-green">FREE</span>
-                  ) : (
-                    formatPrice(shipping)
-                  )}
+                <span className="font-display text-[24px] sm:text-[28px] text-red">
+                  {formatPrice(subtotal)}
                 </span>
               </div>
 
-              {/* Total */}
-              <div className="flex justify-between items-center pt-2 mt-2 border-t border-border mb-4">
-                <span className="font-nav text-[14px] tracking-[2px] uppercase text-text">
-                  Total
-                </span>
-                <span className="font-display text-[24px] sm:text-[28px] text-red">
-                  {formatPrice(total)}
-                </span>
-              </div>
+              <p className="font-body text-[11px] text-text-muted mb-4">
+                Shipping &amp; taxes calculated at checkout
+              </p>
 
               {/* Checkout button */}
               <a
@@ -267,7 +262,7 @@ export function CartDrawer() {
                 onClick={() => {
                   trackInitiateCheckout({
                     contentIds: lines.map((l) => l.merchandise.product.handle),
-                    value: total,
+                    value: subtotal,
                     numItems: itemCount,
                   })
                 }}
