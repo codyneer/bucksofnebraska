@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef, useCallback } from 'react'
 import { X, Lock, ChevronUp, ChevronDown } from 'lucide-react'
 import { useCart } from '@/lib/cart-context'
-import { formatPrice } from '@/lib/utils'
+import { formatPrice, FREE_SHIPPING_THRESHOLD } from '@/lib/utils'
 import { FreeShippingBar } from './FreeShippingBar'
 import { CartItem } from './CartItem'
 import { OrderBump } from './OrderBump'
@@ -31,6 +31,9 @@ export function CartDrawer() {
   // reported as a banner instead of a second subtraction, which would
   // double-count it.
   const fullPriceTotal = subtotal + discountTotal
+  // Shipping is charged per delivery profile, not per item, and the real figure
+  // needs the shopper's address — so credit it without inventing a number.
+  const freeShippingUnlocked = subtotal >= FREE_SHIPPING_THRESHOLD
   // The bump code is applied automatically, so it never needs an "unlock" hint
   const pendingReferralCode = discountCodes.find(
     (c) => !c.applicable && c.code.toUpperCase() !== ORDER_BUMP_DISCOUNT_CODE.toUpperCase()
@@ -227,9 +230,17 @@ export function CartDrawer() {
             {/* Footer */}
             <div className="px-4 sm:px-6 pt-4 sm:pt-5 pb-[calc(1rem+env(safe-area-inset-bottom))] sm:pb-[calc(1.25rem+env(safe-area-inset-bottom))] border-t border-border bg-offWhite shrink-0">
               {/* Savings banner — the real figure, not a blanket claim */}
-              {discountTotal > 0 && (
+              {(discountTotal > 0 || freeShippingUnlocked) && (
                 <div className="text-center bg-green/[0.06] py-2 mb-3 font-nav text-[12px] text-green tracking-[1px] uppercase">
-                  You saved {formatPrice(discountTotal)} — was {formatPrice(fullPriceTotal)}
+                  {discountTotal > 0 ? (
+                    <>
+                      You saved {formatPrice(discountTotal)}
+                      {freeShippingUnlocked && ' + free shipping'} — was{' '}
+                      {formatPrice(fullPriceTotal)}
+                    </>
+                  ) : (
+                    <>You saved on shipping — free delivery on this order</>
+                  )}
                 </div>
               )}
 
