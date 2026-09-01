@@ -10,6 +10,7 @@ import { ReviewStarsDisplay } from '@/components/reviews/ReviewStars'
 import { trackAddToCart } from '@/lib/fb-events'
 import type { ShopifyProduct } from '@/lib/shopify'
 import type { Review } from '@/lib/reviews'
+import { hasQuantityDiscount } from '@/lib/cart-promos'
 
 type ProductCardProps = {
   product: ShopifyProduct
@@ -70,12 +71,18 @@ export function ProductCard({ product }: ProductCardProps) {
     e.preventDefault()
     e.stopPropagation()
     if (firstVariant) {
-      await addItemWithUpsell(firstVariant.id, 1, {
-        title: product.title,
-        image: firstImage?.url ?? null,
-        price: parseFloat(price),
-        variantTitle: firstVariant.title,
-      })
+      // Only offer the buy-more upsell where Shopify actually grants the
+      // quantity discount; elsewhere it would promise a saving that never lands.
+      if (hasQuantityDiscount(product.collections)) {
+        await addItemWithUpsell(firstVariant.id, 1, {
+          title: product.title,
+          image: firstImage?.url ?? null,
+          price: parseFloat(price),
+          variantTitle: firstVariant.title,
+        })
+      } else {
+        await addItem(firstVariant.id, 1)
+      }
       trackAddToCart({
         contentName: product.title,
         contentId: product.handle,

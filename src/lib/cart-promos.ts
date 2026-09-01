@@ -18,3 +18,23 @@ export const UPSELL_TIERS = {
 } as const
 
 export type UpsellOfferStage = keyof typeof UPSELL_TIERS
+
+// The automatic "Buy 2 Save 10%" and "BUY 3+ SAVE 15%" discounts are scoped to
+// these collections in Shopify. Products outside them get NO quantity discount,
+// so the bundle tiers and the post-add upsell must not be offered there.
+export const QUANTITY_DISCOUNT_COLLECTIONS = [
+  'shirts',
+  'hoodies',
+  'new-arrivals',
+  'hats',
+  'decals',
+]
+
+export function hasQuantityDiscount(
+  collections?: { edges: { node: { handle: string } }[] }
+): boolean {
+  if (!collections) return false
+  return collections.edges.some((e) =>
+    QUANTITY_DISCOUNT_COLLECTIONS.includes(e.node.handle)
+  )
+}

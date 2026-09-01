@@ -9,6 +9,7 @@ import { useUpsell } from '@/lib/upsell-context'
 import { useToast } from '@/components/ui/Toast'
 import { formatPrice } from '@/lib/utils'
 import { BundleTiers } from './BundleTiers'
+import { hasQuantityDiscount } from '@/lib/cart-promos'
 import { ProductReviews } from '@/components/reviews/ProductReviews'
 import { trackAddToCart, trackViewContent } from '@/lib/fb-events'
 import type { ShopifyProduct, ProductVariant } from '@/lib/shopify'
@@ -65,7 +66,10 @@ export function ProductDetail({ product, reviews = [], allProducts = [] }: Produ
 
   const [selectedImageIndex, setSelectedImageIndex] = useState(0)
   const [selectedOptions, setSelectedOptions] = useState<Record<string, string>>(initialOptions)
-  const [tierQuantity, setTierQuantity] = useState(2)
+  // Only products inside the discounted collections actually get the quantity
+  // discount in Shopify — don't advertise it anywhere else.
+  const qtyDiscountEligible = hasQuantityDiscount(product.collections)
+  const [tierQuantity, setTierQuantity] = useState(qtyDiscountEligible ? 2 : 1)
   const [tierPrice, setTierPrice] = useState(0) // initialized in effect below
 
   // Find the matching variant based on ALL selected options
@@ -107,11 +111,12 @@ export function ProductDetail({ product, reviews = [], allProducts = [] }: Produ
 
   // Keep tier price in sync when the selected variant (and its price) changes
   useEffect(() => {
-    const multiplier = tierQuantity === 1 ? 1 : tierQuantity === 2 ? 0.90 : 0.85
+    const multiplier =
+      !qtyDiscountEligible || tierQuantity === 1 ? 1 : tierQuantity === 2 ? 0.90 : 0.85
     // No rounding — Shopify charges the exact percentage, so a rounded
     // quote here under-states the real price at checkout.
     setTierPrice(variantPrice * multiplier)
-  }, [variantPrice, tierQuantity])
+  }, [variantPrice, tierQuantity, qtyDiscountEligible])
 
   const totalPrice = tierPrice * tierQuantity
   const [viewerCount, setViewerCount] = useState(0)
@@ -133,7 +138,7 @@ export function ProductDetail({ product, reviews = [], allProducts = [] }: Produ
     if (!selectedVariant) return
     const totalQty = tierQuantity
 
-    if (totalQty === 1) {
+    if (totalQty === 1 && qtyDiscountEligible) {
       // Single item — show Buy 2 upsell popup
       await addItemWithUpsell(selectedVariant.id, 1, {
         title: product.title,
@@ -314,8 +319,10 @@ export function ProductDetail({ product, reviews = [], allProducts = [] }: Produ
             </p>
           )}
 
-          {/* Bundle Tiers */}
-          <BundleTiers basePrice={variantPrice} onTierChange={handleTierChange} />
+          {/* Bundle Tiers — only where Shopify actually grants the discount */}
+          {qtyDiscountEligible && (
+            <BundleTiers basePrice={variantPrice} onTierChange={handleTierChange} />
+          )}
 
           {/* All Option Selectors (Color, Size, Style, etc.) */}
           {productOptions.map((option) => {

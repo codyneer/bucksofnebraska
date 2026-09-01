@@ -20,10 +20,11 @@ export function CartDrawer() {
   const scrollRef = useRef<HTMLDivElement>(null)
 
   const subtotal = cart ? parseFloat(cart.cost.subtotalAmount.amount) : 0
-  // subtotalAmount is already net of product-scoped discounts; show the
-  // pre-discount figure so Subtotal − Discount = Total reads correctly.
-  const subtotalBeforeDiscount = subtotal + discountTotal
-  const appliedCodes = discountCodes.filter((c) => c.applicable).map((c) => c.code)
+  // subtotalAmount is already net of line discounts, and each cart line now
+  // displays its own net price — so Subtotal is simply their sum. The saving is
+  // reported as a banner instead of a second subtraction, which would
+  // double-count it.
+  const fullPriceTotal = subtotal + discountTotal
   // The bump code is applied automatically, so it never needs an "unlock" hint
   const pendingReferralCode = discountCodes.find(
     (c) => !c.applicable && c.code.toUpperCase() !== ORDER_BUMP_DISCOUNT_CODE.toUpperCase()
@@ -185,10 +186,10 @@ export function CartDrawer() {
 
             {/* Footer */}
             <div className="px-4 sm:px-6 pt-4 sm:pt-5 pb-[calc(1rem+env(safe-area-inset-bottom))] sm:pb-[calc(1.25rem+env(safe-area-inset-bottom))] border-t border-border bg-offWhite shrink-0">
-              {/* Savings banner */}
-              {subtotal >= 50 && (
+              {/* Savings banner — the real figure, not a blanket claim */}
+              {discountTotal > 0 && (
                 <div className="text-center bg-green/[0.06] py-2 mb-3 font-nav text-[12px] text-green tracking-[1px] uppercase">
-                  You&apos;re saving on this order!
+                  You saved {formatPrice(discountTotal)} — was {formatPrice(fullPriceTotal)}
                 </div>
               )}
 
@@ -198,26 +199,9 @@ export function CartDrawer() {
                   Subtotal
                 </span>
                 <span className="font-display text-[18px] text-text">
-                  {formatPrice(subtotalBeforeDiscount)}
+                  {formatPrice(subtotal)}
                 </span>
               </div>
-
-              {/* Discount */}
-              {discountTotal > 0 && (
-                <div className="flex justify-between mb-1.5">
-                  <span className="font-nav text-[13px] tracking-[2px] uppercase text-green">
-                    Discount
-                    {appliedCodes.length > 0 && (
-                      <span className="text-text-muted ml-1 normal-case tracking-normal text-[11px]">
-                        ({appliedCodes.join(', ')})
-                      </span>
-                    )}
-                  </span>
-                  <span className="font-display text-[18px] text-green">
-                    -{formatPrice(discountTotal)}
-                  </span>
-                </div>
-              )}
 
               {/* Referral code in cart but threshold not yet met */}
               {pendingReferralCode && discountTotal === 0 && (
