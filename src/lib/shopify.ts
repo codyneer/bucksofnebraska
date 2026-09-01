@@ -76,6 +76,7 @@ export type ShopifyProduct = {
   variants: { edges: { node: ProductVariant }[] }
   options: ProductOption[]
   tags: string[]
+  productType?: string
   collections?: { edges: { node: { handle: string } }[] }
   metafield: { value: string } | null
 }
@@ -196,6 +197,7 @@ export const GET_COLLECTION_PRODUCTS = `
               }
             }
             tags
+            productType
             collections(first: 20) { edges { node { handle } } }
             metafield(namespace: "custom", key: "reviews") { value }
           }
@@ -225,6 +227,7 @@ export const GET_PRODUCT = `
         }
       }
       tags
+      productType
       collections(first: 20) { edges { node { handle } } }
       metafield(namespace: "custom", key: "reviews") { value }
     }
@@ -252,6 +255,7 @@ export const GET_ALL_PRODUCTS = `
             }
           }
           tags
+          productType
           collections(first: 20) { edges { node { handle } } }
           metafield(namespace: "custom", key: "reviews") { value }
         }

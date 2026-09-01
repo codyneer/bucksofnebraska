@@ -18,6 +18,8 @@ export function CartUpsells({ products, excludeVariantIds = [] }: CartUpsellsPro
   const { addItem, lines } = useCart()
   const { showToast } = useToast()
   const [addingHandle, setAddingHandle] = useState<string | null>(null)
+  // Size is chosen here and locked in on add — the cart line never asks again
+  const [chosenVariant, setChosenVariant] = useState<Record<string, string>>({})
 
   // Anything already in the cart drops out, so the rail only ever suggests
   // things they don't have — and it re-filters itself as they add.
@@ -29,10 +31,12 @@ export function CartUpsells({ products, excludeVariantIds = [] }: CartUpsellsPro
   const available = useMemo(
     () =>
       products.filter((product) => {
-        if (product.variants.edges.length !== 1) return false
         if (cartProductHandles.has(product.handle)) return false
-        const variantId = product.variants.edges[0]?.node.id
-        return !excludeVariantIds.includes(variantId)
+        const sellable = product.variants.edges.filter((edge) => edge.node.availableForSale)
+        if (sellable.length === 0) return false
+        // Single-variant products excluded by id (e.g. the order bump product)
+        if (sellable.length === 1 && excludeVariantIds.includes(sellable[0].node.id)) return false
+        return true
       }),
     [products, cartProductHandles, excludeVariantIds]
   )
@@ -52,18 +56,25 @@ export function CartUpsells({ products, excludeVariantIds = [] }: CartUpsellsPro
       {/* Horizontal rail — more suggestions without eating the drawer's height */}
       <div className="flex gap-3 overflow-x-auto hide-scrollbar px-4 sm:px-6 snap-x snap-mandatory">
         {available.map((product) => {
-          const variant = product.variants.edges[0]?.node
+          const sellable = product.variants.edges
+            .map((edge) => edge.node)
+            .filter((node) => node.availableForSale)
+          const needsChoice = sellable.length > 1
+          const selectedId = needsChoice ? chosenVariant[product.handle] : sellable[0]?.id
+          const variant = sellable.find((node) => node.id === selectedId)
           const image = product.images.edges[0]?.node
-          const price = product.priceRange.minVariantPrice.amount
-          const compareAtPrice = product.compareAtPriceRange?.minVariantPrice?.amount
+          const price = variant?.price.amount ?? product.priceRange.minVariantPrice.amount
+          const compareAtPrice =
+            variant?.compareAtPrice?.amount ??
+            product.compareAtPriceRange?.minVariantPrice?.amount
           const isAdding = addingHandle === product.handle
 
-          if (!variant) return null
+          if (sellable.length === 0) return null
 
           return (
             <div
               key={product.id}
-              className="w-[132px] shrink-0 snap-start border border-border-light bg-white flex flex-col"
+              className="w-[148px] shrink-0 snap-start border border-border-light bg-white flex flex-col"
             >
               <div className="relative w-full aspect-square bg-offWhite">
                 {image ? (
@@ -95,9 +106,28 @@ export function CartUpsells({ products, excludeVariantIds = [] }: CartUpsellsPro
                   )}
                 </div>
 
+                {needsChoice && (
+                  <select
+                    value={selectedId ?? ''}
+                    onChange={(e) =>
+                      setChosenVariant((prev) => ({ ...prev, [product.handle]: e.target.value }))
+                    }
+                    aria-label={`Choose an option for ${product.title}`}
+                    className="w-full mb-1.5 py-1.5 px-1 border border-border bg-white font-nav text-[10px] tracking-[0.5px] uppercase text-text cursor-pointer"
+                  >
+                    <option value="">Select size</option>
+                    {sellable.map((option) => (
+                      <option key={option.id} value={option.id}>
+                        {option.title}
+                      </option>
+                    ))}
+                  </select>
+                )}
+
                 <button
-                  disabled={isAdding}
+                  disabled={isAdding || !variant}
                   onClick={async () => {
+                    if (!variant) return
                     setAddingHandle(product.handle)
                     try {
                       await addItem(variant.id, 1, { suppressDrawer: true })
@@ -118,6 +148,8 @@ export function CartUpsells({ products, excludeVariantIds = [] }: CartUpsellsPro
                     <>
                       <Check className="w-3 h-3" /> Adding
                     </>
+                  ) : !variant ? (
+                    'Pick a size'
                   ) : (
                     <>
                       <Plus className="w-3 h-3" /> Add

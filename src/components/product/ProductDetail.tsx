@@ -3,7 +3,7 @@
 import { useState, useMemo, useCallback, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Lock, Truck, RefreshCw, Eye } from 'lucide-react'
+import { Lock, Truck, RefreshCw, Eye, Plus, Minus } from 'lucide-react'
 import { useCart } from '@/lib/cart-context'
 import { useUpsell } from '@/lib/upsell-context'
 import { useToast } from '@/components/ui/Toast'
@@ -70,6 +70,9 @@ export function ProductDetail({ product, reviews = [], allProducts = [] }: Produ
   // discount in Shopify — don't advertise it anywhere else.
   const qtyDiscountEligible = hasQuantityDiscount(product.collections)
   const [tierQuantity, setTierQuantity] = useState(qtyDiscountEligible ? 2 : 1)
+  // Long descriptions pushed the swatches so far below the gallery that changing
+  // colour scrolled the image out of view — collapse it on small screens.
+  const [descriptionOpen, setDescriptionOpen] = useState(false)
   const [tierPrice, setTierPrice] = useState(0) // initialized in effect below
 
   // Find the matching variant based on ALL selected options
@@ -307,17 +310,37 @@ export function ProductDetail({ product, reviews = [], allProducts = [] }: Produ
             )}
           </div>
 
-          {/* Description */}
-          {product.descriptionHtml ? (
+          {/* Description — collapsed on mobile, always open from lg up */}
+          <div className="mb-6">
             <div
-              className="text-text-light leading-relaxed mb-6 text-[15px] font-body"
-              dangerouslySetInnerHTML={{ __html: product.descriptionHtml }}
-            />
-          ) : (
-            <p className="text-text-light leading-relaxed mb-6 text-[15px] font-body">
-              {product.description}
-            </p>
-          )}
+              className={`text-text-light leading-relaxed text-[15px] font-body lg:line-clamp-none ${
+                descriptionOpen ? '' : 'line-clamp-2'
+              }`}
+            >
+              {product.descriptionHtml ? (
+                <div dangerouslySetInnerHTML={{ __html: product.descriptionHtml }} />
+              ) : (
+                <p>{product.description}</p>
+              )}
+            </div>
+
+            <button
+              type="button"
+              onClick={() => setDescriptionOpen((open) => !open)}
+              aria-expanded={descriptionOpen}
+              className="lg:hidden mt-1.5 flex items-center gap-1 bg-transparent border-none p-0 cursor-pointer font-nav text-[11px] tracking-[1.5px] uppercase text-red hover:text-red-dark transition-colors"
+            >
+              {descriptionOpen ? (
+                <>
+                  <Minus className="w-3.5 h-3.5" /> Less
+                </>
+              ) : (
+                <>
+                  <Plus className="w-3.5 h-3.5" /> Read full description
+                </>
+              )}
+            </button>
+          </div>
 
           {/* Bundle Tiers — only where Shopify actually grants the discount */}
           {qtyDiscountEligible && (
