@@ -15,11 +15,12 @@ type OrderBumpProps = {
   compareAtPrice: number
   description?: string
   imageUrl?: string
+  discountCode?: string
 }
 
-export function OrderBump({ productTitle, variantId, quantity, price, compareAtPrice, description, imageUrl }: OrderBumpProps) {
+export function OrderBump({ productTitle, variantId, quantity, price, compareAtPrice, description, imageUrl, discountCode }: OrderBumpProps) {
   const [checked, setChecked] = useState(false)
-  const { addItem } = useCart()
+  const { addItem, applyDiscount } = useCart()
   const { showToast } = useToast()
 
   const savings = compareAtPrice - price
@@ -28,7 +29,12 @@ export function OrderBump({ productTitle, variantId, quantity, price, compareAtP
   const handleToggle = async () => {
     if (!checked) {
       setChecked(true)
-      await addItem(variantId, quantity)
+      await addItem(variantId, quantity, { suppressDrawer: true })
+      // The cart-only price comes from this code — it is applied here and
+      // nowhere else, so buying the product normally stays full price.
+      if (discountCode) {
+        await applyDiscount(discountCode)
+      }
       trackAddToCart({
         contentName: productTitle,
         contentId: variantId,

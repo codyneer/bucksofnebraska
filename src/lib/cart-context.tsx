@@ -12,6 +12,11 @@ import {
   type CartLine,
   type DiscountCode,
 } from './shopify'
+import {
+  ORDER_BUMP_VARIANT_ID,
+  ORDER_BUMP_DISCOUNT_CODE,
+  RETIRED_DISCOUNT_CODES,
+} from './cart-promos'
 
 type CartContextType = {
   cart: ShopifyCart | null
@@ -39,10 +44,41 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const lines = cart?.lines.edges.map((e) => e.node) ?? []
   const itemCount = lines.reduce((sum, line) => sum + line.quantity, 0)
   const discountCodes = cart?.discountCodes ?? []
-  const discountTotal = (cart?.discountAllocations ?? []).reduce(
+  // Order-level codes allocate on the cart; product-scoped codes (e.g. the
+  // order bump) allocate on each line instead — count both.
+  const cartDiscountTotal = (cart?.discountAllocations ?? []).reduce(
     (sum, alloc) => sum + parseFloat(alloc.discountedAmount.amount),
     0
   )
+  const lineDiscountTotal = lines.reduce(
+    (sum, line) =>
+      sum +
+      (line.discountAllocations ?? []).reduce(
+        (lineSum, alloc) => lineSum + parseFloat(alloc.discountedAmount.amount),
+        0
+      ),
+    0
+  )
+  const discountTotal = cartDiscountTotal + lineDiscountTotal
+
+  const stripRetiredDiscounts = useCallback(async (targetCart: ShopifyCart): Promise<ShopifyCart> => {
+    const codes = targetCart.discountCodes ?? []
+    if (codes.length === 0) return targetCart
+
+    const remaining = codes
+      .filter((c) => !RETIRED_DISCOUNT_CODES.includes(c.code.toUpperCase()))
+      .map((c) => c.code)
+    if (remaining.length === codes.length) return targetCart
+
+    try {
+      const result = await shopifyApplyDiscount(targetCart.id, remaining)
+      if (result.cart) return result.cart
+    } catch (error) {
+      console.error('Failed to strip retired discount code:', error)
+    }
+
+    return targetCart
+  }, [])
 
   const tryAutoApplyReferral = useCallback(async (targetCart: ShopifyCart): Promise<ShopifyCart> => {
     if (typeof window === 'undefined') return targetCart
@@ -74,7 +110,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
       try {
         const existingCart = await getCart(storedCartId)
         if (existingCart) {
-          const cartWithDiscount = await tryAutoApplyReferral(existingCart)
+          const cleanedCart = await stripRetiredDiscounts(existingCart)
+          const cartWithDiscount = await tryAutoApplyReferral(cleanedCart)
           setCart(cartWithDiscount)
           return cartWithDiscount
         }
@@ -90,7 +127,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     const cartWithDiscount = await tryAutoApplyReferral(newCart)
     setCart(cartWithDiscount)
     return cartWithDiscount
-  }, [cart, tryAutoApplyReferral])
+  }, [cart, stripRetiredDiscounts, tryAutoApplyReferral])
 
   const openCart = useCallback(() => setIsOpen(true), [])
   const closeCart = useCallback(() => setIsOpen(false), [])
@@ -154,8 +191,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const applyDiscount = useCallback(
     async (code: string) => {
       const currentCart = await ensureCart()
+      const existing = (currentCart.discountCodes ?? []).map((c) => c.code)
+      if (existing.some((c) => c.toUpperCase() === code.toUpperCase())) return
       try {
-        const result = await shopifyApplyDiscount(currentCart.id, [code])
+        const result = await shopifyApplyDiscount(currentCart.id, [...existing, code])
         if (result.cart) {
           setCart(result.cart)
         }
@@ -168,6 +207,40 @@ export function CartProvider({ children }: { children: ReactNode }) {
     },
     [ensureCart]
   )
+
+  // The order-bump code is earned by clicking the bump, not by owning the
+  // product — drop it if the bump product has left the cart. Also drop it when
+  // Shopify marks it inapplicable (an automatic discount it can't combine with
+  // has taken precedence), so checkout never shows an invalid code.
+  useEffect(() => {
+    if (!cart) return
+
+    const codes = cart.discountCodes ?? []
+    const bumpCode = codes.find(
+      (c) => c.code.toUpperCase() === ORDER_BUMP_DISCOUNT_CODE.toUpperCase()
+    )
+    if (!bumpCode) return
+
+    const hasBumpProduct = cart.lines.edges.some(
+      (e) => e.node.merchandise.id === ORDER_BUMP_VARIANT_ID
+    )
+    if (hasBumpProduct && bumpCode.applicable) return
+
+    const remaining = codes
+      .filter((c) => c.code.toUpperCase() !== ORDER_BUMP_DISCOUNT_CODE.toUpperCase())
+      .map((c) => c.code)
+
+    let cancelled = false
+    shopifyApplyDiscount(cart.id, remaining)
+      .then((result) => {
+        if (!cancelled && result.cart) setCart(result.cart)
+      })
+      .catch((error) => console.error('Failed to remove order bump discount:', error))
+
+    return () => {
+      cancelled = true
+    }
+  }, [cart])
 
   // Lock body scroll when cart is open
   useEffect(() => {

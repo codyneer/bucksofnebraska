@@ -42,3 +42,6 @@ next-env.d.ts
 
 # design assets
 /printify-designs/
+
+# claude code local settings (contains credentials)
+.claude/settings.local.json

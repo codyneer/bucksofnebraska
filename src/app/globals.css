@@ -31,3 +31,10 @@ body {
 .marquee-container:hover .marquee-content {
   animation-play-state: paused;
 }
+
+/* Cart drawer: use dynamic viewport height on mobile so the footer
+   (checkout button) is never pushed below iOS Safari's browser chrome */
+.cart-drawer-height {
+  height: 100vh;
+  height: 100dvh;
+}

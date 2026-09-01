@@ -82,6 +82,11 @@ export type ShopifyProduct = {
 export type CartLine = {
   id: string
   quantity: number
+  cost: {
+    subtotalAmount: Money
+    totalAmount: Money
+  }
+  discountAllocations: DiscountAllocation[]
   merchandise: {
     id: string
     title: string
@@ -134,6 +139,13 @@ const CART_FIELDS = `
         node {
           id
           quantity
+          cost {
+            subtotalAmount { amount currencyCode }
+            totalAmount { amount currencyCode }
+          }
+          discountAllocations {
+            discountedAmount { amount currencyCode }
+          }
           merchandise {
             ... on ProductVariant {
               id

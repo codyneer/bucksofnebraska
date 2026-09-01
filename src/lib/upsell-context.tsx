@@ -2,8 +2,9 @@
 
 import { createContext, useContext, useState, useCallback, type ReactNode } from 'react'
 import { useCart } from './cart-context'
+import { UPSELL_TIERS } from './cart-promos'
 
-type UpsellStage = 'idle' | 'offer-10' | 'offer-12'
+type UpsellStage = 'idle' | 'offer-10' | 'offer-15'
 
 type PendingUpsell = {
   merchandiseId: string
@@ -61,22 +62,24 @@ export function UpsellProvider({ children }: { children: ReactNode }) {
     if (!pendingUpsell || isProcessing) return
     setIsProcessing(true)
     try {
-      // Add 2 of the item to cart, suppress drawer (we'll open it ourselves)
-      await addItem(pendingUpsell.merchandiseId, 2, { suppressDrawer: true })
+      // Quantity comes from the tier so it matches the automatic Shopify
+      // discount the offer promised.
+      const tier = upsellStage === 'offer-15' ? UPSELL_TIERS['offer-15'] : UPSELL_TIERS['offer-10']
+      await addItem(pendingUpsell.merchandiseId, tier.quantity, { suppressDrawer: true })
       setUpsellStage('idle')
       setPendingUpsell(null)
       openCart()
     } finally {
       setIsProcessing(false)
     }
-  }, [pendingUpsell, addItem, openCart, isProcessing])
+  }, [pendingUpsell, upsellStage, addItem, openCart, isProcessing])
 
   const declineUpsell = useCallback(async () => {
     if (!pendingUpsell || isProcessing) return
 
     if (upsellStage === 'offer-10') {
       // Move to second offer
-      setUpsellStage('offer-12')
+      setUpsellStage('offer-15')
       return
     }
 

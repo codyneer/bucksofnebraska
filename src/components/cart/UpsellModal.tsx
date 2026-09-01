@@ -5,6 +5,7 @@ import { X } from 'lucide-react'
 import Image from 'next/image'
 import { useUpsell } from '@/lib/upsell-context'
 import { formatPrice } from '@/lib/utils'
+import { UPSELL_TIERS } from '@/lib/cart-promos'
 
 export function UpsellModal() {
   const { upsellStage, pendingUpsell, acceptUpsell, declineUpsell } = useUpsell()
@@ -37,12 +38,11 @@ export function UpsellModal() {
 
   const { productTitle, productImage, variantPrice } = pendingUpsell
   const isFirstOffer = upsellStage === 'offer-10'
-  const discountPercent = isFirstOffer ? 10 : 12
-  const multiplier = isFirstOffer ? 0.90 : 0.88
-  const discountedPrice = variantPrice * multiplier
-  const totalForTwo = discountedPrice * 2
-  const savingsPerItem = variantPrice - discountedPrice
-  const totalSavings = savingsPerItem * 2
+  const tier = isFirstOffer ? UPSELL_TIERS['offer-10'] : UPSELL_TIERS['offer-15']
+  const { quantity, percentOff } = tier
+  const discountedPrice = variantPrice * (1 - percentOff / 100)
+  const bundleTotal = discountedPrice * quantity
+  const totalSavings = (variantPrice - discountedPrice) * quantity
 
   return (
     <>
@@ -67,7 +67,7 @@ export function UpsellModal() {
           <div className="bg-red px-6 py-4 text-center">
             {isFirstOffer ? (
               <h2 className="font-display text-[28px] sm:text-[32px] text-white leading-none">
-                BUY 2 & SAVE {discountPercent}%
+                BUY {quantity} & SAVE {percentOff}%
               </h2>
             ) : (
               <>
@@ -75,7 +75,7 @@ export function UpsellModal() {
                   Wait — one more chance!
                 </p>
                 <h2 className="font-display text-[28px] sm:text-[32px] text-white leading-none">
-                  {discountPercent}% OFF IF YOU BUY 2
+                  {percentOff}% OFF IF YOU BUY {quantity}
                 </h2>
               </>
             )}
@@ -103,7 +103,7 @@ export function UpsellModal() {
                 <p className="font-body text-[13px] text-text-muted mt-0.5">
                   {isFirstOffer
                     ? 'Grab another and save on each!'
-                    : "Okay, we'll sweeten the deal."}
+                    : 'Add one more and save even more on each.'}
                 </p>
               </div>
             </div>
@@ -123,22 +123,22 @@ export function UpsellModal() {
                 </span>
               </div>
 
-              {/* 2x row (highlighted) */}
+              {/* Bundle row (highlighted) */}
               <div className="flex items-center justify-between px-4 py-3 bg-red/[0.04]">
                 <div className="flex items-center gap-2">
                   <span className="font-nav text-[12px] tracking-[1.5px] uppercase text-red font-bold">
-                    2x
+                    {quantity}x
                   </span>
                   <span className="font-body text-[13px] text-text">
                     {formatPrice(discountedPrice)}/ea
                   </span>
                   <span className="font-nav text-[10px] tracking-[1px] uppercase bg-green/10 text-green px-1.5 py-0.5">
-                    Save {discountPercent}%
+                    Save {percentOff}%
                   </span>
                 </div>
                 <div className="text-right">
                   <span className="font-display text-[18px] text-red">
-                    {formatPrice(totalForTwo)}
+                    {formatPrice(bundleTotal)}
                   </span>
                 </div>
               </div>
@@ -147,7 +147,7 @@ export function UpsellModal() {
             {/* Savings callout */}
             <div className="text-center mb-5">
               <span className="font-nav text-[11px] tracking-[1.5px] uppercase text-green">
-                You save {formatPrice(totalSavings)} on 2!
+                You save {formatPrice(totalSavings)} on {quantity}!
               </span>
             </div>
 
@@ -156,7 +156,7 @@ export function UpsellModal() {
               onClick={acceptUpsell}
               className="w-full py-4 bg-red text-white font-nav text-[14px] tracking-[3px] uppercase cursor-pointer border-none transition-all duration-300 hover:bg-red-dark"
             >
-              {isFirstOffer ? "Yes, I'll take two!" : 'Grab the deal!'}
+              {isFirstOffer ? "Yes, I'll take two!" : "Yes, I'll take three!"}
             </button>
 
             {/* Decline link */}

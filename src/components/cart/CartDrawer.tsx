@@ -9,17 +9,25 @@ import { CartItem } from './CartItem'
 import { OrderBump } from './OrderBump'
 import { CartUpsells } from './CartUpsells'
 import { trackInitiateCheckout } from '@/lib/fb-events'
+import { ORDER_BUMP_VARIANT_ID, ORDER_BUMP_DISCOUNT_CODE } from '@/lib/cart-promos'
 import type { ShopifyProduct } from '@/lib/shopify'
 
 export function CartDrawer() {
-  const { cart, isOpen, closeCart, lines, itemCount, discountCodes, discountTotal, applyDiscount } = useCart()
+  const { cart, isOpen, closeCart, lines, itemCount, discountCodes, discountTotal } = useCart()
   const [upsellProducts, setUpsellProducts] = useState<ShopifyProduct[]>([])
-  const [applyingDiscount, setApplyingDiscount] = useState(false)
   const [canScrollUp, setCanScrollUp] = useState(false)
   const [canScrollDown, setCanScrollDown] = useState(false)
   const scrollRef = useRef<HTMLDivElement>(null)
 
   const subtotal = cart ? parseFloat(cart.cost.subtotalAmount.amount) : 0
+  // subtotalAmount is already net of product-scoped discounts; show the
+  // pre-discount figure so Subtotal − Discount = Total reads correctly.
+  const subtotalBeforeDiscount = subtotal + discountTotal
+  const appliedCodes = discountCodes.filter((c) => c.applicable).map((c) => c.code)
+  // The bump code is applied automatically, so it never needs an "unlock" hint
+  const pendingReferralCode = discountCodes.find(
+    (c) => !c.applicable && c.code.toUpperCase() !== ORDER_BUMP_DISCOUNT_CODE.toUpperCase()
+  )?.code
   const totalAfterDiscount = cart ? parseFloat(cart.cost.totalAmount.amount) : subtotal
   const shipping = calculateShipping(subtotal)
   const total = totalAfterDiscount + shipping
@@ -66,7 +74,7 @@ export function CartDrawer() {
   }, [isOpen, upsellProducts.length])
 
   // Order bump: Nebraska Outdoorsman Sticker Bundle — 20% off in cart only
-  const bumpVariantId = 'gid://shopify/ProductVariant/40760868896833'
+  const bumpVariantId = ORDER_BUMP_VARIANT_ID
   const bumpQuantity = 1
   const bumpPrice = 23.98
   const bumpComparePrice = 29.97
@@ -90,7 +98,7 @@ export function CartDrawer() {
 
       {/* Drawer */}
       <div
-        className={`fixed top-0 right-0 w-[420px] max-w-[92vw] h-screen bg-white z-201 flex flex-col border-l-2 border-red transition-transform duration-[400ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)] ${
+        className={`fixed top-0 right-0 w-[420px] max-w-[92vw] cart-drawer-height bg-white z-201 flex flex-col border-l-2 border-red transition-transform duration-[400ms] ease-[cubic-bezier(0.25,0.46,0.45,0.94)] ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
@@ -122,36 +130,9 @@ export function CartDrawer() {
           </div>
         ) : (
           <>
-            {/* Sticky: Free Shipping Bar + Discount Code */}
+            {/* Sticky: Free Shipping Bar */}
             <div className="shrink-0 border-b border-border">
               <FreeShippingBar subtotal={subtotal} />
-
-              {/* Discount Code Banner */}
-              {discountCodes.length === 0 && (
-                <div className="mx-3 sm:mx-5 mb-3 mt-1">
-                  <button
-                    onClick={async () => {
-                      setApplyingDiscount(true)
-                      await applyDiscount('SHEDSEASON')
-                      setApplyingDiscount(false)
-                    }}
-                    disabled={applyingDiscount}
-                    className="w-full flex items-center justify-between py-2.5 sm:py-3 px-3 sm:px-4 border-2 border-dashed border-red/40 bg-red/[0.04] cursor-pointer transition-all hover:border-red hover:bg-red/[0.08] disabled:opacity-50 gap-2"
-                  >
-                    <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
-                      <span className="font-nav text-[10px] sm:text-[11px] tracking-[1.5px] sm:tracking-[2px] uppercase text-red whitespace-nowrap">
-                        SHEDSEASON
-                      </span>
-                      <span className="font-body text-[12px] sm:text-[13px] text-text-light truncate">
-                        — 20% off
-                      </span>
-                    </div>
-                    <span className="font-nav text-[10px] tracking-[1.5px] uppercase text-red bg-red/10 px-2 py-1 whitespace-nowrap flex-shrink-0">
-                      {applyingDiscount ? 'Applying...' : 'Apply'}
-                    </span>
-                  </button>
-                </div>
-              )}
             </div>
 
             {/* Scrollable cart items with arrows */}
@@ -166,10 +147,24 @@ export function CartDrawer() {
                 </button>
               )}
 
-              <div ref={scrollRef} className="h-full overflow-y-auto hide-scrollbar">
+              <div ref={scrollRef} className="h-full overflow-y-auto overscroll-contain hide-scrollbar">
                 {lines.map((line) => (
                   <CartItem key={line.id} line={line} />
                 ))}
+
+                {/* Order Bump */}
+                <div className="border-t border-border pt-4">
+                  <OrderBump
+                    productTitle="Sticker Bundle"
+                    variantId={bumpVariantId}
+                    quantity={bumpQuantity}
+                    price={bumpPrice}
+                    compareAtPrice={bumpComparePrice}
+                    description="Nebraska Outdoorsman Sticker Bundle — cart-only exclusive, 20% off!"
+                    imageUrl={bumpImageUrl}
+                    discountCode={ORDER_BUMP_DISCOUNT_CODE}
+                  />
+                </div>
 
                 {/* Upsells */}
                 {upsellProducts.length > 0 && (
@@ -188,21 +183,8 @@ export function CartDrawer() {
               )}
             </div>
 
-            {/* Sticky: Order Bump */}
-            <div className="shrink-0 border-t border-border">
-              <OrderBump
-                productTitle="Sticker Bundle"
-                variantId={bumpVariantId}
-                quantity={bumpQuantity}
-                price={bumpPrice}
-                compareAtPrice={bumpComparePrice}
-                description="Nebraska Outdoorsman Sticker Bundle — cart-only exclusive, 20% off!"
-                imageUrl={bumpImageUrl}
-              />
-            </div>
-
             {/* Footer */}
-            <div className="px-4 sm:px-6 py-4 sm:py-5 border-t border-border bg-offWhite shrink-0">
+            <div className="px-4 sm:px-6 pt-4 sm:pt-5 pb-[calc(1rem+env(safe-area-inset-bottom))] sm:pb-[calc(1.25rem+env(safe-area-inset-bottom))] border-t border-border bg-offWhite shrink-0">
               {/* Savings banner */}
               {subtotal >= 50 && (
                 <div className="text-center bg-green/[0.06] py-2 mb-3 font-nav text-[12px] text-green tracking-[1px] uppercase">
@@ -216,7 +198,7 @@ export function CartDrawer() {
                   Subtotal
                 </span>
                 <span className="font-display text-[18px] text-text">
-                  {formatPrice(subtotal)}
+                  {formatPrice(subtotalBeforeDiscount)}
                 </span>
               </div>
 
@@ -225,9 +207,9 @@ export function CartDrawer() {
                 <div className="flex justify-between mb-1.5">
                   <span className="font-nav text-[13px] tracking-[2px] uppercase text-green">
                     Discount
-                    {discountCodes.length > 0 && discountCodes[0].applicable && (
+                    {appliedCodes.length > 0 && (
                       <span className="text-text-muted ml-1 normal-case tracking-normal text-[11px]">
-                        ({discountCodes[0].code})
+                        ({appliedCodes.join(', ')})
                       </span>
                     )}
                   </span>
@@ -237,11 +219,11 @@ export function CartDrawer() {
                 </div>
               )}
 
-              {/* Discount not yet applicable */}
-              {discountCodes.length > 0 && !discountCodes[0].applicable && discountTotal === 0 && (
+              {/* Referral code in cart but threshold not yet met */}
+              {pendingReferralCode && discountTotal === 0 && (
                 <div className="mb-1.5 py-1.5 px-2 bg-gold/10 border border-gold/20">
                   <p className="font-nav text-[11px] tracking-[1px] uppercase text-gold">
-                    {discountCodes[0].code} — Add $40+ to unlock $10 off
+                    {pendingReferralCode} — Add $40+ to unlock $10 off
                   </p>
                 </div>
               )}
