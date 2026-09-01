@@ -92,7 +92,11 @@ export type CartLine = {
     id: string
     title: string
     price: Money
-    product: { title: string; handle: string }
+    product: {
+      title: string
+      handle: string
+      collections?: { edges: { node: { handle: string } }[] }
+    }
     image: ShopifyImage | null
   }
 }
@@ -152,7 +156,11 @@ const CART_FIELDS = `
               id
               title
               price { amount currencyCode }
-              product { title handle }
+              product {
+                title
+                handle
+                collections(first: 20) { edges { node { handle } } }
+              }
               image { url altText width height }
             }
           }

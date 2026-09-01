@@ -9,7 +9,13 @@ import { CartItem } from './CartItem'
 import { OrderBump } from './OrderBump'
 import { CartUpsells } from './CartUpsells'
 import { trackInitiateCheckout } from '@/lib/fb-events'
-import { ORDER_BUMP_VARIANT_ID, ORDER_BUMP_DISCOUNT_CODE } from '@/lib/cart-promos'
+import {
+  ORDER_BUMP_VARIANT_ID,
+  ORDER_BUMP_DISCOUNT_CODE,
+  hasQuantityDiscount,
+  quantityTierFor,
+  tierUnitDiscount,
+} from '@/lib/cart-promos'
 import type { ShopifyProduct } from '@/lib/shopify'
 
 export function CartDrawer() {
@@ -74,11 +80,22 @@ export function CartDrawer() {
     fetchUpsells()
   }, [isOpen, upsellProducts.length])
 
-  // Order bump: Nebraska Outdoorsman Sticker Bundle — 20% off in cart only
+  // Order bump: Nebraska Outdoorsman Sticker Bundle. It carries no code of its
+  // own — it earns the automatic quantity discount like anything else, so quote
+  // the tier the cart will actually land on once it is added.
   const bumpVariantId = ORDER_BUMP_VARIANT_ID
   const bumpQuantity = 1
-  const bumpPrice = 23.98
   const bumpComparePrice = 29.97
+  const eligibleQuantity = lines.reduce(
+    (sum, line) =>
+      hasQuantityDiscount(line.merchandise.product.collections) ? sum + line.quantity : sum,
+    0
+  )
+  // The bundle is itself in a discounted collection, so adding it moves the
+  // eligible count up by one.
+  const bumpPercentOff = quantityTierFor(eligibleQuantity + bumpQuantity)
+  const bumpSavings = tierUnitDiscount(bumpComparePrice, bumpPercentOff)
+  const bumpPrice = bumpComparePrice - bumpSavings
   const bumpImageUrl = 'https://cdn.shopify.com/s/files/1/0398/3185/files/il_fullxfull.5523672868_s110.jpg?v=1706644705'
 
   const scrollItems = (direction: 'up' | 'down') => {
@@ -161,9 +178,13 @@ export function CartDrawer() {
                     quantity={bumpQuantity}
                     price={bumpPrice}
                     compareAtPrice={bumpComparePrice}
-                    description="Nebraska Outdoorsman Sticker Bundle — cart-only exclusive, 20% off!"
+                    percentOff={bumpPercentOff}
+                    description={
+                      bumpPercentOff > 0
+                        ? `Nebraska Outdoorsman Sticker Bundle — ${bumpPercentOff}% off with your bundle!`
+                        : 'Nebraska Outdoorsman Sticker Bundle — stickers for the truck, case and blind.'
+                    }
                     imageUrl={bumpImageUrl}
-                    discountCode={ORDER_BUMP_DISCOUNT_CODE}
                   />
                 </div>
 

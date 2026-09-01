@@ -15,26 +15,21 @@ type OrderBumpProps = {
   compareAtPrice: number
   description?: string
   imageUrl?: string
-  discountCode?: string
+  percentOff: number
 }
 
-export function OrderBump({ productTitle, variantId, quantity, price, compareAtPrice, description, imageUrl, discountCode }: OrderBumpProps) {
+export function OrderBump({ productTitle, variantId, quantity, price, compareAtPrice, description, imageUrl, percentOff }: OrderBumpProps) {
   const [checked, setChecked] = useState(false)
-  const { addItem, applyDiscount } = useCart()
+  const { addItem } = useCart()
   const { showToast } = useToast()
 
   const savings = compareAtPrice - price
-  const savingsPercent = Math.round((savings / compareAtPrice) * 100)
+  const isDiscounted = percentOff > 0
 
   const handleToggle = async () => {
     if (!checked) {
       setChecked(true)
       await addItem(variantId, quantity, { suppressDrawer: true })
-      // The cart-only price comes from this code — it is applied here and
-      // nowhere else, so buying the product normally stays full price.
-      if (discountCode) {
-        await applyDiscount(discountCode)
-      }
       trackAddToCart({
         contentName: productTitle,
         contentId: variantId,
@@ -72,19 +67,25 @@ export function OrderBump({ productTitle, variantId, quantity, price, compareAtP
         )}
         <div className="flex-1">
           <h5 className="font-nav text-[13px] tracking-[1px] uppercase text-red mb-0.5">
-            Add {productTitle} &amp; Save {savingsPercent}%?
+            {isDiscounted
+              ? `Add ${productTitle} & Save ${percentOff}%?`
+              : `Add ${productTitle}?`}
           </h5>
           <p className="text-[12px] text-text-light leading-relaxed">
             {description || 'Exclusive cart-only deal! Add this to your order.'}
           </p>
           <div className="mt-1">
-            <span className="text-text-muted line-through text-[14px] mr-1.5">
-              ${compareAtPrice.toFixed(2)}
-            </span>
+            {isDiscounted && (
+              <span className="text-text-muted line-through text-[14px] mr-1.5">
+                ${compareAtPrice.toFixed(2)}
+              </span>
+            )}
             <span className="font-display text-[18px] text-red">${price.toFixed(2)}</span>
-            <span className="ml-2 text-[11px] font-nav tracking-[1px] uppercase text-green bg-green/10 px-1.5 py-0.5">
-              Save ${savings.toFixed(2)}
-            </span>
+            {isDiscounted && (
+              <span className="ml-2 text-[11px] font-nav tracking-[1px] uppercase text-green bg-green/10 px-1.5 py-0.5">
+                Save ${savings.toFixed(2)}
+              </span>
+            )}
           </div>
         </div>
       </div>

@@ -38,3 +38,16 @@ export function hasQuantityDiscount(
     QUANTITY_DISCOUNT_COLLECTIONS.includes(e.node.handle)
   )
 }
+
+// Shopify truncates each unit's discount to whole cents rather than rounding,
+// so $29.97 at 15% is $4.49 off (not $4.50) — matching it exactly keeps the
+// advertised price identical to what checkout charges.
+export function quantityTierFor(eligibleQuantity: number): number {
+  if (eligibleQuantity >= 3) return 15
+  if (eligibleQuantity >= 2) return 10
+  return 0
+}
+
+export function tierUnitDiscount(unitPrice: number, percentOff: number): number {
+  return Math.floor(unitPrice * (percentOff / 100) * 100) / 100
+}
