@@ -9,7 +9,7 @@ import { useUpsell } from '@/lib/upsell-context'
 import { useToast } from '@/components/ui/Toast'
 import { formatPrice } from '@/lib/utils'
 import { BundleTiers } from './BundleTiers'
-import { hasQuantityDiscount } from '@/lib/cart-promos'
+import { hasQuantityDiscount, tierUnitDiscount } from '@/lib/cart-promos'
 import { ProductReviews } from '@/components/reviews/ProductReviews'
 import { trackAddToCart, trackViewContent } from '@/lib/fb-events'
 import type { ShopifyProduct, ProductVariant } from '@/lib/shopify'
@@ -111,11 +111,11 @@ export function ProductDetail({ product, reviews = [], allProducts = [] }: Produ
 
   // Keep tier price in sync when the selected variant (and its price) changes
   useEffect(() => {
-    const multiplier =
-      !qtyDiscountEligible || tierQuantity === 1 ? 1 : tierQuantity === 2 ? 0.90 : 0.85
-    // No rounding — Shopify charges the exact percentage, so a rounded
-    // quote here under-states the real price at checkout.
-    setTierPrice(variantPrice * multiplier)
+    const percentOff =
+      !qtyDiscountEligible || tierQuantity === 1 ? 0 : tierQuantity === 2 ? 10 : 15
+    // Shopify truncates each unit's discount to whole cents, so mirror that
+    // rather than multiplying — otherwise odd prices quote a cent light.
+    setTierPrice(variantPrice - tierUnitDiscount(variantPrice, percentOff))
   }, [variantPrice, tierQuantity, qtyDiscountEligible])
 
   const totalPrice = tierPrice * tierQuantity

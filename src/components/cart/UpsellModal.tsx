@@ -5,7 +5,7 @@ import { X } from 'lucide-react'
 import Image from 'next/image'
 import { useUpsell } from '@/lib/upsell-context'
 import { formatPrice } from '@/lib/utils'
-import { UPSELL_TIERS } from '@/lib/cart-promos'
+import { UPSELL_TIERS, tierUnitDiscount } from '@/lib/cart-promos'
 
 export function UpsellModal() {
   const { upsellStage, pendingUpsell, acceptUpsell, declineUpsell } = useUpsell()
@@ -40,7 +40,7 @@ export function UpsellModal() {
   const isFirstOffer = upsellStage === 'offer-10'
   const tier = isFirstOffer ? UPSELL_TIERS['offer-10'] : UPSELL_TIERS['offer-15']
   const { quantity, percentOff } = tier
-  const discountedPrice = variantPrice * (1 - percentOff / 100)
+  const discountedPrice = variantPrice - tierUnitDiscount(variantPrice, percentOff)
   const bundleTotal = discountedPrice * quantity
   const totalSavings = (variantPrice - discountedPrice) * quantity
 

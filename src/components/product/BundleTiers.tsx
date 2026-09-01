@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { Flame } from 'lucide-react'
 import { formatPrice } from '@/lib/utils'
+import { tierUnitDiscount } from '@/lib/cart-promos'
 
 type Tier = {
   quantity: number
@@ -28,7 +29,7 @@ export function BundleTiers({ basePrice, onTierChange }: BundleTiersProps) {
     },
     {
       quantity: 2,
-      priceEach: basePrice * 0.90,
+      priceEach: basePrice - tierUnitDiscount(basePrice, 10),
       label: 'Any 2 Items',
       subtitle: 'Most popular — mix & match anything',
       savingsPercent: 10,
@@ -36,7 +37,7 @@ export function BundleTiers({ basePrice, onTierChange }: BundleTiersProps) {
     },
     {
       quantity: 3,
-      priceEach: basePrice * 0.85,
+      priceEach: basePrice - tierUnitDiscount(basePrice, 15),
       label: 'Any 3+ Items',
       subtitle: 'Best value — stack it across your whole cart',
       savingsPercent: 15,
