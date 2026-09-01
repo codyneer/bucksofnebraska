@@ -14,6 +14,12 @@ export function CartItem({ line }: CartItemProps) {
   const { merchandise, quantity } = line
   const price = parseFloat(merchandise.price.amount)
 
+  // Shopify allocates product-scoped and automatic quantity discounts onto the
+  // line, so trust the line cost rather than recomputing from the unit price.
+  const fullPrice = line.cost ? parseFloat(line.cost.subtotalAmount.amount) : price * quantity
+  const discountedPrice = line.cost ? parseFloat(line.cost.totalAmount.amount) : price * quantity
+  const isDiscounted = discountedPrice < fullPrice - 0.005
+
   return (
     <div className="grid grid-cols-[60px_1fr] sm:grid-cols-[80px_1fr] gap-3 sm:gap-3.5 py-[18px] px-4 sm:px-6 border-b border-border-light">
       {/* Thumbnail */}
@@ -60,9 +66,20 @@ export function CartItem({ line }: CartItemProps) {
             </button>
           </div>
 
-          <span className="font-display text-[20px] text-red">
-            {formatPrice(price * quantity)}
-          </span>
+          {isDiscounted ? (
+            <span className="flex items-baseline gap-1.5">
+              <span className="font-display text-[20px] text-red">
+                {formatPrice(discountedPrice)}
+              </span>
+              <span className="text-[13px] text-text-muted line-through">
+                {formatPrice(fullPrice)}
+              </span>
+            </span>
+          ) : (
+            <span className="font-display text-[20px] text-red">
+              {formatPrice(fullPrice)}
+            </span>
+          )}
         </div>
 
         <button

@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { Flame } from 'lucide-react'
+import { formatPrice } from '@/lib/utils'
 
 type Tier = {
   quantity: number
@@ -27,7 +28,7 @@ export function BundleTiers({ basePrice, onTierChange }: BundleTiersProps) {
     },
     {
       quantity: 2,
-      priceEach: Math.round(basePrice * 0.90),
+      priceEach: basePrice * 0.90,
       label: 'Buy 2',
       subtitle: 'Most popular — mix & match',
       savingsPercent: 10,
@@ -35,7 +36,7 @@ export function BundleTiers({ basePrice, onTierChange }: BundleTiersProps) {
     },
     {
       quantity: 3,
-      priceEach: Math.round(basePrice * 0.85),
+      priceEach: basePrice * 0.85,
       label: 'Buy 3+',
       subtitle: 'Best value — for you & the crew',
       savingsPercent: 15,
@@ -99,11 +100,11 @@ export function BundleTiers({ basePrice, onTierChange }: BundleTiersProps) {
 
           <div className="text-right flex-shrink-0">
             <div className="font-display text-[18px] sm:text-[22px] text-red">
-              ${tier.priceEach}{tier.quantity > 1 ? '/ea' : ''}
+              {formatPrice(tier.priceEach)}{tier.quantity > 1 ? '/ea' : ''}
             </div>
             {tier.quantity > 1 && (
               <div className="text-[12px] text-text-muted line-through">
-                ${basePrice}/ea
+                {formatPrice(basePrice)}/ea
               </div>
             )}
           </div>

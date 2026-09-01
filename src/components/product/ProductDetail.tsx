@@ -108,7 +108,9 @@ export function ProductDetail({ product, reviews = [], allProducts = [] }: Produ
   // Keep tier price in sync when the selected variant (and its price) changes
   useEffect(() => {
     const multiplier = tierQuantity === 1 ? 1 : tierQuantity === 2 ? 0.90 : 0.85
-    setTierPrice(Math.round(variantPrice * multiplier))
+    // No rounding — Shopify charges the exact percentage, so a rounded
+    // quote here under-states the real price at checkout.
+    setTierPrice(variantPrice * multiplier)
   }, [variantPrice, tierQuantity])
 
   const totalPrice = tierPrice * tierQuantity
