@@ -93,6 +93,8 @@ export function CartDrawer() {
   )
   // The bundle is itself in a discounted collection, so adding it moves the
   // eligible count up by one.
+  // Once it is in the cart the offer is spent — the line item above shows it.
+  const bumpAlreadyInCart = lines.some((line) => line.merchandise.id === bumpVariantId)
   const bumpPercentOff = quantityTierFor(eligibleQuantity + bumpQuantity)
   const bumpSavings = tierUnitDiscount(bumpComparePrice, bumpPercentOff)
   const bumpPrice = bumpComparePrice - bumpSavings
@@ -171,22 +173,24 @@ export function CartDrawer() {
                 ))}
 
                 {/* Order Bump */}
-                <div className="border-t border-border pt-4">
-                  <OrderBump
-                    productTitle="Sticker Bundle"
-                    variantId={bumpVariantId}
-                    quantity={bumpQuantity}
-                    price={bumpPrice}
-                    compareAtPrice={bumpComparePrice}
-                    percentOff={bumpPercentOff}
-                    description={
-                      bumpPercentOff > 0
-                        ? `Nebraska Outdoorsman Sticker Bundle — ${bumpPercentOff}% off with your bundle!`
-                        : 'Nebraska Outdoorsman Sticker Bundle — stickers for the truck, case and blind.'
-                    }
-                    imageUrl={bumpImageUrl}
-                  />
-                </div>
+                {!bumpAlreadyInCart && (
+                  <div className="border-t border-border pt-4">
+                    <OrderBump
+                      productTitle="Sticker Bundle"
+                      variantId={bumpVariantId}
+                      quantity={bumpQuantity}
+                      price={bumpPrice}
+                      compareAtPrice={bumpComparePrice}
+                      percentOff={bumpPercentOff}
+                      description={
+                        bumpPercentOff > 0
+                          ? `Nebraska Outdoorsman Sticker Bundle — ${bumpPercentOff}% off with your bundle!`
+                          : 'Nebraska Outdoorsman Sticker Bundle — stickers for the truck, case and blind.'
+                      }
+                      imageUrl={bumpImageUrl}
+                    />
+                  </div>
+                )}
 
                 {/* Upsells */}
                 {upsellProducts.length > 0 && (
