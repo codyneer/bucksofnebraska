@@ -51,3 +51,41 @@ export function quantityTierFor(eligibleQuantity: number): number {
 export function tierUnitDiscount(unitPrice: number, percentOff: number): number {
   return Math.floor(unitPrice * (percentOff / 100) * 100) / 100
 }
+
+export type ShippingProfileRate = {
+  name: string
+  isDefault: boolean
+  handles: string[]
+  rate: number
+}
+
+/**
+ * What free shipping is worth on this cart.
+ *
+ * Shopify charges shipping per delivery profile, not per item, and bills every
+ * profile represented in the cart — so a hat plus a sticker bundle is charged
+ * the hats rate AND the general rate. Sum one rate per distinct profile, never
+ * per unit.
+ */
+export function avoidedShippingCost(
+  productHandles: string[],
+  profiles: ShippingProfileRate[]
+): number {
+  if (profiles.length === 0 || productHandles.length === 0) return 0
+
+  const fallback = profiles.find((profile) => profile.isDefault)
+  const representedProfiles = new Set<string>()
+
+  for (const handle of productHandles) {
+    const match = profiles.find(
+      (profile) => !profile.isDefault && profile.handles.includes(handle)
+    )
+    // Anything not claimed by a specific profile falls to the default one
+    const owner = match ?? fallback
+    if (owner) representedProfiles.add(owner.name)
+  }
+
+  return profiles
+    .filter((profile) => representedProfiles.has(profile.name))
+    .reduce((sum, profile) => sum + profile.rate, 0)
+}

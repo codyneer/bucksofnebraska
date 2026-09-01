@@ -15,12 +15,15 @@ import {
   hasQuantityDiscount,
   quantityTierFor,
   tierUnitDiscount,
+  avoidedShippingCost,
+  type ShippingProfileRate,
 } from '@/lib/cart-promos'
 import type { ShopifyProduct } from '@/lib/shopify'
 
 export function CartDrawer() {
   const { cart, isOpen, closeCart, lines, itemCount, discountCodes, discountTotal } = useCart()
   const [upsellProducts, setUpsellProducts] = useState<ShopifyProduct[]>([])
+  const [shippingProfiles, setShippingProfiles] = useState<ShippingProfileRate[]>([])
   const [canScrollUp, setCanScrollUp] = useState(false)
   const [canScrollDown, setCanScrollDown] = useState(false)
   const scrollRef = useRef<HTMLDivElement>(null)
@@ -30,10 +33,17 @@ export function CartDrawer() {
   // displays its own net price — so Subtotal is simply their sum. The saving is
   // reported as a banner instead of a second subtraction, which would
   // double-count it.
-  const fullPriceTotal = subtotal + discountTotal
   // Shipping is charged per delivery profile, not per item, and the real figure
   // needs the shopper's address — so credit it without inventing a number.
   const freeShippingUnlocked = subtotal >= FREE_SHIPPING_THRESHOLD
+  // What they would have paid to ship this exact cart below the threshold
+  const shippingSaved = freeShippingUnlocked
+    ? avoidedShippingCost(
+        lines.map((line) => line.merchandise.product.handle),
+        shippingProfiles
+      )
+    : 0
+  const totalSaved = discountTotal + shippingSaved
   // The bump code is applied automatically, so it never needs an "unlock" hint
   const pendingReferralCode = discountCodes.find(
     (c) => !c.applicable && c.code.toUpperCase() !== ORDER_BUMP_DISCOUNT_CODE.toUpperCase()
@@ -83,6 +93,25 @@ export function CartDrawer() {
 
     fetchUpsells()
   }, [isOpen, upsellProducts.length])
+
+  // Delivery-profile rates, so the savings line can credit real shipping
+  useEffect(() => {
+    if (!isOpen || shippingProfiles.length > 0) return
+
+    const fetchProfiles = async () => {
+      try {
+        const res = await fetch('/api/shipping-profiles')
+        if (res.ok) {
+          const data = await res.json()
+          setShippingProfiles(data.profiles || [])
+        }
+      } catch {
+        // Savings line falls back to product savings only
+      }
+    }
+
+    fetchProfiles()
+  }, [isOpen, shippingProfiles.length])
 
   // Order bump: Nebraska Outdoorsman Sticker Bundle. It carries no code of its
   // own — it earns the automatic quantity discount like anything else, so quote
@@ -230,16 +259,21 @@ export function CartDrawer() {
             {/* Footer */}
             <div className="px-4 sm:px-6 pt-4 sm:pt-5 pb-[calc(1rem+env(safe-area-inset-bottom))] sm:pb-[calc(1.25rem+env(safe-area-inset-bottom))] border-t border-border bg-offWhite shrink-0">
               {/* Savings banner — the real figure, not a blanket claim */}
-              {(discountTotal > 0 || freeShippingUnlocked) && (
-                <div className="text-center bg-green/[0.06] py-2 mb-3 font-nav text-[12px] text-green tracking-[1px] uppercase">
-                  {discountTotal > 0 ? (
-                    <>
-                      You saved {formatPrice(discountTotal)}
-                      {freeShippingUnlocked && ' + free shipping'} — was{' '}
-                      {formatPrice(fullPriceTotal)}
-                    </>
-                  ) : (
-                    <>You saved on shipping — free delivery on this order</>
+              {totalSaved > 0 && (
+                <div className="text-center bg-green/[0.06] py-2 mb-3">
+                  <span className="font-nav text-[12px] text-green tracking-[1px] uppercase">
+                    You saved {formatPrice(totalSaved)} on this order
+                  </span>
+                  {shippingSaved > 0 && discountTotal > 0 && (
+                    <span className="block font-body text-[11px] text-green/80 normal-case tracking-normal mt-0.5">
+                      {formatPrice(discountTotal)} off products +{' '}
+                      {formatPrice(shippingSaved)} shipping
+                    </span>
+                  )}
+                  {shippingSaved > 0 && discountTotal === 0 && (
+                    <span className="block font-body text-[11px] text-green/80 normal-case tracking-normal mt-0.5">
+                      Free shipping on this order
+                    </span>
                   )}
                 </div>
               )}
