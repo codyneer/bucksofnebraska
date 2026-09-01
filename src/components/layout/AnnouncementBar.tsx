@@ -1,6 +1,6 @@
 'use client'
 
-import { Truck, Flame, Star } from 'lucide-react'
+import { Truck, Flame, Star, Layers } from 'lucide-react'
 import type { ReviewStats } from '@/lib/reviews'
 
 type AnnouncementBarProps = {
@@ -23,6 +23,11 @@ export function AnnouncementBar({ reviewStats }: AnnouncementBarProps) {
             <span className="flex items-center gap-2">
               <Flame className="w-3.5 h-3.5 text-red-light" />
               New Leviticus 11:3 Hats Just Dropped
+            </span>
+            <span className="flex items-center gap-2">
+              <Layers className="w-3.5 h-3.5 text-red-light" />
+              Mix &amp; Match —{' '}
+              <span className="text-red-light font-semibold">Any 2 Save 10%</span>, Any 3+ Save 15%
             </span>
             <span className="flex items-center gap-2">
               <Star className="w-3.5 h-3.5 text-gold fill-gold" />

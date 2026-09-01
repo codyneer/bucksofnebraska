@@ -19,6 +19,9 @@ export function CartItem({ line }: CartItemProps) {
   const fullPrice = line.cost ? parseFloat(line.cost.subtotalAmount.amount) : price * quantity
   const discountedPrice = line.cost ? parseFloat(line.cost.totalAmount.amount) : price * quantity
   const isDiscounted = discountedPrice < fullPrice - 0.005
+  const savedAmount = fullPrice - discountedPrice
+  // Derived from the real amounts rather than assumed, so it always agrees
+  const savedPercent = fullPrice > 0 ? Math.round((savedAmount / fullPrice) * 100) : 0
 
   return (
     <div className="grid grid-cols-[60px_1fr] sm:grid-cols-[80px_1fr] gap-3 sm:gap-3.5 py-[18px] px-4 sm:px-6 border-b border-border-light">
@@ -81,6 +84,14 @@ export function CartItem({ line }: CartItemProps) {
             </span>
           )}
         </div>
+
+        {isDiscounted && (
+          <div className="mt-1.5">
+            <span className="font-nav text-[10px] tracking-[1px] uppercase text-green bg-green/10 px-1.5 py-0.5">
+              {savedPercent}% off — save {formatPrice(savedAmount)}
+            </span>
+          </div>
+        )}
 
         <button
           onClick={() => removeItem(line.id)}

@@ -126,9 +126,23 @@ export function CartDrawer() {
   )
   // The bundle is itself in a discounted collection, so adding it moves the
   // eligible count up by one.
-  // How close the cart is to the next automatic quantity tier
+  // Where the cart sits on the mix-and-match ladder, and what the next rung is worth
+  const currentTierPercent = quantityTierFor(eligibleQuantity)
   const nextTierQuantity = eligibleQuantity < 2 ? 2 : eligibleQuantity < 3 ? 3 : null
   const nextTierPercent = nextTierQuantity ? quantityTierFor(nextTierQuantity) : 0
+  const itemsToNextTier = nextTierQuantity ? nextTierQuantity - eligibleQuantity : 0
+  // Extra money off what is ALREADY in the cart at the next tier — a real,
+  // checkable number rather than a vague "save more"
+  const extraAtNextTier = nextTierPercent
+    ? lines.reduce((sum, line) => {
+        if (!hasQuantityDiscount(line.merchandise.product.collections)) return sum
+        const unitPrice = parseFloat(line.merchandise.price.amount)
+        const gain =
+          tierUnitDiscount(unitPrice, nextTierPercent) -
+          tierUnitDiscount(unitPrice, currentTierPercent)
+        return sum + gain * line.quantity
+      }, 0)
+    : 0
 
   // Once it is in the cart the offer is spent — the line item above shows it.
   const bumpAlreadyInCart = lines.some((line) => line.merchandise.id === bumpVariantId)
@@ -191,15 +205,31 @@ export function CartDrawer() {
             <div className="shrink-0 border-b border-border">
               <FreeShippingBar subtotal={subtotal} />
 
-              {nextTierQuantity && (
-                <div className="mx-3 sm:mx-5 mb-3 py-2 px-3 bg-green/[0.06] border border-green/20">
-                  <p className="font-nav text-[10px] sm:text-[11px] tracking-[1px] uppercase text-green text-center">
-                    Add {nextTierQuantity - eligibleQuantity} more item
-                    {nextTierQuantity - eligibleQuantity > 1 ? 's' : ''} to save{' '}
-                    {nextTierPercent}% on your whole cart
-                  </p>
-                </div>
-              )}
+              <div className="mx-3 sm:mx-5 mb-3 py-2 px-3 bg-green/[0.06] border border-green/20 text-center">
+                {nextTierQuantity ? (
+                  <>
+                    <p className="font-nav text-[10px] sm:text-[11px] tracking-[1px] uppercase text-green">
+                      {currentTierPercent > 0
+                        ? `${currentTierPercent}% off unlocked — add ${itemsToNextTier} more for ${nextTierPercent}%`
+                        : `Add ${itemsToNextTier} more item${itemsToNextTier > 1 ? 's' : ''} to save ${nextTierPercent}%`}
+                    </p>
+                    <p className="font-body text-[11px] text-green/80 mt-0.5">
+                      Mix &amp; match any {nextTierQuantity} items
+                      {extraAtNextTier > 0.005 &&
+                        ` — that's ${formatPrice(extraAtNextTier)} more off what's already here`}
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    <p className="font-nav text-[10px] sm:text-[11px] tracking-[1px] uppercase text-green">
+                      {currentTierPercent}% off unlocked — best bundle price
+                    </p>
+                    <p className="font-body text-[11px] text-green/80 mt-0.5">
+                      Applied across your whole cart
+                    </p>
+                  </>
+                )}
+              </div>
             </div>
 
             {/* Scrollable cart items with arrows */}
