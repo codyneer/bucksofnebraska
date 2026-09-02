@@ -17,11 +17,13 @@ import {
 import type { ShopifyProduct } from '@/lib/shopify'
 
 type FilterableProductGridProps = {
+  splitByColor?: boolean
   products: ShopifyProduct[]
   collectionHandle?: string
 }
 
 function FilterableProductGridInner({
+  splitByColor,
   products,
   collectionHandle,
 }: FilterableProductGridProps) {
@@ -123,7 +125,7 @@ function FilterableProductGridInner({
           totalResults={filteredProducts.length}
         />
         <div className="flex-1 min-w-0">
-          <ProductGrid products={filteredProducts} compact />
+          <ProductGrid products={filteredProducts} compact splitByColor={splitByColor} />
         </div>
       </div>
     </>

@@ -145,7 +145,7 @@ export default async function CollectionPage({ params }: Props) {
         title={collection.title}
         subtitle={collection.description || undefined}
       />
-      <FilterableProductGrid products={products} collectionHandle={handle} />
+      <FilterableProductGrid products={products} collectionHandle={handle} splitByColor />
     </div>
   )
 }

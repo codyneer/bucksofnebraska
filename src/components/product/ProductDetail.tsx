@@ -66,6 +66,27 @@ export function ProductDetail({ product, reviews = [], allProducts = [] }: Produ
 
   const [selectedImageIndex, setSelectedImageIndex] = useState(0)
   const [selectedOptions, setSelectedOptions] = useState<Record<string, string>>(initialOptions)
+
+  // A colour card on a collection page deep-links to its variant — honour it.
+  // Read from the URL directly rather than useSearchParams so these pages stay
+  // statically rendered.
+  useEffect(() => {
+    const requestedId = new URLSearchParams(window.location.search).get('variant')
+    if (!requestedId) return
+    const requested = variants.find((variant) => variant.id === requestedId)
+    if (!requested) return
+    setSelectedOptions((prev) => {
+      const next = { ...prev }
+      requested.selectedOptions.forEach((option) => {
+        next[option.name] = option.value
+      })
+      return next
+    })
+    if (requested.image?.url) {
+      const imageIndex = images.findIndex((image) => image.url === requested.image?.url)
+      if (imageIndex >= 0) setSelectedImageIndex(imageIndex)
+    }
+  }, [variants, images])
   // Only products inside the discounted collections actually get the quantity
   // discount in Shopify — don't advertise it anywhere else.
   const qtyDiscountEligible = hasQuantityDiscount(product.collections)

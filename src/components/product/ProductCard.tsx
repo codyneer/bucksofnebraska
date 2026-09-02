@@ -8,21 +8,31 @@ import { useToast } from '@/components/ui/Toast'
 import { formatPrice, calculateSavings } from '@/lib/utils'
 import { ReviewStarsDisplay } from '@/components/reviews/ReviewStars'
 import { trackAddToCart } from '@/lib/fb-events'
-import type { ShopifyProduct } from '@/lib/shopify'
+import type { ShopifyProduct, ProductVariant } from '@/lib/shopify'
 import type { Review } from '@/lib/reviews'
 import { hasQuantityDiscount } from '@/lib/cart-promos'
 
 type ProductCardProps = {
   product: ShopifyProduct
+  /** Render this product as one specific colour, deep-linking to it on the PDP */
+  colorVariant?: ProductVariant
 }
 
-export function ProductCard({ product }: ProductCardProps) {
+export function ProductCard({ product, colorVariant }: ProductCardProps) {
   const { addItem } = useCart()
   const { addItemWithUpsell } = useUpsell()
   const { showToast } = useToast()
 
-  const firstImage = product.images.edges[0]?.node
-  const secondImage = product.images.edges[1]?.node
+  const colorName = colorVariant?.selectedOptions.find(
+    (option) => option.name.toLowerCase() === 'color' || option.name.toLowerCase() === 'colour'
+  )?.value
+  // A colour card leads with that colour's own photo
+  const productImages = product.images.edges.map((edge) => edge.node)
+  const variantImage = colorVariant?.image ?? null
+  const firstImage = variantImage ?? productImages[0]
+  const secondImage = variantImage
+    ? productImages.find((image) => image.url !== variantImage.url)
+    : productImages[1]
   const firstVariant = product.variants.edges[0]?.node
   const price = product.priceRange.minVariantPrice.amount
   const compareAtPrice = product.compareAtPriceRange?.minVariantPrice?.amount
@@ -94,7 +104,11 @@ export function ProductCard({ product }: ProductCardProps) {
 
   return (
     <Link
-      href={`/products/${product.handle}`}
+      href={
+        colorVariant
+          ? `/products/${product.handle}?variant=${encodeURIComponent(colorVariant.id)}`
+          : `/products/${product.handle}`
+      }
       className="group flex flex-col bg-white border border-border-light overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-lg hover:border-border hover:-translate-y-[3px] relative h-full"
     >
       {/* Tag badge */}
@@ -139,6 +153,7 @@ export function ProductCard({ product }: ProductCardProps) {
       <div className="px-4 sm:px-5 pt-3 sm:pt-4 pb-4 sm:pb-5 flex-1">
         <h3 className="font-nav text-[13px] sm:text-[16px] tracking-[1px] uppercase text-text mb-1.5 line-clamp-2">
           {product.title}
+          {colorName && <span className="text-text-light"> — {colorName}</span>}
         </h3>
         {reviewCount > 0 && (
           <div className="flex items-center gap-1.5 mb-1.5">
