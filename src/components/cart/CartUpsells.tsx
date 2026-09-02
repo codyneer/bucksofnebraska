@@ -62,7 +62,16 @@ export function CartUpsells({ products, excludeVariantIds = [] }: CartUpsellsPro
           const needsChoice = sellable.length > 1
           const selectedId = needsChoice ? chosenVariant[product.handle] : sellable[0]?.id
           const variant = sellable.find((node) => node.id === selectedId)
-          const image = product.images.edges[0]?.node
+          // Label the picker with the option that actually varies — "Color" for
+          // hats, "Size" for decals and apparel — instead of always "size".
+          const optionNames = product.options
+            ?.filter((option) => option.values.length > 1)
+            .map((option) => option.name) ?? []
+          const optionLabel =
+            optionNames.length > 0 ? optionNames.join(' & ').toLowerCase() : 'option'
+          const pickerLabel = `Select ${optionLabel}`
+          // Swap to the chosen variant's own photo so picking cream shows cream
+          const image = variant?.image ?? product.images.edges[0]?.node
           const price = variant?.price.amount ?? product.priceRange.minVariantPrice.amount
           const compareAtPrice =
             variant?.compareAtPrice?.amount ??
@@ -115,7 +124,7 @@ export function CartUpsells({ products, excludeVariantIds = [] }: CartUpsellsPro
                     aria-label={`Choose an option for ${product.title}`}
                     className="w-full mb-1.5 py-1.5 px-1 border border-border bg-white font-nav text-[10px] tracking-[0.5px] uppercase text-text cursor-pointer"
                   >
-                    <option value="">Select size</option>
+                    <option value="">{pickerLabel}</option>
                     {sellable.map((option) => (
                       <option key={option.id} value={option.id}>
                         {option.title}
@@ -149,7 +158,7 @@ export function CartUpsells({ products, excludeVariantIds = [] }: CartUpsellsPro
                       <Check className="w-3 h-3" /> Adding
                     </>
                   ) : !variant ? (
-                    'Pick a size'
+                    `Pick ${optionLabel}`
                   ) : (
                     <>
                       <Plus className="w-3 h-3" /> Add

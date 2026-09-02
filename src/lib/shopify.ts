@@ -193,6 +193,7 @@ export const GET_COLLECTION_PRODUCTS = `
                   price { amount currencyCode }
                   compareAtPrice { amount currencyCode }
                   selectedOptions { name value }
+                  image { url altText width height }
                 }
               }
             }
@@ -251,6 +252,7 @@ export const GET_ALL_PRODUCTS = `
                 price { amount currencyCode }
                 compareAtPrice { amount currencyCode }
                 selectedOptions { name value }
+                image { url altText width height }
               }
             }
           }

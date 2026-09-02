@@ -118,7 +118,18 @@ export function CartDrawer() {
   // the tier the cart will actually land on once it is added.
   const bumpVariantId = ORDER_BUMP_VARIANT_ID
   const bumpQuantity = 1
-  const bumpComparePrice = 29.97
+  // Title, price, compare-at and photo all come from Shopify via the upsell
+  // feed — set a compare-at price in the admin and the bump reflects it.
+  const bumpProduct = upsellProducts.find((product) =>
+    product.variants.edges.some((edge) => edge.node.id === ORDER_BUMP_VARIANT_ID)
+  )
+  const bumpVariant = bumpProduct?.variants.edges.find(
+    (edge) => edge.node.id === ORDER_BUMP_VARIANT_ID
+  )?.node
+  const bumpListPrice = bumpVariant ? parseFloat(bumpVariant.price.amount) : 0
+  const bumpCompareAt = bumpVariant?.compareAtPrice
+    ? parseFloat(bumpVariant.compareAtPrice.amount)
+    : 0
   const eligibleQuantity = lines.reduce(
     (sum, line) =>
       hasQuantityDiscount(line.merchandise.product.collections) ? sum + line.quantity : sum,
@@ -147,9 +158,12 @@ export function CartDrawer() {
   // Once it is in the cart the offer is spent — the line item above shows it.
   const bumpAlreadyInCart = lines.some((line) => line.merchandise.id === bumpVariantId)
   const bumpPercentOff = quantityTierFor(eligibleQuantity + bumpQuantity)
-  const bumpSavings = tierUnitDiscount(bumpComparePrice, bumpPercentOff)
-  const bumpPrice = bumpComparePrice - bumpSavings
-  const bumpImageUrl = 'https://cdn.shopify.com/s/files/1/0398/3185/files/il_fullxfull.5523672868_s110.jpg?v=1706644705'
+  const bumpSavings = tierUnitDiscount(bumpListPrice, bumpPercentOff)
+  const bumpPrice = bumpListPrice - bumpSavings
+  // Show the compare-at when the merchant has set one, otherwise the list price
+  const bumpComparePrice = bumpCompareAt > bumpListPrice ? bumpCompareAt : bumpListPrice
+  const bumpImageUrl =
+    bumpVariant?.image?.url ?? bumpProduct?.images.edges[0]?.node.url ?? undefined
 
   const scrollItems = (direction: 'up' | 'down') => {
     const el = scrollRef.current
@@ -250,10 +264,10 @@ export function CartDrawer() {
                 ))}
 
                 {/* Order Bump */}
-                {!bumpAlreadyInCart && (
+                {!bumpAlreadyInCart && bumpVariant && (
                   <div className="border-t border-border pt-4">
                     <OrderBump
-                      productTitle="Sticker Bundle"
+                      productTitle={bumpProduct?.title ?? 'Sticker Bundle'}
                       variantId={bumpVariantId}
                       quantity={bumpQuantity}
                       price={bumpPrice}
@@ -261,8 +275,8 @@ export function CartDrawer() {
                       percentOff={bumpPercentOff}
                       description={
                         bumpPercentOff > 0
-                          ? `Nebraska Outdoorsman Sticker Bundle — ${bumpPercentOff}% off with your bundle!`
-                          : 'Nebraska Outdoorsman Sticker Bundle — stickers for the truck, case and blind.'
+                          ? `${bumpPercentOff}% off with your bundle — stickers for the truck, case and blind.`
+                          : 'Stickers for the truck, the case and the blind.'
                       }
                       imageUrl={bumpImageUrl}
                     />
