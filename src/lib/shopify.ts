@@ -92,10 +92,12 @@ export type CartLine = {
   merchandise: {
     id: string
     title: string
+    availableForSale?: boolean
     price: Money
     product: {
       title: string
       handle: string
+      availableForSale?: boolean
       collections?: { edges: { node: { handle: string } }[] }
     }
     image: ShopifyImage | null
@@ -156,10 +158,12 @@ const CART_FIELDS = `
             ... on ProductVariant {
               id
               title
+              availableForSale
               price { amount currencyCode }
               product {
                 title
                 handle
+                availableForSale
                 collections(first: 20) { edges { node { handle } } }
               }
               image { url altText width height }

@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import { useCart } from '@/lib/cart-context'
 import { formatPrice } from '@/lib/utils'
+import { isLineUnavailable } from '@/lib/cart-promos'
 import type { CartLine } from '@/lib/shopify'
 
 type CartItemProps = {
@@ -18,13 +19,18 @@ export function CartItem({ line }: CartItemProps) {
   // line, so trust the line cost rather than recomputing from the unit price.
   const fullPrice = line.cost ? parseFloat(line.cost.subtotalAmount.amount) : price * quantity
   const discountedPrice = line.cost ? parseFloat(line.cost.totalAmount.amount) : price * quantity
-  const isDiscounted = discountedPrice < fullPrice - 0.005
+  const unavailable = isLineUnavailable(line)
+  const isDiscounted = !unavailable && discountedPrice < fullPrice - 0.005
   const savedAmount = fullPrice - discountedPrice
   // Derived from the real amounts rather than assumed, so it always agrees
   const savedPercent = fullPrice > 0 ? Math.round((savedAmount / fullPrice) * 100) : 0
 
   return (
-    <div className="grid grid-cols-[60px_1fr] sm:grid-cols-[80px_1fr] gap-3 sm:gap-3.5 py-[18px] px-4 sm:px-6 border-b border-border-light">
+    <div
+      className={`grid grid-cols-[60px_1fr] sm:grid-cols-[80px_1fr] gap-3 sm:gap-3.5 py-[18px] px-4 sm:px-6 border-b border-border-light ${
+        unavailable ? 'bg-red/[0.03]' : ''
+      }`}
+    >
       {/* Thumbnail */}
       {merchandise.image ? (
         <Image
@@ -84,6 +90,14 @@ export function CartItem({ line }: CartItemProps) {
             </span>
           )}
         </div>
+
+        {unavailable && (
+          <div className="mt-1.5">
+            <span className="font-nav text-[10px] tracking-[1px] uppercase text-red bg-red/10 px-1.5 py-0.5">
+              No longer available — remove to check out
+            </span>
+          </div>
+        )}
 
         {isDiscounted && (
           <div className="mt-1.5">

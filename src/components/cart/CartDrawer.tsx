@@ -13,6 +13,7 @@ import {
   ORDER_BUMP_VARIANT_ID,
   ORDER_BUMP_DISCOUNT_CODE,
   hasQuantityDiscount,
+  isLineUnavailable,
   quantityTierFor,
   tierUnitDiscount,
   avoidedShippingCost,
@@ -36,6 +37,8 @@ export function CartDrawer() {
   // Shipping is charged per delivery profile, not per item, and the real figure
   // needs the shopper's address — so credit it without inventing a number.
   const freeShippingUnlocked = subtotal >= FREE_SHIPPING_THRESHOLD
+  // Shopify blocks checkout on these, and does it without an obvious way back
+  const unavailableCount = lines.filter(isLineUnavailable).length
   // What they would have paid to ship this exact cart below the threshold
   const shippingSaved = freeShippingUnlocked
     ? avoidedShippingCost(
@@ -345,17 +348,33 @@ export function CartDrawer() {
                 Shipping &amp; taxes calculated at checkout
               </p>
 
+              {unavailableCount > 0 && (
+                <p className="mb-2 py-2 px-2.5 bg-red/[0.06] border border-red/20 font-nav text-[11px] tracking-[1px] uppercase text-red text-center">
+                  Remove {unavailableCount === 1 ? 'the item' : `${unavailableCount} items`} marked
+                  unavailable to continue
+                </p>
+              )}
+
               {/* Checkout button */}
               <a
-                href={cart?.checkoutUrl || '#'}
-                onClick={() => {
+                href={unavailableCount > 0 ? undefined : cart?.checkoutUrl || '#'}
+                aria-disabled={unavailableCount > 0}
+                onClick={(event) => {
+                  if (unavailableCount > 0) {
+                    event.preventDefault()
+                    return
+                  }
                   trackInitiateCheckout({
                     contentIds: lines.map((l) => l.merchandise.product.handle),
                     value: subtotal,
                     numItems: itemCount,
                   })
                 }}
-                className="block w-full py-4 bg-red text-white text-center border-none font-nav text-[15px] tracking-[3px] uppercase cursor-pointer transition-all duration-300 hover:bg-red-dark"
+                className={`block w-full py-4 text-white text-center border-none font-nav text-[15px] tracking-[3px] uppercase transition-all duration-300 ${
+                  unavailableCount > 0
+                    ? 'bg-text-muted cursor-not-allowed'
+                    : 'bg-red cursor-pointer hover:bg-red-dark'
+                }`}
               >
                 Checkout
               </a>

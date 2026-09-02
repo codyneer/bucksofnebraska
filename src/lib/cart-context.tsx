@@ -208,6 +208,44 @@ export function CartProvider({ children }: { children: ReactNode }) {
     [ensureCart]
   )
 
+  // Restore the saved cart on load. The id has always survived in
+  // localStorage, but nothing read it until the shopper added something — so
+  // returning from checkout, or just reloading, looked like an empty cart.
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+
+    const storedCartId = localStorage.getItem('shopify_cart_id')
+    if (!storedCartId) return
+
+    let cancelled = false
+
+    const restore = async () => {
+      try {
+        const existingCart = await getCart(storedCartId)
+        if (cancelled) return
+
+        // Null means the cart expired or was completed at checkout
+        if (!existingCart) {
+          localStorage.removeItem('shopify_cart_id')
+          return
+        }
+
+        const cleanedCart = await stripRetiredDiscounts(existingCart)
+        const cartWithDiscount = await tryAutoApplyReferral(cleanedCart)
+        if (!cancelled) setCart(cartWithDiscount)
+      } catch {
+        // A cart we can't fetch is a cart we shouldn't keep pointing at
+        localStorage.removeItem('shopify_cart_id')
+      }
+    }
+
+    restore()
+
+    return () => {
+      cancelled = true
+    }
+  }, [stripRetiredDiscounts, tryAutoApplyReferral])
+
   // The order-bump code is earned by clicking the bump, not by owning the
   // product — drop it if the bump product has left the cart. Also drop it when
   // Shopify marks it inapplicable (an automatic discount it can't combine with

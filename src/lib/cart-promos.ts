@@ -89,3 +89,15 @@ export function avoidedShippingCost(
     .filter((profile) => representedProfiles.has(profile.name))
     .reduce((sum, profile) => sum + profile.rate, 0)
 }
+
+/**
+ * A line Shopify will refuse at checkout — the variant sold out, or the product
+ * was unpublished after it was added. Absent flags mean an older cached shape,
+ * which we treat as available rather than blocking a valid cart.
+ */
+export function isLineUnavailable(line: {
+  merchandise: { availableForSale?: boolean; product: { availableForSale?: boolean } }
+}): boolean {
+  return line.merchandise.availableForSale === false ||
+    line.merchandise.product.availableForSale === false
+}
