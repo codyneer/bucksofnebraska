@@ -16,10 +16,18 @@ type Tier = {
 
 type BundleTiersProps = {
   basePrice: number
+  /** Shopify compare-at price, when the product is already marked down */
+  compareAtPrice?: number
   onTierChange: (quantity: number, priceEach: number) => void
 }
 
-export function BundleTiers({ basePrice, onTierChange }: BundleTiersProps) {
+export function BundleTiers({ basePrice, compareAtPrice, onTierChange }: BundleTiersProps) {
+  // When a product is already discounted at the product level, the real
+  // per-item price is the compare-at — and the tier discount comes on top of
+  // the markdown rather than replacing it.
+  const alreadyDiscounted = Boolean(compareAtPrice && compareAtPrice > basePrice)
+  const strikePrice = alreadyDiscounted ? compareAtPrice! : basePrice
+  const savingsSuffix = alreadyDiscounted ? ' More' : ''
   const tiers: Tier[] = [
     {
       quantity: 1,
@@ -33,7 +41,7 @@ export function BundleTiers({ basePrice, onTierChange }: BundleTiersProps) {
       label: 'Any 2 Items',
       subtitle: 'Most popular — mix & match anything',
       savingsPercent: 10,
-      badge: 'Save 10%',
+      badge: `Save 10%${savingsSuffix}`,
     },
     {
       quantity: 3,
@@ -41,7 +49,7 @@ export function BundleTiers({ basePrice, onTierChange }: BundleTiersProps) {
       label: 'Any 3+ Items',
       subtitle: 'Best value — stack it across your whole cart',
       savingsPercent: 15,
-      badge: 'Save 15%',
+      badge: `Save 15%${savingsSuffix}`,
     },
   ]
 
@@ -103,9 +111,10 @@ export function BundleTiers({ basePrice, onTierChange }: BundleTiersProps) {
             <div className="font-display text-[18px] sm:text-[22px] text-red">
               {formatPrice(tier.priceEach)}{tier.quantity > 1 ? '/ea' : ''}
             </div>
-            {tier.quantity > 1 && (
+            {(tier.quantity > 1 || alreadyDiscounted) && (
               <div className="text-[12px] text-text-muted line-through">
-                {formatPrice(basePrice)}/ea
+                {formatPrice(strikePrice)}
+                {tier.quantity > 1 ? '/ea' : ''}
               </div>
             )}
           </div>

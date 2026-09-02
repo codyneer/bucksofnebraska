@@ -184,7 +184,7 @@ export const GET_COLLECTION_PRODUCTS = `
             id handle title description
             priceRange { minVariantPrice { amount currencyCode } }
             compareAtPriceRange { minVariantPrice { amount currencyCode } }
-            images(first: 5) { edges { node { url altText width height } } }
+            images(first: 20) { edges { node { url altText width height } } }
             options { id name values }
             variants(first: 100) {
               edges {
@@ -214,7 +214,7 @@ export const GET_PRODUCT = `
       id handle title description descriptionHtml
       priceRange { minVariantPrice { amount currencyCode } }
       compareAtPriceRange { minVariantPrice { amount currencyCode } }
-      images(first: 10) { edges { node { url altText width height } } }
+      images(first: 20) { edges { node { url altText width height } } }
       options { id name values }
       variants(first: 100) {
         edges {
@@ -243,7 +243,7 @@ export const GET_ALL_PRODUCTS = `
           id handle title description
           priceRange { minVariantPrice { amount currencyCode } }
           compareAtPriceRange { minVariantPrice { amount currencyCode } }
-          images(first: 5) { edges { node { url altText width height } } }
+          images(first: 20) { edges { node { url altText width height } } }
           options { id name values }
           variants(first: 100) {
             edges {

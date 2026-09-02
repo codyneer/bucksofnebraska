@@ -26,13 +26,30 @@ export function ProductCard({ product, colorVariant }: ProductCardProps) {
   const colorName = colorVariant?.selectedOptions.find(
     (option) => option.name.toLowerCase() === 'color' || option.name.toLowerCase() === 'colour'
   )?.value
-  // A colour card leads with that colour's own photo
+  // A colour card leads with that colour's own photo. Shopify groups a
+  // product's images by colourway in order, so the shots for this colour run
+  // from its variant image up to the next variant's — keeping the hover swap
+  // on the same colour instead of flipping to a different one.
   const productImages = product.images.edges.map((edge) => edge.node)
   const variantImage = colorVariant?.image ?? null
+
+  const colorImages = (() => {
+    if (!variantImage) return productImages
+    const variantImageUrls = new Set(
+      product.variants.edges
+        .map((edge) => edge.node.image?.url)
+        .filter((url): url is string => Boolean(url))
+    )
+    const start = productImages.findIndex((image) => image.url === variantImage.url)
+    if (start === -1) return [variantImage]
+    const end = productImages.findIndex(
+      (image, index) => index > start && variantImageUrls.has(image.url)
+    )
+    return productImages.slice(start, end === -1 ? undefined : end)
+  })()
+
   const firstImage = variantImage ?? productImages[0]
-  const secondImage = variantImage
-    ? productImages.find((image) => image.url !== variantImage.url)
-    : productImages[1]
+  const secondImage = variantImage ? colorImages[1] : productImages[1]
   const firstVariant = product.variants.edges[0]?.node
   const price = product.priceRange.minVariantPrice.amount
   const compareAtPrice = product.compareAtPriceRange?.minVariantPrice?.amount

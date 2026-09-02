@@ -365,7 +365,15 @@ export function ProductDetail({ product, reviews = [], allProducts = [] }: Produ
 
           {/* Bundle Tiers — only where Shopify actually grants the discount */}
           {qtyDiscountEligible && (
-            <BundleTiers basePrice={variantPrice} onTierChange={handleTierChange} />
+            <BundleTiers
+              basePrice={variantPrice}
+              compareAtPrice={
+                selectedVariant?.compareAtPrice
+                  ? parseFloat(selectedVariant.compareAtPrice.amount)
+                  : undefined
+              }
+              onTierChange={handleTierChange}
+            />
           )}
 
           {/* All Option Selectors (Color, Size, Style, etc.) */}
